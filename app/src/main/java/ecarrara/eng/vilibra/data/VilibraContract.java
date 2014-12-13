@@ -77,7 +77,7 @@ public class VilibraContract {
     public static final class LendingEntry implements BaseColumns {
 
         public static final Uri CONTENT_URI =
-                BASE_CONTENT_URI.buildUpon().appendPath(PATH_BOOK).build();
+                BASE_CONTENT_URI.buildUpon().appendPath(PATH_LENDING).build();
 
         public static final String CONTENT_TYPE =
                 "vnd.android.cursor.dir/" + CONTENT_AUTHORITY + "/" + PATH_BOOK;
@@ -95,6 +95,26 @@ public class VilibraContract {
         // Date that the book was borrowed by this person
         public static final String COLUMN_LENDING_DATE = "lending_date";
 
+        public static Uri buildLendingUri(long id){
+            return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static Uri buildLendingWithBookUri(long lendingId, long bookId) {
+            return CONTENT_URI.buildUpon().appendPath(Long.toString(lendingId))
+                    .appendPath(Long.toString(bookId)).build();
+        }
+
+        public static Uri buildLendingBooksUri() {
+            return CONTENT_URI.buildUpon().appendPath(PATH_BOOK).build();
+        }
+
+        public static String getLendingIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(1);
+        }
+
+        public static String getBookIdFromUri(Uri uri) {
+            return uri.getPathSegments().get(2);
+        }
     }
 
     /**
