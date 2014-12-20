@@ -20,7 +20,7 @@ public class BookInfoRequester {
     private static final String LOG_TAG = BookInfoRequester.class.getSimpleName();
     private static final String GOOGLE_BOOKS_API_KEY = ApisConstants.GOOGLE_BOOKS_API_KEY;
 
-    public static String requestBookData(String bookIsbn) {
+    public String requestBookData(String bookIsbn) {
 
         String bookJsonString = "";
 

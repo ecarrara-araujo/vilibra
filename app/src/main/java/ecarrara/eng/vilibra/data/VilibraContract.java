@@ -69,6 +69,10 @@ public class VilibraContract {
         public static Uri buildBookUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
+
+        public static long getBookIdFromUri(Uri uri) {
+            return ContentUris.parseId(uri);
+        }
     }
 
     /**

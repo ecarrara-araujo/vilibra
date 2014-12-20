@@ -4,12 +4,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context=".BookListActivity$PlaceholderFragment">
+    tools:context="ecarrara.eng.vilibra.LendedBookDetailActivity$PlaceholderFragment">
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register new lending"
-        android:onClick="onLendingRegistrationRequested"/>
+    <TextView android:text="@string/hello_world" android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>

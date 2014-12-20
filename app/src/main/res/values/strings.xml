@@ -4,5 +4,7 @@
     <string name="app_name">ViLibra</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_lended_book_registration">LendedBookRegistrationActivity</string>
+    <string name="title_activity_lended_book_detail">LendedBookDetailActivity</string>
 
 </resources>

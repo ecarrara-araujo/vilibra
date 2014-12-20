@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ecarrara.eng.vilibra" >
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -18,12 +18,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <provider
-            android:authorities="ecarrara.eng.vilibra"
-            android:name=".data.VilibraProvider"
-            android:exported="false"
-            android:enabled="true" />
 
+        <provider
+            android:name=".data.VilibraProvider"
+            android:authorities="ecarrara.eng.vilibra"
+            android:enabled="true"
+            android:exported="false" />
+
+        <activity
+            android:name=".LendedBookRegistrationActivity"
+            android:label="@string/title_activity_lended_book_registration" >
+        </activity>
+        <activity
+            android:name=".LendedBookDetailActivity"
+            android:label="@string/title_activity_lended_book_detail" >
+        </activity>
     </application>
 
 </manifest>
