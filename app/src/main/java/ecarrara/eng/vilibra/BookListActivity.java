@@ -2,13 +2,10 @@ package ecarrara.eng.vilibra;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 
 public class BookListActivity extends ActionBarActivity {
@@ -19,7 +16,7 @@ public class BookListActivity extends ActionBarActivity {
         setContentView(R.layout.activity_book_list);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new LendedBookListFragment())
                     .commit();
         }
     }
@@ -50,21 +47,5 @@ public class BookListActivity extends ActionBarActivity {
     public void onLendingRegistrationRequested(View view) {
         Intent intent = new Intent(this, LendedBookRegistrationActivity.class);
         startActivity(intent);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_book_list, container, false);
-            return rootView;
-        }
     }
 }
