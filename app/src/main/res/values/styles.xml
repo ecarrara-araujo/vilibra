@@ -8,6 +8,11 @@
         <item name="colorPrimaryDark">@color/vilibra_teal_primary_dark</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
+    </style>
+
+    <style name="AppTheme.Fab" parent="FloatingActionButton">
+        <item name="floatingActionButtonColor">@color/vilibra_teal_primary</item>
     </style>
 
 </resources>

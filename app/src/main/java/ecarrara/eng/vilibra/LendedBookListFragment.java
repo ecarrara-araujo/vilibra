@@ -1,5 +1,6 @@
 package ecarrara.eng.vilibra;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.shamanland.fab.FloatingActionButton;
 
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
@@ -62,6 +65,17 @@ public class LendedBookListFragment extends Fragment
                 Log.d(LOG_TAG, "Lended book item clicked");
             }
         });
+
+        FloatingActionButton floatingActionButton =
+                (FloatingActionButton) rootView.findViewById(R.id.add_lending_action_button);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), LendedBookRegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return rootView;
     }
 
