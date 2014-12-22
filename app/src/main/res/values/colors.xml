@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <color name="vilibra_teal_primary">#009688</color>
+    <color name="vilibra_teal_primary">#26A69A</color>
     <color name="vilibra_teal_primary_dark">#004D40</color>
-
+    <color name="vilibra_text_primary">@android:color/white</color>
 </resources>

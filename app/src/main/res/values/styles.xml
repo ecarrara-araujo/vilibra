@@ -6,6 +6,7 @@
     <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/vilibra_teal_primary</item>
         <item name="colorPrimaryDark">@color/vilibra_teal_primary_dark</item>
+        <item name="colorAccent">@color/vilibra_text_primary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="floatingActionButtonStyle">@style/AppTheme.Fab</item>
