@@ -19,9 +19,8 @@
         android:layout_alignLeft="@id/book_photo_image_view"
         android:layout_alignBottom="@id/book_photo_image_view"
         android:layout_alignRight="@id/book_photo_image_view"
-        android:background="@android:color/darker_gray"
-        android:orientation="horizontal"
-        android:minHeight="50dp" >
+        android:background="@drawable/list_item_book_info_background"
+        android:orientation="horizontal" >
 
         <LinearLayout
             android:layout_width="0dp"
@@ -29,21 +28,20 @@
             android:orientation="vertical"
             android:layout_weight="7"
             android:paddingLeft="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp">
 
             <TextView android:id="@+id/book_name_text_view"
                 android:text="Android Recipes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:textAppearance="?android:textAppearanceLarge"/>
+                android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView android:id="@+id/book_author_text_view"
                 android:text="Fulano, Sicrano, Beltrano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
                 android:fontFamily="sans-serif"
                 android:textAppearance="?android:textAppearanceSmall"/>
 
@@ -51,11 +49,10 @@
 
         <ImageView android:id="@+id/lenders_badge_widget"
             android:background="@android:color/holo_green_dark"
-            android:minHeight="50dp"
-            android:minWidth="50dp"
+            android:minHeight="25dp"
+            android:minWidth="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_weight="1"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"/>

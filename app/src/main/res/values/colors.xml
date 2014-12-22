@@ -4,4 +4,6 @@
     <color name="vilibra_teal_primary">#26A69A</color>
     <color name="vilibra_teal_primary_dark">#004D40</color>
     <color name="vilibra_text_primary">@android:color/white</color>
+    <color name="list_item_book_info_background_color">@color/vilibra_teal_primary</color>
+
 </resources>
