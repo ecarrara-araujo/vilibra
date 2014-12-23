@@ -6,5 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_lended_book_registration">LendedBookRegistrationActivity</string>
     <string name="title_activity_lended_book_detail">LendedBookDetailActivity</string>
+    <string name="scan_or_type_isbn">Scan yours book ISBN or type it bellow</string>
+    <string name="isbn" translatable="false">ISBN</string>
+    <string name="confirm">Confirm</string>
 
 </resources>

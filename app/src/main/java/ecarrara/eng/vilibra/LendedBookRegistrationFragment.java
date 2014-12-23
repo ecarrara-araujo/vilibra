@@ -24,11 +24,14 @@ import ecarrara.eng.vilibra.data.GoogleBooksJsonDataParser;
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
+import me.dm7.barcodescanner.zbar.Result;
+import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
 /**
  * Created by ecarrara on 20/12/2014.
  */
-public class LendedBookRegistrationFragment extends Fragment {
+public class LendedBookRegistrationFragment extends Fragment
+        implements ZBarScannerView.ResultHandler {
 
     private static final String LOG_TAG = LendedBookRegistrationFragment.class.getSimpleName();
 
@@ -36,6 +39,8 @@ public class LendedBookRegistrationFragment extends Fragment {
 
     private View mMainContentFrame;
     private View mProgressFrame;
+    private ZBarScannerView mBarcodeScannerView;
+    private EditText mISBNEditText;
 
     public LendedBookRegistrationFragment() {
 
@@ -48,9 +53,13 @@ public class LendedBookRegistrationFragment extends Fragment {
 
         mMainContentFrame = rootView.findViewById(R.id.main_content_frame);
         mProgressFrame = rootView.findViewById(R.id.progress_frame);
+        mISBNEditText = (EditText) mMainContentFrame.findViewById(R.id.isbn_edit_text);
+        mBarcodeScannerView =
+                (ZBarScannerView) mMainContentFrame.findViewById(R.id.barcode_scanner_view);
 
-        Button nextButton = (Button) mMainContentFrame.findViewById(R.id.next_button);
-        nextButton.setOnClickListener(new View.OnClickListener() {
+
+        Button confirmButton = (Button) mMainContentFrame.findViewById(R.id.confirm_button);
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onRetrieveBookInfo();
@@ -64,6 +73,22 @@ public class LendedBookRegistrationFragment extends Fragment {
     public void onResume() {
         super.onResume();
         clearLoadingState();
+
+        mBarcodeScannerView.setResultHandler(this);
+        mBarcodeScannerView.startCamera();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mBarcodeScannerView.stopCamera();
+    }
+
+    @Override
+    public void handleResult(Result result) {
+        if(mISBNEditText != null) {
+            mISBNEditText.setText(result.getContents());
+        }
     }
 
     private void clearLoadingState() {
