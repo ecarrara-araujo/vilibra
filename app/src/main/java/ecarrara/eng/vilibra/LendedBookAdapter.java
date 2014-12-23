@@ -63,6 +63,8 @@ public class LendedBookAdapter extends CursorAdapter {
     }
 
     private Bitmap getThumbnailForContact(Uri contactLookupUri) {
+        if(contactLookupUri == null) { return null; }
+
         Cursor cursor = mContext.getContentResolver().query(contactLookupUri,
                 new String[] { ContactsContract.Contacts.PHOTO_THUMBNAIL_URI }, null, null, null);
         if(cursor.moveToFirst()) {

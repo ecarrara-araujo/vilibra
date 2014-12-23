@@ -88,7 +88,7 @@ public class LendedBookRegistrationFragment extends Fragment {
 
         if(cursor.moveToFirst()) {
             Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
-            detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI,
+            detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_LENDING_URI,
                     BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry._ID))));
             getActivity().startActivity(detailIntent);
         } else {

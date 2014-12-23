@@ -1,5 +1,7 @@
 package ecarrara.eng.vilibra;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -7,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class BookListActivity extends ActionBarActivity {
+public class BookListActivity extends ActionBarActivity implements LendedBookListFragment.Callback {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,4 +45,13 @@ public class BookListActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onItemSelected(Uri selectedLending) {
+        // Two pane mode should be handled here
+        // For now just opening the detail
+        Intent intent = new Intent(this, LendedBookDetailActivity.class);
+        intent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_LENDING_URI, selectedLending);
+        startActivity(intent);
+
+    }
 }
