@@ -93,11 +93,11 @@ public class VilibraContract {
         // Foreign key for the book table
         public static final String COLUMN_BOOK_KEY = "book_id";
 
-        // Contact Uri for the person who have borrowed the book
-        public static final String COLUMN_CONTACT_URI = "contact_uri";
-
         // Date that the book was borrowed by this person
         public static final String COLUMN_LENDING_DATE = "lending_date";
+
+        // Contact Uri for the person who have borrowed the book
+        public static final String COLUMN_CONTACT_URI = "contact_uri";
 
         public static Uri buildLendingUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
