@@ -1,4 +1,20 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    tools:context="ecarrara.eng.vilibra.LendedBookDetailActivity" tools:ignore="MergeRootFrame" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="ecarrara.eng.vilibra.LendedBookDetailActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <include layout="@layout/vilibra_toolbar"
+        android:id="@+id/toolbar" />
+
+    <fragment android:id="@+id/lended_book_detail_fragment"
+        android:name="ecarrara.eng.vilibra.LendedBookDetailFragment"
+        tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        tools:layout="@layout/fragment_lended_book_detail" />
+
+</RelativeLayout>
