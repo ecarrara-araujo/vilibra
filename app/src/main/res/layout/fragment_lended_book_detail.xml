@@ -5,82 +5,11 @@
     tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment" >
 
     <ImageView android:id="@+id/book_photo_image_view"
-        android:background="@android:color/holo_red_dark"
-        android:minHeight="150dp"
+        android:src="@drawable/art_default_book_detail_photo"
+        android:scaleType="fitCenter"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
-    <LinearLayout android:id="@+id/book_info_view_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/book_photo_image_view"
-        android:orientation="vertical" >
-
-        <TextView android:id="@+id/book_title_text_view"
-            android:text="Android Recipes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:fontFamily="sans-serif"
-            android:paddingTop="16dp" />
-
-        <TextView android:id="@+id/book_subtitle_text_view"
-            android:text="How to create awesome Android apps"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp" />
-
-        <TextView android:id="@+id/book_authors_text_view"
-            android:text="Fulano, Sicrano, Beltrano et al."
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingTop="16dp" />
-
-        <TextView android:id="@+id/book_publisher_edition_text_view"
-            android:text="Powefull Publisher"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"/>
-
-        <TextView android:id="@+id/book_page_count_text_view"
-            android:text="453 pages"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"/>
-
-        <TextView android:id="@+id/book_isbn10_text_view"
-            android:text="ISBN-10: 1234567890"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingTop="16dp"/>
-
-        <TextView android:id="@+id/book_isbn13_text_view"
-            android:text="ISBN-13: 1234567890123"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingTop="8dp"/>
-    </LinearLayout>
-
 
     <LinearLayout android:id="@+id/action_button_bar"
         android:layout_width="match_parent"
@@ -113,29 +42,125 @@
             android:visibility="gone"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/book_photo_image_view"
         android:layout_above="@id/action_button_bar"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
-        android:orientation="vertical" >
+        android:fillViewport="true" >
 
-        <TextView
-            style="?android:attr/listSeparatorTextViewStyle"
-            android:text="Lending Information"
+        <LinearLayout android:id="@+id/book_info_view_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"/>
+            android:orientation="vertical" >
 
-        <TextView
-            android:text="Book not lended."
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:fontFamily="sans-serif"
-            android:paddingLeft="16dp"
-            android:paddingTop="8dp" />
-    </LinearLayout>
+            <TextView android:id="@+id/book_title_text_view"
+                style="@style/AppTheme.DropShadowText"
+                android:text="Android Recipes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:fontFamily="sans-serif"
+                android:paddingTop="16dp" />
 
+            <TextView android:id="@+id/book_subtitle_text_view"
+                android:text="How to create awesome Android apps"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:fontFamily="sans-serif"
+                android:paddingTop="8dp" />
+
+            <TextView android:id="@+id/book_authors_text_view"
+                android:text="Fulano, Sicrano, Beltrano et al."
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingTop="16dp" />
+
+            <TextView android:id="@+id/book_publisher_edition_text_view"
+                android:text="Powefull Publisher"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingTop="8dp"/>
+
+            <TextView android:id="@+id/book_page_count_text_view"
+                android:text="453 pages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingTop="8dp"/>
+
+            <TextView android:id="@+id/book_isbn10_text_view"
+                android:text="ISBN-10: 1234567890"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingTop="16dp"/>
+
+            <TextView android:id="@+id/book_isbn13_text_view"
+                android:text="ISBN-13: 1234567890123"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingTop="8dp"/>
+
+            <TextView
+                style="?android:attr/listSeparatorTextViewStyle"
+                android:text="Lending Information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
+                android:paddingTop="16dp"/>
+
+            <LinearLayout android:id="@+id/lending_information_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+                <ecarrara.eng.vilibra.widget.RoundedQuickContactBadge android:id="@+id/contact_badge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_alignBottom="@id/book_photo_image_view"
+                    android:layout_alignRight="@id/book_photo_image_view"
+                    android:layout_margin="8dp"
+                    android:layout_weight="1"
+                    android:scaleType="centerCrop" />
+                <TextView android:id="@+id/book_lending_date"
+                    android:text="13/02/2104"
+                    android:fontFamily="sans-serif"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:paddingRight="20dp"
+                    android:gravity="right"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="7"/>
+            </LinearLayout>
+
+            <TextView android:id="@+id/lending_message_text_view"
+                android:text="Book not lended."
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:fontFamily="sans-serif"
+                android:paddingLeft="20dp"
+                android:paddingTop="8dp" />
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

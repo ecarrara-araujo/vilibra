@@ -1,23 +1,17 @@
 package ecarrara.eng.vilibra;
 
 import android.content.Context;
-import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-
+import ecarrara.eng.vilibra.utils.Utility;
 import ecarrara.eng.vilibra.widget.RoundedQuickContactBadge;
 
 /**
@@ -58,37 +52,11 @@ public class LendedBookAdapter extends CursorAdapter {
         );
         lendedBookViewHolder.mLendedContactBadge.assignContactUri(contactLookupUri);
         lendedBookViewHolder.mLendedContactBadge.setImageBitmap(
-                getThumbnailForContact(contactLookupUri));
+                Utility.getThumbnailForContact(mContext, contactLookupUri));
 
     }
 
-    private Bitmap getThumbnailForContact(Uri contactLookupUri) {
-        if(contactLookupUri == null) { return null; }
 
-        Cursor cursor = mContext.getContentResolver().query(contactLookupUri,
-                new String[] { ContactsContract.Contacts.PHOTO_THUMBNAIL_URI }, null, null, null);
-        if(cursor.moveToFirst()) {
-            Uri thumbnailUri = Uri.parse(cursor.getString(
-                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
-            AssetFileDescriptor afd = null;
-            try {
-                afd = mContext.getContentResolver().openAssetFileDescriptor(thumbnailUri, "r");
-                FileDescriptor fileDescriptor = afd.getFileDescriptor();
-                if(fileDescriptor != null) {
-                    return BitmapFactory.decodeFileDescriptor(fileDescriptor, null, null);
-                }
-            } catch (Exception ex) {
-                Log.e(LOG_TAG, ex.getMessage());
-            } finally {
-                if(afd != null) {
-                    try {
-                        afd.close();
-                    } catch (IOException e) {}
-                }
-            }
-        }
-        return null;
-    }
 
     public class LendedBookViewHolder {
 

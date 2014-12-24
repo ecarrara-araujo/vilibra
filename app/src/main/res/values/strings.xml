@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">ViLibra</string>
     <string name="hello_world">Hello world!</string>
@@ -10,4 +10,16 @@
     <string name="isbn" translatable="false">ISBN</string>
     <string name="confirm">Confirm</string>
 
+    <!-- Formats -->
+    <string name="format_isbn_10">
+        ISBN-10: <xliff:g id="isbn">%1$s</xliff:g>
+    </string>
+    <string name="format_isbn_13">
+        ISBN-13: <xliff:g id="isbn">%1$s</xliff:g>
+    </string>
+    <string name="format_book_pages">
+        <xliff:g id="page_count">%1$d</xliff:g> pages
+    </string>
+
+    <string name="full_date_format">yyyy, MMMM dd</string>
 </resources>

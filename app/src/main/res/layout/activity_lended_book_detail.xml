@@ -9,12 +9,9 @@
     <include layout="@layout/vilibra_toolbar"
         android:id="@+id/toolbar" />
 
-    <fragment android:id="@+id/lended_book_detail_fragment"
-        android:name="ecarrara.eng.vilibra.LendedBookDetailFragment"
-        tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment"
+    <FrameLayout android:id="@+id/lended_book_detail_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        tools:layout="@layout/fragment_lended_book_detail" />
+        android:layout_below="@id/toolbar" />
 
 </RelativeLayout>
