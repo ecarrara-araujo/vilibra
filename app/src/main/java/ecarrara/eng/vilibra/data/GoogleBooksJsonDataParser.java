@@ -68,7 +68,10 @@ public class GoogleBooksJsonDataParser {
                 JSONObject bookInformation = booksArray.getJSONObject(i);
                 JSONObject volumeInfo = bookInformation.getJSONObject(BOOK_VOLUME);
                 title = volumeInfo.getString(BOOK_TITLE);
-                subtitle = volumeInfo.getString(BOOK_SUBTITLE);
+
+                if(volumeInfo.has(BOOK_SUBTITLE)) {
+                    subtitle = volumeInfo.getString(BOOK_SUBTITLE);
+                }
 
                 JSONArray authorsJsonArray = volumeInfo.getJSONArray(BOOK_AUTHORS_ARRAY);
                 for (int j = 0; j < authorsJsonArray.length(); j++) {
@@ -80,8 +83,12 @@ public class GoogleBooksJsonDataParser {
                     }
                 }
 
-                publisher = volumeInfo.getString(BOOK_PUBLISHER);
-                publishedDate = cleanUpDateFromJson(volumeInfo.getString(BOOK_PUBLISHED_DATE));
+                if(volumeInfo.has(BOOK_PUBLISHER)) {
+                    publisher = volumeInfo.getString(BOOK_PUBLISHER);
+                }
+                if(volumeInfo.has(BOOK_PUBLISHED_DATE)) {
+                    publishedDate = cleanUpDateFromJson(volumeInfo.getString(BOOK_PUBLISHED_DATE));
+                }
 
                 JSONArray industryIdetJsonArray =
                         volumeInfo.getJSONArray(BOOK_INDUSTRY_IDENTIFIERS_ARRAY);
@@ -95,7 +102,9 @@ public class GoogleBooksJsonDataParser {
                     }
                 }
 
-                pageCount = volumeInfo.getInt(BOOK_PAGE_COUNT);
+                if(volumeInfo.has(BOOK_PAGE_COUNT)) {
+                    pageCount = volumeInfo.getInt(BOOK_PAGE_COUNT);
+                }
                 bookEntryValues = createContentValuesForBookEntry(title, subtitle, authors, publisher,
                         publishedDate, isbn10, isbn13, pageCount);
             }
