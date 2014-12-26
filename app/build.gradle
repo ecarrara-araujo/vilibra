@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "ecarrara.eng.vilibra"
-        minSdkVersion 15
-        targetSdkVersion 21
+        minSdkVersion 16 // Jellybean
+        targetSdkVersion 21 // Lollipop
         versionCode 1
         versionName "1.0"
     }
