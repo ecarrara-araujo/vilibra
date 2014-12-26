@@ -81,6 +81,7 @@ public class LendedBookListFragment extends Fragment
                 Log.d(LOG_TAG, "Lended book item clicked");
                 Cursor cursor = mLendedBookAdapter.getCursor();
                 if(null != cursor && cursor.moveToFirst()) {
+                    cursor.moveToPosition(position);
                     Uri lendingUri = LendingEntry.buildLendingWithBookUri(
                             cursor.getLong(COL_LENDING_ID), cursor.getLong(COL_BOOK_ID));
                     ((Callback) getActivity()).onItemSelected(lendingUri);

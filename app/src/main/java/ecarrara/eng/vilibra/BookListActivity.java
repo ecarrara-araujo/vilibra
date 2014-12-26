@@ -50,7 +50,7 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
         // Two pane mode should be handled here
         // For now just opening the detail
         Intent intent = new Intent(this, LendedBookDetailActivity.class);
-        intent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_LENDING_URI, selectedLending);
+        intent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, selectedLending);
         startActivity(intent);
 
     }

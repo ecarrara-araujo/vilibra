@@ -1,6 +1,5 @@
 package ecarrara.eng.vilibra;
 
-import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +7,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,13 +15,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import java.util.Date;
-
 import ecarrara.eng.vilibra.data.BookInfoRequester;
 import ecarrara.eng.vilibra.data.GoogleBooksJsonDataParser;
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
-import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -35,6 +30,10 @@ public class LendedBookRegistrationFragment extends Fragment
 
     private static final String LOG_TAG = LendedBookRegistrationFragment.class.getSimpleName();
 
+    public interface Callback {
+        public void onError(String message);
+    }
+
     private Uri mLendedBookUri;
 
     private View mMainContentFrame;
@@ -42,9 +41,7 @@ public class LendedBookRegistrationFragment extends Fragment
     private ZBarScannerView mBarcodeScannerView;
     private EditText mISBNEditText;
 
-    public LendedBookRegistrationFragment() {
-
-    }
+    public LendedBookRegistrationFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -102,62 +99,11 @@ public class LendedBookRegistrationFragment extends Fragment
     }
 
     private void onRetrieveBookInfo() {
-
         setLoadingState();
         String isbn = ((EditText) mMainContentFrame
                 .findViewById(R.id.isbn_edit_text)).getText().toString();
-
-        Cursor cursor = getActivity().getContentResolver().query(BookEntry.CONTENT_URI, null,
-                BookEntry.COLUMN_ISBN_10 + " = ? OR " + BookEntry.COLUMN_ISBN_13 + " = ?",
-                new String[]{isbn, isbn}, null);
-
-        if(cursor.moveToFirst()) {
-            Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
-            detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_LENDING_URI,
-                    BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry._ID))));
-            getActivity().startActivity(detailIntent);
-        } else {
-            FetchBookDataTask fetchBookDataTask = new FetchBookDataTask(getActivity());
-            fetchBookDataTask.execute(isbn);
-        }
-    }
-
-    private static final int CONTACT_PICKER_RESULT = 1000;
-
-    private void onProceedToContactAssociation() {
-
-        Intent contactRequestIntent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(contactRequestIntent, CONTACT_PICKER_RESULT);
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case CONTACT_PICKER_RESULT:
-                    handleRetrievedContactUri(data.getData());
-                    break;
-                default:
-                    super.onActivityResult(requestCode, resultCode, data);
-            }
-        } else {
-            Log.e(LOG_TAG, "There was an error retrieving activity result.");
-        }
-    }
-
-    private void handleRetrievedContactUri(Uri contactUri) {
-        Log.d(LOG_TAG, contactUri.toString());
-
-        ContentValues contactInfoValues = new ContentValues();
-        contactInfoValues.put(LendingEntry.COLUMN_BOOK_KEY,
-                BookEntry.getBookIdFromUri(mLendedBookUri));
-        contactInfoValues.put(LendingEntry.COLUMN_CONTACT_URI, contactUri.toString());
-        contactInfoValues.put(LendingEntry.COLUMN_LENDING_DATE,
-                VilibraContract.getDbDateString(new Date()));
-        getActivity().getContentResolver().insert(LendingEntry.CONTENT_URI, contactInfoValues);
-
-        getActivity().finish();
+        FetchBookDataTask fetchBookDataTask = new FetchBookDataTask(getActivity());
+        fetchBookDataTask.execute(isbn);
     }
 
     /**
@@ -181,18 +127,25 @@ public class LendedBookRegistrationFragment extends Fragment
             }
 
             String isbn = params[0];
+            Uri bookUri = null;
 
-            BookInfoRequester infoRequester = new BookInfoRequester();
-            String bookJsonString = infoRequester.requestBookData(isbn);
-            GoogleBooksJsonDataParser parser = new GoogleBooksJsonDataParser();
-            ContentValues bookData = parser.parse(bookJsonString);
-
-            Uri insertedBook = null;
-            if(null != bookData) {
-                insertedBook =
-                        mContext.getContentResolver().insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
+            Cursor cursor = getActivity().getContentResolver().query(BookEntry.CONTENT_URI, null,
+                    BookEntry.COLUMN_ISBN_10 + " = ? OR " + BookEntry.COLUMN_ISBN_13 + " = ?",
+                    new String[]{isbn, isbn}, null);
+            if(cursor.moveToFirst()) {
+                bookUri =
+                        BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry._ID)));
+            } else {
+                BookInfoRequester infoRequester = new BookInfoRequester();
+                String bookJsonString = infoRequester.requestBookData(isbn);
+                GoogleBooksJsonDataParser parser = new GoogleBooksJsonDataParser();
+                ContentValues bookData = parser.parse(bookJsonString);
+                if(null != bookData) {
+                    bookUri = mContext.getContentResolver()
+                            .insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
+                }
             }
-            return insertedBook;
+            return bookUri;
         }
 
         @Override
@@ -200,9 +153,13 @@ public class LendedBookRegistrationFragment extends Fragment
             mLendedBookUri = uri;
             clearLoadingState();
             if(null != mLendedBookUri) {
-                onProceedToContactAssociation();
+                Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
+                detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, uri);
+                getActivity().startActivity(detailIntent);
+                getActivity().finish();
+            } else {
+                ((Callback) getActivity()).onError(getString(R.string.error_book_data_retrieve));
             }
-            //TODO: ser error message to the user here
             super.onPostExecute(uri);
         }
     }

@@ -27,6 +27,7 @@ public class VilibraProvider extends ContentProvider {
     private static final int LENDING_ID = 201; // all lending
     private static final int LENDING_WITH_BOOK = 202; // lending for a specific book
     private static final int LENDING_BOOKS = 203; // all lending data joined with respective book data
+    private static final int LENDING_FOR_A_BOOK = 204; // search for lending only having the book id
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -42,6 +43,8 @@ public class VilibraProvider extends ContentProvider {
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/#/#", LENDING_WITH_BOOK);
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/"
                         + VilibraContract.PATH_BOOK, LENDING_BOOKS);
+        uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/"
+                        + VilibraContract.PATH_BOOK + "/#", LENDING_FOR_A_BOOK);
 
         return uriMatcher;
     }
@@ -60,12 +63,25 @@ public class VilibraProvider extends ContentProvider {
             BookEntry.TABLE_NAME + "." + BookEntry._ID + " = ? AND " +
             LendingEntry.TABLE_NAME + "." + LendingEntry._ID + " = ? ";
 
-    private Cursor getLendingInfoByBook(Uri uri, String[] projection, String sortOrder) {
+    private Cursor getLendingInfoByBookAndLending(Uri uri, String[] projection, String sortOrder) {
         String lendingId = LendingEntry.getLendingIdFromUri(uri);
         String bookId = LendingEntry.getBookIdFromUri(uri);
 
         String[] selectionArgs = new String[]{ bookId, lendingId };
         String selection = sBookIdAndLendingIdSelection;
+
+        return sBookWithLendingInfoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+                projection, selection, selectionArgs, null, null, sortOrder);
+    }
+
+    private static final String sBookIdSelection =
+            BookEntry.TABLE_NAME + "." + BookEntry._ID + " = ? ";
+
+    private Cursor getLendingInfoByBook(Uri uri, String[] projection, String sortOrder) {
+        String bookId = LendingEntry.getBookIdFromUri(uri);
+
+        String[] selectionArgs = new String[]{ bookId };
+        String selection = sBookIdSelection;
 
         return sBookWithLendingInfoQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection, selection, selectionArgs, null, null, sortOrder);
@@ -105,7 +121,7 @@ public class VilibraProvider extends ContentProvider {
                         null, null, null, sortOrder);
                 break;
             case LENDING_WITH_BOOK:
-                retCursor = getLendingInfoByBook(uri, projection, sortOrder);
+                retCursor = getLendingInfoByBookAndLending(uri, projection, sortOrder);
                 break;
             case LENDING_BOOKS:
                 retCursor = sBookWithLendingInfoQueryBuilder.query(mOpenHelper.getWritableDatabase(),
@@ -116,6 +132,9 @@ public class VilibraProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+                break;
+            case LENDING_FOR_A_BOOK:
+                retCursor = getLendingInfoByBook(uri, projection, sortOrder);
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -142,6 +161,8 @@ public class VilibraProvider extends ContentProvider {
             case LENDING_WITH_BOOK:
                 return LendingEntry.CONTENT_ITEM_TYPE;
             case LENDING_BOOKS:
+                return LendingEntry.CONTENT_TYPE;
+            case LENDING_FOR_A_BOOK:
                 return LendingEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -191,6 +212,12 @@ public class VilibraProvider extends ContentProvider {
             case LENDING:
                 rowsDeleted = db.delete(
                         LendingEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case LENDING_ID:
+                String lendingId = Long.toString(ContentUris.parseId(uri));
+                rowsDeleted = db.delete(
+                        LendingEntry.TABLE_NAME, LendingEntry._ID + " = ?",
+                        new String[] { lendingId });
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

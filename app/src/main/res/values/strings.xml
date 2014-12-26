@@ -24,4 +24,10 @@
     <string name="full_date_format">yyyy, MMMM dd</string>
     <string name="check_your_network">Check your network connection and try again.</string>
     <string name="you_are_offline">You are Offline</string>
+    <string name="lend_this_book">Lend this Book</string>
+    <string name="return_this_book">Return this Book</string>
+    <string name="book_not_lended">Book not lended.</string>
+
+    <string name="default_error_message">Unknown Error</string>
+    <string name="error_book_data_retrieve">It was not possible to retrieve book information.</string>
 </resources>

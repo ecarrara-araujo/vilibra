@@ -7,7 +7,8 @@ import android.view.MenuItem;
 
 import ecarrara.eng.vilibra.utils.Utility;
 
-public class LendedBookRegistrationActivity extends ActionBarActivity {
+public class LendedBookRegistrationActivity extends ActionBarActivity
+        implements LendedBookRegistrationFragment.Callback{
 
     private static final String LOG_TAG = LendedBookRegistrationActivity.class.getSimpleName();
 
@@ -62,5 +63,14 @@ public class LendedBookRegistrationActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onError(String message) {
+        Bundle arguments = new Bundle();
+        arguments.putString(ErrorMessageFragment.EXTRA_KEY_MESSAGE, message);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.container, new ErrorMessageFragment(arguments))
+                .commit();
     }
 }

@@ -19,6 +19,7 @@ public class GoogleBooksJsonDataParser {
     // These are the names of the JSON objects that need to be extracted.
     // Book List
     private final String BOOKS_LIST = "items";
+    private final String BOOKS_LIST_TOTAL_ITEMS = "totalItems";
 
     // Book Volume Information
     private final String BOOK_VOLUME = "volumeInfo";
@@ -45,6 +46,12 @@ public class GoogleBooksJsonDataParser {
 
         try {
             bookListJson = new JSONObject(testBookJson);
+
+            int totalItems = bookListJson.getInt(BOOKS_LIST_TOTAL_ITEMS);
+            if (totalItems <= 0) {
+                return null;
+            }
+
             JSONArray booksArray = bookListJson.getJSONArray(BOOKS_LIST);
 
             if(booksArray.length() < 1) {

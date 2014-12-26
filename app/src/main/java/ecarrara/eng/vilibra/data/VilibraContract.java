@@ -108,8 +108,13 @@ public class VilibraContract {
                     .appendPath(Long.toString(bookId)).build();
         }
 
+
         public static Uri buildLendingBooksUri() {
             return CONTENT_URI.buildUpon().appendPath(PATH_BOOK).build();
+        }
+
+        public static Uri buildLendingForABookUri(long bookId) {
+            return ContentUris.withAppendedId(buildLendingBooksUri(), bookId);
         }
 
         public static String getLendingIdFromUri(Uri uri) {

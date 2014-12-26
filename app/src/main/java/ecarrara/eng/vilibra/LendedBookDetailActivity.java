@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 public class LendedBookDetailActivity extends ActionBarActivity {
 
-    public static final String EXTRA_KEY_BOOK_LENDING_URI = "book_lending_uri";
+    public static final String EXTRA_KEY_BOOK_URI = "book_lending_uri";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,9 +23,9 @@ public class LendedBookDetailActivity extends ActionBarActivity {
         }
 
         if (savedInstanceState == null) {
-            Uri lendingUri = getIntent().getParcelableExtra(EXTRA_KEY_BOOK_LENDING_URI);
+            Uri lendingUri = getIntent().getParcelableExtra(EXTRA_KEY_BOOK_URI);
             Bundle arguments = new Bundle();
-            arguments.putParcelable(EXTRA_KEY_BOOK_LENDING_URI, lendingUri);
+            arguments.putParcelable(EXTRA_KEY_BOOK_URI, lendingUri);
             LendedBookDetailFragment fragment = new LendedBookDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

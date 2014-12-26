@@ -34,8 +34,12 @@ public class Utility {
         Cursor cursor = context.getContentResolver().query(contactLookupUri,
                 new String[] { ContactsContract.Contacts.PHOTO_THUMBNAIL_URI }, null, null, null);
         if(cursor.moveToFirst()) {
-            Uri thumbnailUri = Uri.parse(cursor.getString(
-                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
+            String contactThumbnailUri = cursor.getString(
+                    cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+            if(contactThumbnailUri == null) {
+                contactThumbnailUri = "";
+            }
+            Uri thumbnailUri = Uri.parse(contactThumbnailUri);
             AssetFileDescriptor afd = null;
             try {
                 afd = context.getContentResolver().openAssetFileDescriptor(thumbnailUri, "r");
