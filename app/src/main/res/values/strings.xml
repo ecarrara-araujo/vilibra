@@ -22,4 +22,6 @@
     </string>
 
     <string name="full_date_format">yyyy, MMMM dd</string>
+    <string name="check_your_network">Check your network connection and try again.</string>
+    <string name="you_are_offline">You are Offline</string>
 </resources>

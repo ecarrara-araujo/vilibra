@@ -5,22 +5,42 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ecarrara.eng.vilibra.utils.Utility;
+
 public class LendedBookRegistrationActivity extends ActionBarActivity {
 
     private static final String LOG_TAG = LendedBookRegistrationActivity.class.getSimpleName();
 
+    private boolean mInstanceStateRestored;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lended_book_registration);
 
-        if (savedInstanceState == null) {
+        mInstanceStateRestored = false;
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mInstanceStateRestored = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(Utility.isConnectedToNetwork(this)) {
+            if(!mInstanceStateRestored) {
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.container, new LendedBookRegistrationFragment())
+                        .commit();
+            }
+        } else {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LendedBookRegistrationFragment())
+                    .add(R.id.container, new OfflineMessageFragment())
                     .commit();
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

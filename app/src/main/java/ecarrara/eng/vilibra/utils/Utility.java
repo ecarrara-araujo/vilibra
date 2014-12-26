@@ -5,6 +5,8 @@ import android.content.res.AssetFileDescriptor;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -73,6 +75,25 @@ public class Utility {
             e.printStackTrace();
             return null;
         }
+    }
+
+    /**
+     * Check if a connection to the network is available to retrieve book information.
+     * @param context Context to use for getting the ConnectivityManager instance.
+     * @return true if there is a network connection, false otherwise
+     */
+    public static boolean isConnectedToNetwork(Context context) {
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            return false;
+        } else if (!networkInfo.isConnected()) {
+            return false;
+        } else if (!networkInfo.isAvailable()) {
+            return false;
+        }
+        return true;
     }
 
 }
