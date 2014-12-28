@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.util.Log;
 
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
@@ -173,7 +174,7 @@ public class VilibraProvider extends ContentProvider {
     public Uri insert(Uri uri, ContentValues values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
-        Uri returnUri;
+        Uri returnUri = null;
 
         switch (match) {
             case BOOK: {
@@ -181,7 +182,7 @@ public class VilibraProvider extends ContentProvider {
                 if ( _id > 0 )
                     returnUri = BookEntry.buildBookUri(_id);
                 else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    Log.e(LOG_TAG, "Failed to insert row into " + uri);
                 break;
             }
             case LENDING: {
@@ -189,7 +190,7 @@ public class VilibraProvider extends ContentProvider {
                 if ( _id > 0 )
                     returnUri = LendingEntry.buildLendingUri(_id);
                 else
-                    throw new android.database.SQLException("Failed to insert row into " + uri);
+                    Log.e(LOG_TAG, "Failed to insert row into " + uri);
                 break;
             }
             default:
