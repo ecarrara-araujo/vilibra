@@ -39,12 +39,19 @@ public class LendedBookListFragment extends Fragment
          * Callback for when an item has been selected.
          */
         public void onItemSelected(Uri selectedLending);
+
+        /**
+         * Callback for when the list is empty
+         */
+        public void onEmptyList();
+
+        /**
+         * Callback to give a chance for the parent activity to do something after the list is loaded.
+         */
+        public void onListLoaded(Uri currentLending);
     }
 
-    private static final int LENDED_BOOK_LOADER= 0;
-
-    private LendedBookAdapter mLendedBookAdapter;
-    private ListView mLendedBookListView;
+    private static final int LENDED_BOOK_LOADER = 0;
 
     private static final String[] LENDED_BOOKS_COLUMNS = {
         BookEntry.TABLE_NAME + "." + BookEntry._ID,
@@ -61,6 +68,11 @@ public class LendedBookListFragment extends Fragment
     public static final int COL_BOOK_PUBLISHER = 3;
     public static final int COL_LENDING_ID = 4;
     public static final int COL_LENDING_CONTACT = 5;
+
+    private LendedBookAdapter mLendedBookAdapter;
+    private ListView mLendedBookListView;
+    private static final String LIST_POSITION_KEY = "list_position";
+    private int mListPosition;
 
     public LendedBookListFragment() {
 
@@ -86,6 +98,7 @@ public class LendedBookListFragment extends Fragment
                             cursor.getLong(COL_LENDING_ID), cursor.getLong(COL_BOOK_ID));
                     ((Callback) getActivity()).onItemSelected(lendingUri);
                 }
+                mListPosition = position;
             }
         });
 
@@ -99,7 +112,21 @@ public class LendedBookListFragment extends Fragment
             }
         });
 
+        if(savedInstanceState != null && savedInstanceState.containsKey(LIST_POSITION_KEY)) {
+            mListPosition = savedInstanceState.getInt(LIST_POSITION_KEY);
+        } else {
+            mListPosition = 0;
+        }
+
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        if(mListPosition != ListView.INVALID_POSITION) {
+            outState.putInt(LIST_POSITION_KEY, mListPosition);
+        }
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -126,8 +153,19 @@ public class LendedBookListFragment extends Fragment
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        mLendedBookAdapter.swapCursor(data);
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mLendedBookAdapter.swapCursor(cursor);
+        if(cursor.getCount() <= 0) {
+            ((Callback) getActivity()).onEmptyList();
+        }
+        if(mListPosition != ListView.INVALID_POSITION) {
+            mLendedBookListView.smoothScrollToPosition(mListPosition);
+            mLendedBookListView.setItemChecked(mListPosition, true);
+            cursor.moveToPosition(mListPosition);
+            Uri lendingUri = LendingEntry.buildLendingWithBookUri(
+                    cursor.getLong(COL_LENDING_ID), cursor.getLong(COL_BOOK_ID));
+            ((Callback) getActivity()).onListLoaded(lendingUri);
+        }
     }
 
     @Override

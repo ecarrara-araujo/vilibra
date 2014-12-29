@@ -30,4 +30,8 @@
 
     <string name="default_error_message">Unknown Error</string>
     <string name="error_book_data_retrieve">It was not possible to retrieve book information.</string>
+
+    <string name="book_details">Book Details</string>
+    <string name="empty_book_list_message">Your list of lended books is empty</string>
+    <string name="add_book_message">Tap the book icon to start tracking your lended books.</string>
 </resources>

@@ -2,13 +2,15 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_gravity="center"
+    android:background="@drawable/touch_selector">
 
     <ImageView android:id="@+id/book_photo_image_view"
         android:src="@drawable/art_default_book_photo"
         android:scaleType="centerCrop"
+        android:paddingRight="4dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
@@ -19,6 +21,7 @@
         android:layout_alignLeft="@id/book_photo_image_view"
         android:layout_alignBottom="@id/book_photo_image_view"
         android:layout_alignRight="@id/book_photo_image_view"
+        android:layout_marginRight="4dp"
         android:background="@drawable/list_item_book_info_background"
         android:orientation="vertical"
         android:paddingLeft="16dp"
@@ -47,7 +50,9 @@
         android:layout_gravity="center_vertical"
         android:layout_alignBottom="@id/book_photo_image_view"
         android:layout_alignRight="@id/book_photo_image_view"
-        android:layout_margin="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
         android:scaleType="centerCrop" />
 
 </RelativeLayout>

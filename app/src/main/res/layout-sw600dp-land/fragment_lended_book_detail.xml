@@ -4,19 +4,12 @@
     android:layout_height="match_parent"
     tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment" >
 
-    <ImageView android:id="@+id/book_photo_image_view"
-        android:src="@drawable/art_default_book_detail_photo"
-        android:scaleType="centerCrop"
-        android:layout_alignParentTop="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <LinearLayout android:id="@+id/action_button_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical"
-        android:paddingTop="8dp" >
+        android:paddingTop="1dp" >
 
         <View style="@style/AppTheme.VerticalDivider"/>
 
@@ -42,16 +35,27 @@
             android:visibility="gone"/>
     </LinearLayout>
 
+    <ImageView android:id="@+id/book_photo_image_view"
+        android:src="@drawable/art_default_book_detail_photo"
+        android:scaleType="centerCrop"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_above="@id/action_button_bar"
+        android:layout_width="250dp"
+        android:layout_height="match_parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/book_photo_image_view"
+        android:layout_toRightOf="@id/book_photo_image_view"
+        android:layout_alignParentTop="true"
         android:layout_above="@id/action_button_bar"
         android:fillViewport="true" >
 
         <LinearLayout android:id="@+id/book_info_view_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
             android:orientation="vertical" >
 
             <TextView android:id="@+id/book_title_text_view"
@@ -59,6 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:fontFamily="sans-serif"
                 android:paddingTop="16dp" />
@@ -116,9 +121,9 @@
                 android:text="Lending Information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
-                android:paddingTop="16dp"/>
+                android:paddingTop="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"/>
 
             <LinearLayout android:id="@+id/lending_information_container"
                 android:layout_width="match_parent"
@@ -126,23 +131,22 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
                 <ecarrara.eng.vilibra.widget.RoundedQuickContactBadge android:id="@+id/contact_badge"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_alignBottom="@id/book_photo_image_view"
-                    android:layout_alignRight="@id/book_photo_image_view"
                     android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:scaleType="centerCrop" />
                 <TextView android:id="@+id/book_lending_date"
                     android:fontFamily="sans-serif"
                     android:textAppearance="?android:textAppearanceMedium"
-                    android:paddingRight="20dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="8dp"
                     android:gravity="right"
                     android:layout_gravity="center_vertical"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="7"/>
+                    android:layout_weight="10"/>
             </LinearLayout>
 
             <TextView android:id="@+id/lending_message_text_view"

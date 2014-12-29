@@ -24,9 +24,7 @@ public class ErrorMessageFragment extends Fragment {
     private TextView mUserActionTextView;
     private ImageView mErrorIcon;
 
-    public ErrorMessageFragment(Bundle infoBundle) {
-        this.setArguments(infoBundle);
-    }
+    public ErrorMessageFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,

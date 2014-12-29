@@ -148,7 +148,6 @@ public class LendedBookDetailFragment extends Fragment
     @Override
     public void onResume() {
         super.onResume();
-        //getLoaderManager().restartLoader(BOOK_DETAIL_LOADER, null, this);
     }
 
     @Override

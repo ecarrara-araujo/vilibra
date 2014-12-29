@@ -15,9 +15,15 @@
         <item name="floatingActionButtonColor">@color/vilibra_teal_primary</item>
     </style>
 
-    <style name="AppTheme.Divider">
+    <style name="AppTheme.VerticalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+
+    <style name="AppTheme.HorizontalDivider">
+        <item name="android:layout_width">1dp</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:background">?android:attr/listDivider</item>
     </style>
 
@@ -27,5 +33,8 @@
         <item name="android:shadowDx">1</item>
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">1</item>
+    </style>
+
+    <style name="AppTheme.LendedBooksListStyle">
     </style>
 </resources>

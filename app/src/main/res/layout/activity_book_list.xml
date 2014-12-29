@@ -11,10 +11,10 @@
         
     <fragment android:id="@+id/lended_book_list_fragment"
         android:name="ecarrara.eng.vilibra.LendedBookListFragment"
-        tools:context="ecarrara.eng.vilibra.LendedBookListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
+        android:layout_margin="8dp"
         tools:layout="@android:layout/list_content" />
 
 </RelativeLayout>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="layout" name="list_item_lended_book">@layout/list_item_lended_book_wide</item>
+</resources>

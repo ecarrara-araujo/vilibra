@@ -10,7 +10,7 @@
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
-        <View style="@style/AppTheme.Divider"/>
+        <View style="@style/AppTheme.VerticalDivider"/>
 
         <Button android:id="@+id/lend_book_button"
             style="?android:attr/borderlessButtonStyle"

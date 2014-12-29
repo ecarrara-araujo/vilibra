@@ -69,8 +69,10 @@ public class LendedBookRegistrationActivity extends ActionBarActivity
     public void onError(String message) {
         Bundle arguments = new Bundle();
         arguments.putString(ErrorMessageFragment.EXTRA_KEY_MESSAGE, message);
+        ErrorMessageFragment fragment = new ErrorMessageFragment();
+        fragment.setArguments(arguments);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, new ErrorMessageFragment(arguments))
+                .replace(R.id.container, fragment)
                 .commit();
     }
 }

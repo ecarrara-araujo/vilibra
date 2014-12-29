@@ -5,5 +5,5 @@
     <color name="vilibra_teal_primary_dark">#004D40</color>
     <color name="vilibra_text_primary">@android:color/white</color>
     <color name="list_item_book_info_background_color">@color/vilibra_teal_primary</color>
-
+    <color name="grey">#cccccc</color>
 </resources>

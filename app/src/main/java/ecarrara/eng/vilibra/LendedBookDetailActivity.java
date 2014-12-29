@@ -21,6 +21,9 @@ public class LendedBookDetailActivity extends ActionBarActivity {
         if(null != toolbar) {
             setSupportActionBar(toolbar);
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        setTitle(R.string.book_details);
 
         if (savedInstanceState == null) {
             Uri lendingUri = getIntent().getParcelableExtra(EXTRA_KEY_BOOK_URI);

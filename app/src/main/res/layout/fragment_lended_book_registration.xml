@@ -18,11 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <me.dm7.barcodescanner.zbar.ZBarScannerView
-            android:id="@+id/barcode_scanner_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <TextView android:id="@+id/isbn_input_msg_text_view"
             android:text="@string/scan_or_type_isbn"
             android:gravity="center_horizontal"
@@ -62,5 +57,12 @@
                 android:paddingBottom="16dp"
                 android:text="@string/confirm" />
         </LinearLayout>
+
+        <me.dm7.barcodescanner.zbar.ZBarScannerView
+            android:id="@+id/barcode_scanner_view"
+            android:layout_width="match_parent"
+            android:layout_below="@id/isbn_input_msg_text_view"
+            android:layout_above="@id/isbn_input_viewgroup"
+            android:layout_height="0dp" />
     </RelativeLayout>
 </FrameLayout>

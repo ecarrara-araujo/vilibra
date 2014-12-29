@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BookListActivity"
+    tools:ignore="MergeRootFrame" >
+
+    <include layout="@layout/vilibra_toolbar"
+        android:id="@+id/toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/toolbar">
+
+        <fragment android:id="@+id/lended_book_list_fragment"
+            android:name="ecarrara.eng.vilibra.LendedBookListFragment"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            tools:layout="@android:layout/list_content" />
+
+        <View style="@style/AppTheme.HorizontalDivider"/>
+
+        <FrameLayout
+            android:id="@+id/book_detail_container"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</RelativeLayout>
