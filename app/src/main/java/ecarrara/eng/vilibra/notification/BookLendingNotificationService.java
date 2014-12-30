@@ -157,7 +157,7 @@ public class BookLendingNotificationService extends IntentService {
 
         mNotificationBuilder
                 .setContentTitle(title)
-                .setSmallIcon(R.drawable.ic_action_book)
+                .setSmallIcon(R.drawable.ic_vilibra)
                 .setStyle(notificationStyle)
                 .setGroup(NOTIFICATION_GROUP_VILIBRA)
                 .setGroupSummary(true);
@@ -182,7 +182,7 @@ public class BookLendingNotificationService extends IntentService {
 
         String notificationMessage = String.format(
                 getString(R.string.format_book_lended_to), bookName, contactName);
-        mNotificationBuilder.setSmallIcon(R.drawable.ic_action_book)
+        mNotificationBuilder.setSmallIcon(R.drawable.ic_vilibra)
                 .setContentTitle(getString(R.string.book_lending_reminder))
                 .setContentText(notificationMessage)
                 .setGroup(NOTIFICATION_GROUP_VILIBRA);
