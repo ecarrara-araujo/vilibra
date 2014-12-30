@@ -12,9 +12,6 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
 
     private boolean mTwoPane;
 
-    private static final String CURRENT_LENDING_KEY = "current_lending";
-    private Uri mCurrentLending;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,20 +28,6 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
         } else {
             mTwoPane = false;
             if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.common_fragment_container, new LendedBookListFragment())
-                        .commit();
-            }
-        }
-
-        if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_LENDING_KEY)) {
-            mCurrentLending = savedInstanceState.getParcelable(CURRENT_LENDING_KEY);
-            if(mTwoPane) {
-                LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(mCurrentLending);
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.book_fragment_container, fragment)
-                        .commit();
-            } else {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.common_fragment_container, new LendedBookListFragment())
                         .commit();
@@ -76,17 +59,8 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        if(mCurrentLending != null) {
-            outState.putParcelable(CURRENT_LENDING_KEY, mCurrentLending);
-        }
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
     public void onItemSelected(Uri selectedLending) {
-        mCurrentLending = selectedLending;
-        LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(mCurrentLending);
+        LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(selectedLending);
 
         if(mTwoPane) {
             getSupportFragmentManager().beginTransaction()
