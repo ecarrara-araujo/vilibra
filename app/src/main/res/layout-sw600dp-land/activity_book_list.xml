@@ -19,13 +19,12 @@
             android:name="ecarrara.eng.vilibra.LendedBookListFragment"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
             tools:layout="@android:layout/list_content" />
 
         <View style="@style/AppTheme.HorizontalDivider"/>
 
         <FrameLayout
-            android:id="@+id/book_detail_container"
+            android:id="@+id/book_fragment_container"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 

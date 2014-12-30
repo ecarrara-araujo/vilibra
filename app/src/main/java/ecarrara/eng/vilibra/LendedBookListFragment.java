@@ -39,16 +39,6 @@ public class LendedBookListFragment extends Fragment
          * Callback for when an item has been selected.
          */
         public void onItemSelected(Uri selectedLending);
-
-        /**
-         * Callback for when the list is empty
-         */
-        public void onEmptyList();
-
-        /**
-         * Callback to give a chance for the parent activity to do something after the list is loaded.
-         */
-        public void onListLoaded(Uri currentLending);
     }
 
     private static final int LENDED_BOOK_LOADER = 0;
@@ -101,6 +91,9 @@ public class LendedBookListFragment extends Fragment
                 mListPosition = position;
             }
         });
+
+        View emptyView = rootView.findViewById(R.id.empty);
+        mLendedBookListView.setEmptyView(emptyView);
 
         FloatingActionButton floatingActionButton =
                 (FloatingActionButton) rootView.findViewById(R.id.add_lending_action_button);
@@ -155,16 +148,9 @@ public class LendedBookListFragment extends Fragment
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         mLendedBookAdapter.swapCursor(cursor);
-        if(cursor.getCount() <= 0) {
-            ((Callback) getActivity()).onEmptyList();
-        }
         if(mListPosition != ListView.INVALID_POSITION) {
             mLendedBookListView.smoothScrollToPosition(mListPosition);
             mLendedBookListView.setItemChecked(mListPosition, true);
-            cursor.moveToPosition(mListPosition);
-            Uri lendingUri = LendingEntry.buildLendingWithBookUri(
-                    cursor.getLong(COL_LENDING_ID), cursor.getLong(COL_BOOK_ID));
-            ((Callback) getActivity()).onListLoaded(lendingUri);
         }
     }
 

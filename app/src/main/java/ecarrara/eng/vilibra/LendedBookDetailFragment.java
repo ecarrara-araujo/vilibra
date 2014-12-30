@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Date;
 
@@ -90,8 +91,12 @@ public class LendedBookDetailFragment extends Fragment
     public static final int COL_LENDING_CONTACT = 1;
     public static final int COL_LENDING_DATE = 2;
 
-    public LendedBookDetailFragment() {
-
+    public static LendedBookDetailFragment newInstance(Uri bookLendingUri) {
+        Bundle arguments = new Bundle();
+        arguments.putParcelable(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, bookLendingUri);
+        LendedBookDetailFragment fragment = new LendedBookDetailFragment();
+        fragment.setArguments(arguments);
+        return fragment;
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -141,7 +146,8 @@ public class LendedBookDetailFragment extends Fragment
         Log.d(LOG_TAG, "Book return requested.");
         if(mLendingUri != null) {
             int rowsDeleted = getActivity().getContentResolver().delete(mLendingUri, null, null);
-            this.getActivity().finish();
+            this.getActivity().getSupportFragmentManager().popBackStack();
+            Toast.makeText(getActivity(), R.string.book_returned_to_shelf, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,7 +272,7 @@ public class LendedBookDetailFragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
+        Log.d(LOG_TAG, "Loader reset was requested...");
     }
 
     private static final int CONTACT_PICKER_RESULT = 1000;
@@ -289,6 +295,7 @@ public class LendedBookDetailFragment extends Fragment
         } else {
             Log.e(LOG_TAG, "There was an error retrieving activity result.");
         }
+        getActivity().finish();
     }
 
     private void handleRetrievedContactUri(Uri contactUri) {

@@ -1,6 +1,5 @@
 package ecarrara.eng.vilibra;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +12,9 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
 
     private boolean mTwoPane;
 
+    private static final String CURRENT_LENDING_KEY = "current_lending";
+    private Uri mCurrentLending;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,18 +25,30 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
             setSupportActionBar(toolbar);
         }
 
-        if(findViewById(R.id.book_detail_container) != null) {
+        if(findViewById(R.id.book_fragment_container) != null) {
             // this container is only used for sw600dp if it is present then we have two panes.
             mTwoPane = true;
-
-            // and we need to setup the detail fragment in the screen
-            if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.book_detail_container, new LendedBookDetailFragment())
-                        .commit();
-            }
         } else {
             mTwoPane = false;
+            if(savedInstanceState == null) {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.common_fragment_container, new LendedBookListFragment())
+                        .commit();
+            }
+        }
+
+        if(savedInstanceState != null && savedInstanceState.containsKey(CURRENT_LENDING_KEY)) {
+            mCurrentLending = savedInstanceState.getParcelable(CURRENT_LENDING_KEY);
+            if(mTwoPane) {
+                LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(mCurrentLending);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.book_fragment_container, fragment)
+                        .commit();
+            } else {
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.common_fragment_container, new LendedBookListFragment())
+                        .commit();
+            }
         }
     }
 
@@ -62,49 +76,29 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(mCurrentLending != null) {
+            outState.putParcelable(CURRENT_LENDING_KEY, mCurrentLending);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onItemSelected(Uri selectedLending) {
-        // Two pane mode should be handled here
-        // For now just opening the detail
-        if(mTwoPane) {
-            loadBookLendingDetailFragment(selectedLending);
-        } else {
-            Intent intent = new Intent(this, LendedBookDetailActivity.class);
-            intent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, selectedLending);
-            startActivity(intent);
-        }
-    }
+        mCurrentLending = selectedLending;
+        LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(mCurrentLending);
 
-    @Override
-    public void onEmptyList() {
         if(mTwoPane) {
-            Bundle arguments = new Bundle();
-            arguments.putString(ErrorMessageFragment.EXTRA_KEY_MESSAGE,
-                    getString(R.string.empty_book_list_message));
-            arguments.putString(ErrorMessageFragment.EXTRA_KEY_USER_ACTION,
-                    getString(R.string.add_book_message));
-            arguments.putInt(ErrorMessageFragment.EXTRA_KEY_IC_ID, R.drawable.ic_action_book_black);
-            ErrorMessageFragment fragment = new ErrorMessageFragment();
-            fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.book_detail_container, fragment)
-                    .commitAllowingStateLoss();
+                    .replace(R.id.book_fragment_container, fragment)
+                    .commit();
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.common_fragment_container, fragment)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
-    @Override
-    public void onListLoaded(Uri currentLending) {
-        if(mTwoPane) {
-            loadBookLendingDetailFragment(currentLending);
-        }
-    }
 
-    private void loadBookLendingDetailFragment(Uri lendingUri) {
-        Bundle arguments = new Bundle();
-        arguments.putParcelable(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, lendingUri);
-        LendedBookDetailFragment fragment = new LendedBookDetailFragment();
-        fragment.setArguments(arguments);
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.book_detail_container, fragment)
-                .commitAllowingStateLoss();
-    }
 }

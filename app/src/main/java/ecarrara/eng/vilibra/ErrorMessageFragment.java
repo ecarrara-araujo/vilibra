@@ -24,6 +24,16 @@ public class ErrorMessageFragment extends Fragment {
     private TextView mUserActionTextView;
     private ImageView mErrorIcon;
 
+    public static ErrorMessageFragment newInstance(int imageId, String message, String userAction) {
+        Bundle arguments = new Bundle();
+        arguments.putString(ErrorMessageFragment.EXTRA_KEY_MESSAGE, message);
+        arguments.putString(ErrorMessageFragment.EXTRA_KEY_USER_ACTION, userAction);
+        arguments.putInt(ErrorMessageFragment.EXTRA_KEY_IC_ID, imageId);
+        ErrorMessageFragment fragment = new ErrorMessageFragment();
+        fragment.setArguments(arguments);
+        return fragment;
+    }
+
     public ErrorMessageFragment() { }
 
     @Override
