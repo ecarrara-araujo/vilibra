@@ -62,11 +62,12 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             return true;
-        } else if (id == R.id.action_notify_user){
-            //TODO: Action added for testing purposes comment it out before release
-            Intent intent = new Intent(this, BookLendingNotificationService.class);
-            this.startService(intent);
         }
+        //else if (id == R.id.action_notify_user){
+        //    //TODO: Action added for testing purposes comment it out before release
+        //    Intent intent = new Intent(this, BookLendingNotificationService.class);
+        //    this.startService(intent);
+        //}
 
         return super.onOptionsItemSelected(item);
     }
