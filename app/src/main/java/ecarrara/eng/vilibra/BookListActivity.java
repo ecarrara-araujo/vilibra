@@ -36,6 +36,11 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
                         .commit();
             }
         }
+
+        // Start the service once the app is opened. It will execute once and re schedule itself
+        // to execute later.
+        // TODO: Check for a more efetive way to do this
+        startService(new Intent(this, BookLendingNotificationService.class));
     }
 
 

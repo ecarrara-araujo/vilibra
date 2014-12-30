@@ -1,5 +1,6 @@
 package ecarrara.eng.vilibra.notification;
 
+import android.app.AlarmManager;
 import android.app.IntentService;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -28,7 +29,7 @@ import ecarrara.eng.vilibra.utils.Utility;
 /**
  * The purpose of this service is to check the ViLibra database for current lended books and
  * warn the user according to the user configured time interval using Notifications
- *
+ * TODO: Analyze if would be interesting to replace this service for a Sync Adapter
  * Created by ecarrara on 30/12/2014.
  */
 public class BookLendingNotificationService extends IntentService {
@@ -54,6 +55,8 @@ public class BookLendingNotificationService extends IntentService {
     public static final int LENDING_NOTIFICATION_INTERVAL = 7; // in days
     public static final String NOTIFICATION_GROUP_VILIBRA = "group_key_vilibra";
 
+    private static final int SERVICE_EXECUTION_FREQUENCY_HOURS = 24;
+
     private NotificationCompat.Builder mNotificationBuilder;
     private NotificationManager mNotificationManager;
     private ArrayList<Notification> mNotifications;
@@ -64,6 +67,19 @@ public class BookLendingNotificationService extends IntentService {
      */
     public BookLendingNotificationService() {
         super(BookLendingNotificationService.class.getSimpleName());
+    }
+
+    @Override
+    public void onDestroy() {
+        // Schedule the service to execute again 24h after this execution
+        AlarmManager alarm = (AlarmManager)getSystemService(ALARM_SERVICE);
+        alarm.set(
+                AlarmManager.RTC_WAKEUP,
+                System.currentTimeMillis() + (1000 * 60 * 60 * SERVICE_EXECUTION_FREQUENCY_HOURS),
+                PendingIntent.getService(this, 0,
+                        new Intent(this, BookLendingNotificationService.class), 0)
+        );
+        super.onDestroy();
     }
 
     @Override
