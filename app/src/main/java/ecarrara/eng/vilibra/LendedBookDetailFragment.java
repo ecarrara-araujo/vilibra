@@ -13,8 +13,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -59,6 +64,10 @@ public class LendedBookDetailFragment extends Fragment
     private Button mLendBookButton;
     private Button mReturnBookButton;
 
+    private static final String VILIBRA_SHARE_HASHTAG = " #ViLibra";
+    private ShareActionProvider mShareActionProvider;
+    private String mShareMessage;
+
     private static final String[] BOOKS_DETAIL_COLUMNS = {
             BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry._ID,
             BookEntry.COLUMN_TITLE,
@@ -97,6 +106,10 @@ public class LendedBookDetailFragment extends Fragment
         LendedBookDetailFragment fragment = new LendedBookDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
+    }
+
+    public LendedBookDetailFragment() {
+        setHasOptionsMenu(true);
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -268,6 +281,12 @@ public class LendedBookDetailFragment extends Fragment
         String bookIsbn13 = cursor.getString(COL_BOOK_ISBN_13);
         String formattedBookIsbn13 = String.format(getString(R.string.format_isbn_13), bookIsbn13);
         mBookISBN13.setText(formattedBookIsbn13);
+
+        mShareMessage = String.format(getString(R.string.format_share_message), bookTitle);
+
+        if(mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(createShareLendedBookIntent());
+        }
     }
 
     @Override
@@ -309,4 +328,23 @@ public class LendedBookDetailFragment extends Fragment
                 VilibraContract.getDbDateString(new Date()));
         getActivity().getContentResolver().insert(LendingEntry.CONTENT_URI, contactInfoValues);
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_lended_book_detail_fragment, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_share);
+
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(menuItem);
+        mShareActionProvider.setShareIntent(createShareLendedBookIntent());
+    }
+
+    private Intent createShareLendedBookIntent() {
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        shareIntent.setType("text/plain");
+        shareIntent.putExtra(Intent.EXTRA_TEXT, mShareMessage + " " + VILIBRA_SHARE_HASHTAG);
+        return shareIntent;
+    }
 }
+
+

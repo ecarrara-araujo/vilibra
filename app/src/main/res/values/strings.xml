@@ -20,6 +20,10 @@
     <string name="format_book_pages">
         <xliff:g id="page_count">%1$d</xliff:g> pages
     </string>
+    <string name="format_share_message">
+        My book <xliff:g id="book_name">%1$s</xliff:g> is currently lended. If you want it you will have to wait.
+    </string>
+
 
     <string name="full_date_format">yyyy, MMMM dd</string>
     <string name="check_your_network">Check your network connection and try again.</string>
@@ -35,4 +39,7 @@
     <string name="empty_book_list_message">Your list of lended books is empty</string>
     <string name="add_book_message">Tap the book icon to start tracking your lended books.</string>
     <string name="book_returned_to_shelf">The book was returned to your shelf :)</string>
+
+    <!-- Action Labels -->
+    <string name="action_share">Share</string>
 </resources>
