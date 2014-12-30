@@ -6,6 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_lended_book_registration">LendedBookRegistrationActivity</string>
     <string name="title_activity_lended_book_detail">LendedBookDetailActivity</string>
+    <string name="title_activity_settings">Settings</string>
     <string name="scan_or_type_isbn">Scan yours book ISBN or type it bellow</string>
     <string name="isbn" translatable="false">ISBN</string>
     <string name="confirm">Confirm</string>
@@ -51,4 +52,14 @@
     <!-- Action Labels -->
     <string name="action_share">Share</string>
     <string name="action_notify_user">Notify User</string>
+
+    <!-- Preferences Strings -->
+    <string name="pref_frequency_label">Notification Frequency</string>
+    <string name="pref_frequency_label_weekly">Weekly</string>
+    <string name="pref_frequency_label_every_two_weeks">Bi-weekly</string>
+    <string name="pref_frequency_label_monthly">Monthly</string>
+    <string name="pref_frequency_key" translatable="false">notification_frequency</string>
+    <string name="pref_frequency_weekly" translatable="false">weekly</string>
+    <string name="pref_frequency_every_two_weeks" translatable="false">bi-weekly</string>
+    <string name="pref_frequency_monthly" translatable="false">monthly</string>
 </resources>

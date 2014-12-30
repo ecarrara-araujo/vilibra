@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ListPreference
+        android:title="@string/pref_frequency_label"
+        android:key="@string/pref_frequency_key"
+        android:defaultValue="@string/pref_frequency_weekly"
+        android:entryValues="@array/pref_frequency_values"
+        android:entries="@array/pref_frequency_options" />
+
+</PreferenceScreen>

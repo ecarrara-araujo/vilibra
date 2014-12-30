@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="pref_frequency_options">
+        <item>@string/pref_frequency_label_weekly</item>
+        <item>@string/pref_frequency_label_every_two_weeks</item>
+        <item>@string/pref_frequency_label_monthly</item>
+    </string-array>
+
+    <string-array name="pref_frequency_values">
+        <item>@string/pref_frequency_weekly</item>
+        <item>@string/pref_frequency_every_two_weeks</item>
+        <item>@string/pref_frequency_monthly</item>
+    </string-array>
+
+</resources>

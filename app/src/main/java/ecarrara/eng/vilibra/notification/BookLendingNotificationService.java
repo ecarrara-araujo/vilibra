@@ -6,10 +6,13 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -94,8 +97,6 @@ public class BookLendingNotificationService extends IntentService {
                     (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationBuilder = new NotificationCompat.Builder(this);
 
-            mNotificationManager.cancelAll(); // clean up the existing notifications.
-
             mNotifications = new ArrayList<Notification>();
             mSummarizedBookMessages = new ArrayList<String>();
 
@@ -115,8 +116,15 @@ public class BookLendingNotificationService extends IntentService {
                     Notification notification =
                             buildLendedBookNotification(bookName, contactName, lendingDate, bookUri);
                     mNotifications.add(notification);
+
+                    updateNotificationDate(
+                            LendingEntry.buildLendingUri(bookLendingCursor.getLong(COL_LENDING_ID)));
                 }
             } while(bookLendingCursor.moveToNext());
+
+            if(mNotifications.size() > 0) {
+                mNotificationManager.cancelAll(); // clean up the existing notifications.
+            }
 
             for (Notification notification : mNotifications) {
                 // mId allows you to update the notification later on.
@@ -133,16 +141,41 @@ public class BookLendingNotificationService extends IntentService {
 
     }
 
+    private void updateNotificationDate(Uri lendingUri) {
+        ContentValues values = new ContentValues();
+        values.put(LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
+                VilibraContract.getDbDateString(new Date()));
+        getContentResolver().update(lendingUri, values, null, null);
+    }
+
+    private int getLendingNotificationInterval() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String frequency = prefs.getString(getString(R.string.pref_frequency_key),
+                getString(R.string.pref_frequency_weekly));
+
+        int daysForInterval = LENDING_NOTIFICATION_INTERVAL;
+        if(frequency.equals(getString(R.string.pref_frequency_weekly))) {
+            daysForInterval = 7;
+        } else if(frequency.equals(getString(R.string.pref_frequency_every_two_weeks))){
+            daysForInterval = 14;
+        } else if(frequency.equals(getString(R.string.pref_frequency_monthly))) {
+            daysForInterval = 30;
+        }
+
+        return daysForInterval;
+    }
+
     private boolean isNotificationNeededForDate(Date lastNotificationDate) {
+        int lendingNotificationInterval = getLendingNotificationInterval();
+
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(lastNotificationDate);
-        calendar.add(Calendar.DATE, LENDING_NOTIFICATION_INTERVAL);
+        calendar.add(Calendar.DATE, lendingNotificationInterval);
 
         // if the last notification date plus the time interval is less than the current
         // time it is ok to notify the user about the lending
-        //return (calendar.getTime().compareTo(now) < 0);
-        return true;
+        return (calendar.getTime().compareTo(now) < 0);
     }
 
     private Notification buildSummaryNotification() {
