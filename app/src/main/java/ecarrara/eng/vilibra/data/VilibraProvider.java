@@ -186,6 +186,9 @@ public class VilibraProvider extends ContentProvider {
                 break;
             }
             case LENDING: {
+                // whe the lending is first inserted the last notification date is equal to the lending date
+                values.put(LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
+                        values.getAsString(LendingEntry.COLUMN_LENDING_DATE));
                 long _id = db.insert(LendingEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
                     returnUri = LendingEntry.buildLendingUri(_id);
@@ -242,6 +245,11 @@ public class VilibraProvider extends ContentProvider {
                 break;
             case LENDING:
                 rowsUpdated = db.update(LendingEntry.TABLE_NAME, values, selection, selectionArgs);
+                break;
+            case LENDING_ID:
+                long _id = ContentUris.parseId(uri);
+                rowsUpdated = db.update(LendingEntry.TABLE_NAME, values,
+                        "_ID = ?", new String[]{ Long.toString(_id) });
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);

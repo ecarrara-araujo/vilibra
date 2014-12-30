@@ -12,7 +12,8 @@ public class TestBookDataRequester extends AndroidTestCase {
     public void testBookDataRequest() {
 
         final String validBookISBN = "8074840204";
-        String returnedJson = BookInfoRequester.requestBookData(validBookISBN);
+        BookInfoRequester infoRequester = new BookInfoRequester();
+        String returnedJson = infoRequester.requestBookData(validBookISBN);
         assertTrue("Nothing was returned from books service.", !"".equals(returnedJson));
 
     }

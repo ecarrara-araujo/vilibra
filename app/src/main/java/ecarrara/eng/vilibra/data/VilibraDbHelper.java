@@ -41,6 +41,7 @@ public class VilibraDbHelper extends SQLiteOpenHelper {
                 LendingEntry.COLUMN_BOOK_KEY + " INTEGER NOT NULL, " +
                 LendingEntry.COLUMN_CONTACT_URI + " TEXT NOT NULL, " +
                 LendingEntry.COLUMN_LENDING_DATE + " TEXT NOT NULL, " +
+                LendingEntry.COLUMN_LAST_NOTIFICATION_DATE + " TEXT NOT NULL, " +
 
                 // Set up the book foreign key
                 " FOREIGN KEY (" + LendingEntry.COLUMN_BOOK_KEY + ") REFERENCES " +

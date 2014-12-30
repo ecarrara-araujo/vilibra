@@ -99,6 +99,8 @@ public class VilibraContract {
         // Contact Uri for the person who have borrowed the book
         public static final String COLUMN_CONTACT_URI = "contact_uri";
 
+        public static final String COLUMN_LAST_NOTIFICATION_DATE = "last_notification_date";
+
         public static Uri buildLendingUri(long id){
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }

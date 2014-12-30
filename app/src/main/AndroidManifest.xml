@@ -21,13 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name=".data.VilibraProvider"
-            android:authorities="ecarrara.eng.vilibra"
-            android:enabled="true"
-            android:exported="false" />
-
         <activity
             android:name=".LendedBookRegistrationActivity"
             android:label="@string/title_activity_lended_book_registration" >
@@ -36,6 +29,15 @@
             android:name=".LendedBookDetailActivity"
             android:label="@string/title_activity_lended_book_detail" >
         </activity>
+
+        <provider
+            android:name=".data.VilibraProvider"
+            android:authorities="ecarrara.eng.vilibra"
+            android:enabled="true"
+            android:exported="false" />
+
+        <service android:name=".notification.BookLendingNotificationService" />
+
     </application>
 
 </manifest>

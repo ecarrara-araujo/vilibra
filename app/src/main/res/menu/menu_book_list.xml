@@ -3,4 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools" tools:context=".BookListActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_notify_user" android:title="@string/action_notify_user"
+        android:orderInCategory="200" app:showAsAction="never" />
 </menu>

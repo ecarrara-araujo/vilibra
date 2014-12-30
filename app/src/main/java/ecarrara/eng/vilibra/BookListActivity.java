@@ -1,11 +1,14 @@
 package ecarrara.eng.vilibra;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import ecarrara.eng.vilibra.notification.BookLendingNotificationService;
 
 
 public class BookListActivity extends ActionBarActivity implements LendedBookListFragment.Callback {
@@ -53,6 +56,10 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_notify_user){
+            //TODO: Action added for testing purposes comment it out before release
+            Intent intent = new Intent(this, BookLendingNotificationService.class);
+            this.startService(intent);
         }
 
         return super.onOptionsItemSelected(item);
