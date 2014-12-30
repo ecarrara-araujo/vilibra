@@ -55,10 +55,12 @@
 
     <!-- Preferences Strings -->
     <string name="pref_frequency_label">Notification Frequency</string>
+    <string name="pref_frequency_label_disabled">Disabled</string>
     <string name="pref_frequency_label_weekly">Weekly</string>
     <string name="pref_frequency_label_every_two_weeks">Bi-weekly</string>
     <string name="pref_frequency_label_monthly">Monthly</string>
     <string name="pref_frequency_key" translatable="false">notification_frequency</string>
+    <string name="pref_frequency_disabled" translatable="false">disabled</string>
     <string name="pref_frequency_weekly" translatable="false">weekly</string>
     <string name="pref_frequency_every_two_weeks" translatable="false">bi-weekly</string>
     <string name="pref_frequency_monthly" translatable="false">monthly</string>

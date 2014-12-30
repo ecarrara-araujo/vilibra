@@ -89,6 +89,11 @@ public class BookLendingNotificationService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         Log.d(LOG_TAG, "onHandleIntent");
 
+        if(!isNotificationEnabled()) {
+            Log.d(LOG_TAG, "Notification disabled by user.");
+            return;
+        }
+
         Cursor bookLendingCursor = getContentResolver().query(LendingEntry.buildLendingBooksUri(),
                 LENDING_DETAIL_COLUMNS, null, null, null);
 
@@ -146,6 +151,16 @@ public class BookLendingNotificationService extends IntentService {
         values.put(LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
                 VilibraContract.getDbDateString(new Date()));
         getContentResolver().update(lendingUri, values, null, null);
+    }
+
+    private boolean isNotificationEnabled() {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String frequency = prefs.getString(getString(R.string.pref_frequency_key),
+                getString(R.string.pref_frequency_weekly));
+        if(frequency.equals(getString(R.string.pref_frequency_disabled))) {
+            return false;
+        }
+        return true;
     }
 
     private int getLendingNotificationInterval() {
