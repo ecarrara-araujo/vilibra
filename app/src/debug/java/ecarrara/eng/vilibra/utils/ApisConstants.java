@@ -1,4 +1,4 @@
-package eng.ecarrara.vilibra.utils;
+package ecarrara.eng.vilibra.utils;
 
 /**
  * Created by ecarrara on 12/10/14.

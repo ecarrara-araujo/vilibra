@@ -11,7 +11,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import eng.ecarrara.vilibra.utils.ApisConstants;
+import ecarrara.eng.vilibra.utils.ApisConstants;
 
 /**
  * Created by ecarrara on 10/12/2014.
