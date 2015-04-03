@@ -2,12 +2,12 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.1"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "ecarrara.eng.vilibra"
         minSdkVersion 16 // Jellybean
-        targetSdkVersion 21 // Lollipop
+        targetSdkVersion 22 // Lollipop
         versionCode 1
         versionName "1.0"
     }
@@ -32,7 +32,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:21.+'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.shamanland:fab:0.0.6' // for promoted actions floating button
     compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
 }
