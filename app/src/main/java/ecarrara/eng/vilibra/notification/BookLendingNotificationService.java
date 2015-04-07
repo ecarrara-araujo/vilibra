@@ -111,8 +111,10 @@ public class BookLendingNotificationService extends IntentService {
 
                 if(isNotificationNeededForDate(lastNotificationDate)) {
                     String bookName = bookLendingCursor.getString(COL_BOOK_TITLE);
-                    String lendingDate = Utility.getFormattedMonthDay
-                            (this, bookLendingCursor.getString(COL_LENDING_DATE));
+                    String lendingDate = Utility.getFormattedDateForBookInfo(
+                            this,
+                            bookLendingCursor.getString(COL_LENDING_DATE));
+
                     String contactName =
                             getContactName(
                                     Uri.parse(bookLendingCursor.getString(COL_LENDING_CONTACT)));

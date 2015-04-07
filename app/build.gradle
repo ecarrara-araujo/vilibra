@@ -35,4 +35,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.shamanland:fab:0.0.6' // for promoted actions floating button
     compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
+
+    //test dependencies
+    testCompile 'junit:junit:4.12'
 }

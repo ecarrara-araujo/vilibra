@@ -61,24 +61,37 @@ public class Utility {
     }
 
     /**
-     * Converts db date format to the format "Year, Month day", e.g "2014, June 24".
-     * @param context Context to use for resource localization
-     * @param dateStr The db formatted date string, expected to be of the form specified
-     *                in Utility.DATE_FORMAT
+     * Converts a date string from the format {@link Utility#DATE_FORMAT} to the format
+     * defined in {@link ecarrara.eng.vilibra.R.string#full_date_format}
+     * @param context the current context to be used to look for the localized format
+     * @param dateString the date string to be formatted, expected to be of the form specified
+     *                in {@link Utility#DATE_FORMAT}
+     * @return The day in the form of a string formatted
+     */
+    public static String getFormattedDateForBookInfo(Context context, String dateString) {
+        return getFormattedMonthDay(context.getString(R.string.full_date_format), dateString);
+    }
+
+    /**
+     * Converts a date string from the format {@link Utility#DATE_FORMAT} to the requested format.
+     * @param format desired format to be applied to the dateString
+     * @param dateString the date string to be formatted, expected to be of the form specified
+     *                in {@link Utility#DATE_FORMAT}
      * @return The day in the form of a string formatted "2014, December 6"
      */
-    public static String getFormattedMonthDay(Context context, String dateStr) {
+    public static String getFormattedMonthDay(String format, String dateString) {
+        String finalDateString = "";
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(Utility.DATE_FORMAT);
         try {
-            Date inputDate = dbDateFormat.parse(dateStr);
-            SimpleDateFormat yearMonthDayFormat = new SimpleDateFormat(
-                    context.getString(R.string.full_date_format));
-            String finalDateString = yearMonthDayFormat.format(inputDate);
-            return finalDateString;
+            Date inputDate = dbDateFormat.parse(dateString);
+            SimpleDateFormat requestedDateFormat = new SimpleDateFormat(format);
+            finalDateString = requestedDateFormat.format(inputDate);
         } catch (ParseException e) {
             e.printStackTrace();
-            return null;
+        } catch (NullPointerException npex) {
+            npex.printStackTrace();
         }
+        return finalDateString;
     }
 
     /**

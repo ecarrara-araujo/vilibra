@@ -228,8 +228,8 @@ public class LendedBookDetailFragment extends Fragment
             mReturnBookButton.setVisibility(View.VISIBLE);
 
             String lendingDate = cursor.getString(COL_LENDING_DATE);
-            mLendingDateTextView.setText(Utility.getFormattedMonthDay(getActivity(), lendingDate));
-
+            mLendingDateTextView.setText(
+                    Utility.getFormattedDateForBookInfo(getActivity(), lendingDate));
             Uri contactLookupUri = ContactsContract.Contacts.getLookupUri(
                     getActivity().getContentResolver(),
                     Uri.parse(contactUri)
