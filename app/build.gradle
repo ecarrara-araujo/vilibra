@@ -10,6 +10,8 @@ android {
         targetSdkVersion 22 // Lollipop
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
@@ -28,6 +30,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'LICENSE.txt'
+    }
+
 }
 
 dependencies {
@@ -38,4 +46,8 @@ dependencies {
 
     //test dependencies
     testCompile 'junit:junit:4.12'
+
+    //ui testing dependencies
+    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
 }
