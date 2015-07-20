@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="AppTheme.Base" />
 
     <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/vilibra_teal_primary</item>
         <item name="colorPrimaryDark">@color/vilibra_teal_primary_dark</item>
         <item name="android:windowNoTitle">true</item>
