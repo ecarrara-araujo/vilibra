@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "22.0.1"
+    buildToolsVersion "23.0.0 rc3"
 
     defaultConfig {
         applicationId "ecarrara.eng.vilibra"
@@ -30,14 +30,15 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.0.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'com.shamanland:fab:0.0.6' // for promoted actions floating button
     compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
 
-    //test dependencies
+    // test dependencies
     testCompile 'junit:junit:4.12'
 
-    //ui testing dependencies
-    androidTestCompile 'com.android.support.test:testing-support-lib:0.1'
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.0'
+    // dependencies for instrumentation tests
+    androidTestCompile 'com.android.support.test:runner:0.3'
+    androidTestCompile 'com.android.support.test:rules:0.3'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
 }

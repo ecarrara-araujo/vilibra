@@ -10,6 +10,7 @@ import android.test.ActivityInstrumentationTestCase2;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.testutils.TestDataHelper;
@@ -25,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 /**
  * Created by ecarrara on 07/04/2015.
  */
-public class TestAddLendedBookFlow extends ActivityInstrumentationTestCase2<BookListActivity> {
+public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCase2<BookListActivity> {
 
     private String mBookISBN10;
     private String mBookISBN13;
@@ -40,7 +41,7 @@ public class TestAddLendedBookFlow extends ActivityInstrumentationTestCase2<Book
     private ContentValues mTestLendingValues;
 
 
-    public TestAddLendedBookFlow() {
+    public TestViewLendedBookDetailFlow() {
         super(BookListActivity.class);
     }
 
@@ -58,18 +59,25 @@ public class TestAddLendedBookFlow extends ActivityInstrumentationTestCase2<Book
         clearTestData();
     }
 
-    public void testAddLendedBookFlow() {
+    @Test
+    public void testViewLendedBookDetailFlow() {
 
-        // push the add lended book button
-        onData(CursorMatchers.withRowString(VilibraContract.BookEntry.COLUMN_TITLE, mBookTitle))
+        // select the item from the list with the specified title
+        onData(CursorMatchers.withRowString(
+                        VilibraContract.BookEntry.COLUMN_TITLE,
+                        mBookTitle))
                 .inAdapterView(withId(R.id.lended_book_list_view))
                 .perform(click());
 
         // check data in the detail screen
-        onView(withId(R.id.book_title_text_view)).check(matches(withText(mBookTitle)));
-        onView(withId(R.id.book_subtitle_text_view)).check(matches(withText(mBookSubtitle)));
-        onView(withId(R.id.book_authors_text_view)).check(matches(withText(mBookAuthors)));
-        onView(withId(R.id.book_publisher_edition_text_view)).check(matches(withText(mBookPublisher)));
+        onView(withId(R.id.book_title_text_view))
+                .check(matches(withText(mBookTitle)));
+        onView(withId(R.id.book_subtitle_text_view))
+                .check(matches(withText(mBookSubtitle)));
+        onView(withId(R.id.book_authors_text_view))
+                .check(matches(withText(mBookAuthors)));
+        onView(withId(R.id.book_publisher_edition_text_view))
+                .check(matches(withText(mBookPublisher)));
 
         //onView(withId(R.id.book_isbn10_text_view)).check(matches(withText(mBookISBN10)));
 
