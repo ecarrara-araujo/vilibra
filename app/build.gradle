@@ -14,15 +14,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            storeFile file(".signing/keystore/vilibra.keystore")
-            storePassword "vilibraecarrara"
-            keyAlias "vilibra"
-            keyPassword "vilibraecarrara"
-        }
-    }
-
     buildTypes {
         release {
             minifyEnabled false
