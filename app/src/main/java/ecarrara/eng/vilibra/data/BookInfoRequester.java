@@ -33,7 +33,7 @@ public class BookInfoRequester {
             final String BASE_URL =
                     "https://www.googleapis.com/books/v1/volumes?";
             final String QUERY_PARAM = "q";
-            final String QUERY_PARAM_ISBN = "isbn:" + bookIsbn;
+            final String QUERY_PARAM_ISBN = "isbn" + bookIsbn;
             final String API_KEY_PARAM = "key";
 
 
