@@ -33,6 +33,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.android.support:design:23.0.1'
     compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
+    compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     // unit test dependencies
     testCompile 'junit:junit:4.12'

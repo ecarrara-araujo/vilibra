@@ -15,10 +15,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import ecarrara.eng.vilibra.data.BookInfoRequester;
-import ecarrara.eng.vilibra.data.GoogleBooksJsonDataParser;
+import ecarrara.eng.vilibra.data.VilibraContentValuesBuilder;
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
+import ecarrara.eng.vilibra.model.BookVolume;
+import ecarrara.eng.vilibra.service.GoogleBooksService;
 import me.dm7.barcodescanner.zbar.Result;
 import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
@@ -136,11 +137,12 @@ public class LendedBookRegistrationFragment extends Fragment
                 bookUri =
                         BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry._ID)));
             } else {
-                BookInfoRequester infoRequester = new BookInfoRequester();
-                String bookJsonString = infoRequester.requestBookData(isbn);
-                GoogleBooksJsonDataParser parser = new GoogleBooksJsonDataParser();
-                ContentValues bookData = parser.parse(bookJsonString);
-                if(null != bookData) {
+                GoogleBooksService googleBooksService = new GoogleBooksService();
+                BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
+
+                if(null != returnedBookVolume) {
+                    ContentValues bookData = VilibraContentValuesBuilder
+                            .buildFor(returnedBookVolume);
                     bookUri = mContext.getContentResolver()
                             .insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
                 }
