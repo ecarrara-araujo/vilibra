@@ -1,5 +1,16 @@
 apply plugin: 'com.android.application'
 
+/**
+ * Use the property (key/value pais format) file secrets.properties
+ * to configure api keys for your project.
+ * Here is the list of necessary keys:
+ * - DEBUG_GOOGLE_BOOKS_API_KEY
+ * - RELEASE_GOOGLE_BOOKS_API_KEY
+ */
+def Properties projectProperties = new Properties()
+projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.properties')))
+
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
@@ -15,7 +26,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField "String", "GOOGLE_BOOKS_API_KEY", "\"" + projectProperties.DEBUG_GOOGLE_BOOKS_API_KEY + "\""
+        }
         release {
+            buildConfigField "String", "GOOGLE_BOOKS_API_KEY", "\"" + projectProperties.RELEASE_GOOGLE_BOOKS_API_KEY + "\""
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
