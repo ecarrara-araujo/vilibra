@@ -79,23 +79,23 @@ public class TestLendBookFlow {
         lendBookButton.clickAndWaitForNewWindow();
 
         UiObject isbnEditText = mUiDevice.findObject(new UiSelector()
-            .text("ISBN")
-            .className("android.widget.EditText"));
+                .text("ISBN")
+                .className("android.widget.EditText"));
         isbnEditText.setText(BOOK_ISBN);
 
         UiObject confirmButton = mUiDevice.findObject(new UiSelector()
-            .text("Confirm")
+                .text("Confirm")
                 .className("android.widget.Button"));
         confirmButton.clickAndWaitForNewWindow(5000);
 
         UiObject isbnTextView = mUiDevice.findObject(new UiSelector()
-            .className("android.widget.TextView")
-            .resourceId("ecarrara.eng.vilibra:id/book_isbn10_text_view"));
+                .className("android.widget.TextView")
+                .resourceId("ecarrara.eng.vilibra:id/book_isbn10_text_view"));
         Assert.assertTrue(isbnTextView.getText().contains(BOOK_ISBN));
 
         UiObject lendButton = mUiDevice.findObject(new UiSelector()
-            .className("android.widget.Button")
-            .text("Lend this Book"));
+                .className("android.widget.Button")
+                .text("Lend this Book"));
         lendButton.clickAndWaitForNewWindow();
 
         UiObject contactView = mUiDevice.findObject(new UiSelector()
@@ -106,11 +106,11 @@ public class TestLendBookFlow {
         mUiDevice.wait(Until.hasObject(By.pkg("ecarrara.eng.vilibra")), 500L);
 
         UiObject bookTitleTextView = mUiDevice.findObject(new UiSelector()
-            .className("android.widget.TextView")
-            .resourceId("ecarrara.eng.vilibra:id/book_name_text_view")
-            .text(BOOK_TITLE));
+                .className("android.widget.TextView")
+                .resourceId("ecarrara.eng.vilibra:id/book_name_text_view")
+                .text(BOOK_TITLE));
 
-        Assert.assertTrue(bookTitleTextView.exists());
+        assertTrue(bookTitleTextView.exists());
 
     }
 
