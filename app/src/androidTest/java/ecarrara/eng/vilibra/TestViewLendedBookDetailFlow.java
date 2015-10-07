@@ -3,18 +3,22 @@ package ecarrara.eng.vilibra;
 
 import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.CursorMatchers;
-import android.test.ActivityInstrumentationTestCase2;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.testutils.TestDataHelper;
 
+import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
@@ -22,11 +26,15 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.notNullValue;
 
 /**
- * Created by ecarrara on 07/04/2015.
+ * Test the visualization of the details of the selected item.
  */
-public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCase2<BookListActivity> {
+@RunWith(AndroidJUnit4.class)
+public class TestViewLendedBookDetailFlow {
 
     private String mBookISBN10;
     private String mBookISBN13;
@@ -36,36 +44,33 @@ public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCas
     private String mBookPublisher;
     private String mBookPages;
 
-    private BookListActivity mBookListActivity;
     private ContentValues mTestBookValues;
     private ContentValues mTestLendingValues;
 
+    private Context mContext;
 
-    public TestViewLendedBookDetailFlow() {
-        super(BookListActivity.class);
-    }
+    @Rule
+    public ActivityTestRule<BookListActivity> mActivityRule =
+            new ActivityTestRule<>(BookListActivity.class);
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
-        injectInstrumentation(InstrumentationRegistry.getInstrumentation());
-        mBookListActivity = getActivity();
-
+        mContext = getTargetContext();
         prepareTestData();
     }
 
     @After
-    public void tearDown() throws  Exception {
+    public void tearDown() throws Exception {
         clearTestData();
     }
 
     @Test
-    public void testViewLendedBookDetailFlow() {
+    public void testViewBorrowedBookDetail() {
 
         // select the item from the list with the specified title
         onData(CursorMatchers.withRowString(
-                        VilibraContract.BookEntry.COLUMN_TITLE,
-                        mBookTitle))
+                VilibraContract.BookEntry.COLUMN_TITLE,
+                mBookTitle))
                 .inAdapterView(withId(R.id.lended_book_list_view))
                 .perform(click());
 
@@ -79,8 +84,6 @@ public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCas
         onView(withId(R.id.book_publisher_edition_text_view))
                 .check(matches(withText(mBookPublisher)));
 
-        //onView(withId(R.id.book_isbn10_text_view)).check(matches(withText(mBookISBN10)));
-
         pressBack();
 
     }
@@ -89,17 +92,18 @@ public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCas
         mTestBookValues = TestDataHelper.createAndroidRecipesValues();
 
         // add a book
-        Uri bookUri = mBookListActivity.getContentResolver()
+        Uri bookUri = mContext.getContentResolver()
                 .insert(VilibraContract.BookEntry.CONTENT_URI, mTestBookValues);
         long bookRowId = ContentUris.parseId(bookUri);
-        assertTrue(bookRowId != -1);
+        assertThat(bookRowId, not(-1L));
+
 
         // add a lending
         mTestLendingValues = TestDataHelper.createLendingEntry(bookRowId);
-        Uri lendingInsertUri = mBookListActivity.getContentResolver()
+        Uri lendingInsertUri = mContext.getContentResolver()
                 .insert(VilibraContract.LendingEntry.CONTENT_URI, mTestLendingValues);
         long lendingRowId = ContentUris.parseId(lendingInsertUri);
-        assertTrue(lendingInsertUri != null);
+        assertThat(lendingInsertUri, notNullValue());
 
         mBookISBN10 = mTestBookValues.getAsString(VilibraContract.BookEntry.COLUMN_ISBN_10);
         mBookISBN13 = mTestBookValues.getAsString(VilibraContract.BookEntry.COLUMN_ISBN_13);
@@ -111,12 +115,12 @@ public class TestViewLendedBookDetailFlow extends ActivityInstrumentationTestCas
     }
 
     private void clearTestData() {
-        mBookListActivity.getContentResolver().delete(
+        mContext.getContentResolver().delete(
                 VilibraContract.LendingEntry.CONTENT_URI,
                 null,
                 null
         );
-        mBookListActivity.getContentResolver().delete(
+        mContext.getContentResolver().delete(
                 VilibraContract.BookEntry.CONTENT_URI,
                 null,
                 null
