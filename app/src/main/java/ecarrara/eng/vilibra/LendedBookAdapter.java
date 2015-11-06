@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
 import ecarrara.eng.vilibra.utils.Utility;
 import ecarrara.eng.vilibra.widget.RoundedQuickContactBadge;
 
@@ -40,15 +41,15 @@ public class LendedBookAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         LendedBookViewHolder lendedBookViewHolder = (LendedBookViewHolder) view.getTag();
 
-        String bookName = mCursor.getString(LendedBookListFragment.COL_BOOK_TITLE);
+        String bookName = mCursor.getString(BorrowedBooksPresenter.COL_BOOK_TITLE);
         lendedBookViewHolder.mBookNameTextView.setText(bookName);
 
-        String bookAuthor = mCursor.getString(LendedBookListFragment.COL_BOOK_AUTHORS);
+        String bookAuthor = mCursor.getString(BorrowedBooksPresenter.COL_BOOK_AUTHORS);
         lendedBookViewHolder.mBookAuthorTextView.setText(bookAuthor);
 
         Uri contactLookupUri = ContactsContract.Contacts.getLookupUri(
                 mContext.getContentResolver(),
-                Uri.parse(mCursor.getString(LendedBookListFragment.COL_LENDING_CONTACT))
+                Uri.parse(mCursor.getString(BorrowedBooksPresenter.COL_LENDING_CONTACT))
         );
         lendedBookViewHolder.mLendedContactBadge.assignContactUri(contactLookupUri);
         lendedBookViewHolder.mLendedContactBadge.setImageBitmap(
