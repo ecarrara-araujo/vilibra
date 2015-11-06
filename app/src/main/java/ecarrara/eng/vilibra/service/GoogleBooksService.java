@@ -61,7 +61,7 @@ public class GoogleBooksService {
     }
 
     private String formatQueryForISBNSearch(String isbn) {
-        final String ISBN_QUERY = "isbn";
+        final String ISBN_QUERY = "isbn:";
         return ISBN_QUERY + isbn;
     }
 

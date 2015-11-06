@@ -31,8 +31,8 @@ public class TestLendBookFlow {
 
     private UiDevice mUiDevice;
     private Context mContext;
-    private static final String BOOK_ISBN = "8074840204";
-    private static final String BOOK_TITLE = "Memórias Póstumas de Brás Cubas";
+    private static final String BOOK_ISBN = "8575224123";
+    private static final String BOOK_TITLE = "Dominando o Android";
 
     @Before
     public void setUp() throws UiObjectNotFoundException {
