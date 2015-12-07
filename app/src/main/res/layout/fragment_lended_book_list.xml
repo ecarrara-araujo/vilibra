@@ -6,14 +6,11 @@
     android:gravity="center_horizontal"
     tools:context=".LendedBookListFragment">
 
-    <ListView android:id="@+id/lended_book_list_view"
-        style="@style/AppTheme.LendedBooksListStyle"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/loaned_book_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="8dp"
-        tools:layout="@layout/list_item_lended_book">
-    </ListView>
+        android:scrollbars="vertical" />
 
     <android.support.design.widget.FloatingActionButton
         style="@style/AppTheme.FabStyle"
@@ -26,14 +23,16 @@
         android:orientation="vertical"
         android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ImageView
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView android:id="@+id/empty_book_list_icon"
             android:src="@drawable/ic_action_book_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
 
-        <TextView
+        <TextView android:id="@+id/empty_book_list_message_text_view"
             style="@style/AppTheme.DropShadowText"
             android:text="@string/empty_book_list_message"
             android:textAppearance="?android:textAppearanceLarge"
@@ -43,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
+        <TextView android:id="@+id/empty_book_list_user_directions_text_view"
             android:text="@string/add_book_message"
             android:textAppearance="?android:textAppearanceSmall"
             android:fontFamily="sans-serif"

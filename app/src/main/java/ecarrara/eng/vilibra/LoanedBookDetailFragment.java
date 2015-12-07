@@ -39,10 +39,10 @@ import ecarrara.eng.vilibra.widget.RoundedQuickContactBadge;
 /**
  * Created by ecarrara on 23/12/2014.
  */
-public class LendedBookDetailFragment extends Fragment
+public class LoanedBookDetailFragment extends Fragment
         implements LoaderManager.LoaderCallbacks <Cursor> {
 
-    private static final String LOG_TAG = LendedBookDetailFragment.class.getSimpleName();
+    private static final String LOG_TAG = LoanedBookDetailFragment.class.getSimpleName();
     private static final int BOOK_DETAIL_LOADER = 0;
     private static final int LENDING_DETAIL_LOADER = 1;
 
@@ -101,15 +101,15 @@ public class LendedBookDetailFragment extends Fragment
     public static final int COL_LENDING_CONTACT = 1;
     public static final int COL_LENDING_DATE = 2;
 
-    public static LendedBookDetailFragment newInstance(Uri bookLendingUri) {
+    public static LoanedBookDetailFragment newInstance(Uri bookLendingUri) {
         Bundle arguments = new Bundle();
         arguments.putParcelable(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, bookLendingUri);
-        LendedBookDetailFragment fragment = new LendedBookDetailFragment();
+        LoanedBookDetailFragment fragment = new LoanedBookDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
     }
 
-    public LendedBookDetailFragment() {
+    public LoanedBookDetailFragment() {
         setHasOptionsMenu(true);
     }
 

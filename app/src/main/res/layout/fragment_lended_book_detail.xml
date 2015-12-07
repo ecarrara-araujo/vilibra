@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment" >
+    tools:context=".LoanedBookDetailFragment" >
 
     <ImageView android:id="@+id/book_photo_image_view"
         android:src="@drawable/art_default_book_detail_photo"

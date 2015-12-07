@@ -1,8 +1,11 @@
 package ecarrara.eng.vilibra.domain.presentation.presenter;
 
 import android.content.Context;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
@@ -18,6 +21,9 @@ public class BorrowedBooksPresenter implements Presenter {
 
     private Context context;
     private BorrowedBooksLoadAsyncTask borrowedBooksLoadAsyncTask;
+
+    private Cursor borrowedBooksCursor;
+    private ContentObserver loanedBooksContentObserver;
 
     private static final String[] LENDED_BOOKS_COLUMNS = {
             BookEntry.TABLE_NAME + "." + BookEntry._ID,
@@ -39,17 +45,17 @@ public class BorrowedBooksPresenter implements Presenter {
         this.context = context;
         this.borrowedBooksListView = borrowedBooksListView;
         this.borrowedBooksLoadAsyncTask = new BorrowedBooksLoadAsyncTask();
+        this.loanedBooksContentObserver = new LoanedBooksContentObserver();
+        this.borrowedBooksCursor = null;
     }
 
     public void initialize() {
         this.loadBorrowedBooksList();
     }
 
-    @Override public void resume() {
-        this.loadBorrowedBooksList();
-    }
+    @Override public void resume() { }
 
-    @Override public void pause() { /* no-op */ }
+    @Override public void pause() { }
 
     @Override public void destroy() {
         this.borrowedBooksLoadAsyncTask.cancel(true);
@@ -78,13 +84,22 @@ public class BorrowedBooksPresenter implements Presenter {
     }
 
     private Cursor getBorrowedBooksFromContentProvider() {
-        Cursor borrowedBooksCursor = context.getContentResolver().query(
+        if(this.borrowedBooksCursor != null) {
+            this.borrowedBooksCursor.unregisterContentObserver(this.loanedBooksContentObserver);
+            this.borrowedBooksCursor.close();
+        }
+
+        this.borrowedBooksCursor = context.getContentResolver().query(
                 LendingEntry.buildLendingBooksUri(),
                 LENDED_BOOKS_COLUMNS,
                 null,
                 null,
                 null
         );
+
+        if(this.borrowedBooksCursor != null) {
+            this.borrowedBooksCursor.registerContentObserver(this.loanedBooksContentObserver);
+        }
         return borrowedBooksCursor;
     }
 
@@ -100,6 +115,21 @@ public class BorrowedBooksPresenter implements Presenter {
 
         @Override protected void onPostExecute(Cursor cursor) {
             BorrowedBooksPresenter.this.displayBorrowedBooksList(cursor);
+        }
+    }
+
+    private class LoanedBooksContentObserver extends ContentObserver {
+
+        public LoanedBooksContentObserver() {
+            super(new Handler());
+        }
+
+        @Override public void onChange(boolean selfChange) {
+            this.onChange(selfChange, null);
+        }
+
+        @Override public void onChange(boolean selfChange, Uri uri) {
+            getBorrowedBooksList();
         }
     }
 

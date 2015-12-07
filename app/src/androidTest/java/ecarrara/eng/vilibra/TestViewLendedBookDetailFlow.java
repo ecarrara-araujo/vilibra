@@ -1,6 +1,7 @@
 package ecarrara.eng.vilibra;
 
 
+import android.app.Activity;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
@@ -19,14 +20,18 @@ import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.testutils.TestDataHelper;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
+import static android.support.test.InstrumentationRegistry.getInstrumentation;
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.doubleClick;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 
@@ -53,26 +58,19 @@ public class TestViewLendedBookDetailFlow {
     public ActivityTestRule<BookListActivity> mActivityRule =
             new ActivityTestRule<>(BookListActivity.class);
 
-    @Before
-    public void setUp() throws Exception {
+    @Before public void setUp() throws Exception {
         mContext = getTargetContext();
         prepareTestData();
+        Activity activity = mActivityRule.getActivity();
     }
 
-    @After
-    public void tearDown() throws Exception {
+    @After public void tearDown() throws Exception {
         clearTestData();
     }
 
-    @Test
-    public void testViewBorrowedBookDetail() {
+    @Test public void testViewBorrowedBookDetail() {
 
-        // select the item from the list with the specified title
-        onData(CursorMatchers.withRowString(
-                VilibraContract.BookEntry.COLUMN_TITLE,
-                mBookTitle))
-                .inAdapterView(withId(R.id.lended_book_list_view))
-                .perform(click());
+        onView(allOf(withText(this.mBookTitle))).perform(click());
 
         // check data in the detail screen
         onView(withId(R.id.book_title_text_view))
@@ -89,6 +87,8 @@ public class TestViewLendedBookDetailFlow {
     }
 
     private void prepareTestData() {
+        clearTestData();
+
         mTestBookValues = TestDataHelper.createAndroidRecipesValues();
 
         // add a book
@@ -96,7 +96,6 @@ public class TestViewLendedBookDetailFlow {
                 .insert(VilibraContract.BookEntry.CONTENT_URI, mTestBookValues);
         long bookRowId = ContentUris.parseId(bookUri);
         assertThat(bookRowId, not(-1L));
-
 
         // add a lending
         mTestLendingValues = TestDataHelper.createLendingEntry(bookRowId);

@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import ecarrara.eng.vilibra.android.presentation.LoanedBookListAdapter;
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
 import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
@@ -40,8 +43,11 @@ public class LendedBookListFragment extends Fragment implements
         public void onItemSelected(Uri selectedLending);
     }
 
-    private LendedBookAdapter mLendedBookAdapter;
-    private ListView mLendedBookListView;
+    private RecyclerView loanedBookListView;
+    private RecyclerView.LayoutManager loanedBookListViewLayoutManager;
+    private LoanedBookListAdapter loanedBookListViewAdapter;
+    private View emptyLoanedBooksListView;
+
     private static final String LIST_POSITION_KEY = "list_position";
     private int mListPosition;
 
@@ -81,10 +87,17 @@ public class LendedBookListFragment extends Fragment implements
     }
 
     @Override public void render(Cursor borrowedBooks) {
-        mLendedBookAdapter.swapCursor(borrowedBooks);
-        if(mListPosition != ListView.INVALID_POSITION) {
-            mLendedBookListView.smoothScrollToPosition(mListPosition);
-            mLendedBookListView.setItemChecked(mListPosition, true);
+        this.loanedBookListViewAdapter.setLoanedBooks(borrowedBooks);
+
+        // TODO: improve this, maybe this should be done by the presenter
+        if(this.loanedBookListViewAdapter.getItemCount() <= 0) {
+            this.loanedBookListView.setVisibility(View.GONE);
+            this.emptyLoanedBooksListView.setVisibility(View.VISIBLE);
+        } else {
+            this.loanedBookListView.setVisibility(View.VISIBLE);
+            this.emptyLoanedBooksListView.setVisibility(View.GONE);
+            this.loanedBookListView.smoothScrollToPosition(
+                    this.loanedBookListViewAdapter.getCurrentListPosition());
         }
     }
 
@@ -109,27 +122,17 @@ public class LendedBookListFragment extends Fragment implements
     }
 
     private void setupUI(View rootView) {
-        mLendedBookAdapter = new LendedBookAdapter(getActivity(), null, 0);
-        mLendedBookListView = (ListView) rootView.findViewById(R.id.lended_book_list_view);
-        mLendedBookListView.setAdapter(mLendedBookAdapter);
-        mLendedBookListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d(LOG_TAG, "Lended book item clicked");
-                Cursor cursor = mLendedBookAdapter.getCursor();
-                if(null != cursor && cursor.moveToFirst()) {
-                    cursor.moveToPosition(position);
-                    Uri lendingUri = LendingEntry.buildLendingWithBookUri(
-                            cursor.getLong(BorrowedBooksPresenter.COL_LENDING_ID),
-                            cursor.getLong(BorrowedBooksPresenter.COL_BOOK_ID));
-                    ((Callback) getActivity()).onItemSelected(lendingUri);
-                }
-                mListPosition = position;
-            }
-        });
+        this.loanedBookListViewAdapter = new LoanedBookListAdapter(getContext());
+        this.loanedBookListViewAdapter.setOnItemClickListener(
+                (LoanedBookListAdapter.OnItemClickListener) this.getActivity());
+        this.loanedBookListViewLayoutManager = new LinearLayoutManager(this.getContext());
 
-        View emptyView = rootView.findViewById(R.id.empty);
-        mLendedBookListView.setEmptyView(emptyView);
+        this.loanedBookListView = (RecyclerView) rootView.findViewById(R.id.loaned_book_list_view);
+        this.loanedBookListView.setHasFixedSize(true); // for performance
+        this.loanedBookListView.setLayoutManager(loanedBookListViewLayoutManager);
+        this.loanedBookListView.setAdapter(loanedBookListViewAdapter);
+
+        this.emptyLoanedBooksListView = rootView.findViewById(R.id.empty);
 
         FloatingActionButton floatingActionButton =
                 (FloatingActionButton) rootView.findViewById(R.id.add_lending_action_button);

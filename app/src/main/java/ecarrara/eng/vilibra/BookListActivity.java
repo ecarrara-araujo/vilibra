@@ -8,10 +8,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ecarrara.eng.vilibra.android.presentation.LoanedBookListAdapter;
 import ecarrara.eng.vilibra.notification.BookLendingNotificationService;
 
 
-public class BookListActivity extends ActionBarActivity implements LendedBookListFragment.Callback {
+public class BookListActivity extends ActionBarActivity
+        implements LoanedBookListAdapter.OnItemClickListener {
 
     private boolean mTwoPane;
 
@@ -72,9 +74,9 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onItemSelected(Uri selectedLending) {
-        LendedBookDetailFragment fragment = LendedBookDetailFragment.newInstance(selectedLending);
+    
+    @Override public void onUserItemClicked(Uri lendingUri) {
+        LoanedBookDetailFragment fragment = LoanedBookDetailFragment.newInstance(lendingUri);
 
         if(mTwoPane) {
             getSupportFragmentManager().beginTransaction()
@@ -87,6 +89,4 @@ public class BookListActivity extends ActionBarActivity implements LendedBookLis
                     .commit();
         }
     }
-
-
 }

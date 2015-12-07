@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ecarrara.eng.vilibra.LendedBookDetailFragment" >
+    tools:context=".LoanedBookDetailFragment" >
 
     <LinearLayout android:id="@+id/action_button_bar"
         android:layout_width="match_parent"

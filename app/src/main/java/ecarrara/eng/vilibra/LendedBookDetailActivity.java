@@ -29,7 +29,7 @@ public class LendedBookDetailActivity extends ActionBarActivity {
             Uri lendingUri = getIntent().getParcelableExtra(EXTRA_KEY_BOOK_URI);
             Bundle arguments = new Bundle();
             arguments.putParcelable(EXTRA_KEY_BOOK_URI, lendingUri);
-            LendedBookDetailFragment fragment = new LendedBookDetailFragment();
+            LoanedBookDetailFragment fragment = new LoanedBookDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.lended_book_detail_container, fragment)
