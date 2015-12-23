@@ -7,9 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
 import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
 
-/**
- * Created by ecarrara on 13/12/2014.
- */
 public class VilibraDbHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION  = 1;
@@ -22,30 +19,32 @@ public class VilibraDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+        // After some research I figured out that the institutions that distributes ISBNs numbers
+        // sometimes make mistakes distributing the same ISBN number for different books, so
+        // our database should allow that.
+        // Also we keep a local id, just in case new types of identifiers are added, that will
+        // make any changes in our db easier.
         final String SQL_CREATE_BOOK_TABLE = "CREATE TABLE " + BookEntry.TABLE_NAME + " (" +
-                BookEntry._ID + " INTEGER PRIMARY KEY, " +
-                BookEntry.COLUMN_ISBN_10 + " TEXT UNIQUE NOT NULL, " +
-                BookEntry.COLUMN_ISBN_13 + " TEXT UNIQUE NOT NULL, " +
+                BookEntry.COLUMN_BOOK_ID + " INTEGER PRIMARY KEY, " +
+                BookEntry.COLUMN_ISBN_10 + " TEXT NOT NULL, " +
+                BookEntry.COLUMN_ISBN_13 + " TEXT NOT NULL, " +
                 BookEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
                 BookEntry.COLUMN_SUBTITLE + " TEXT, " +
                 BookEntry.COLUMN_AUTHORS + " TEXT NOT NULL, " +
                 BookEntry.COLUMN_PUBLISHER + " TEXT, " +
                 BookEntry.COLUMN_PUBLISHED_DATE + " TEXT, " +
-                BookEntry.COLUMN_PAGES + " INTEGER, " +
-                "UNIQUE (" + BookEntry.COLUMN_ISBN_13 + "," +
-                BookEntry.COLUMN_ISBN_13 + ") ON CONFLICT IGNORE" +
+                BookEntry.COLUMN_PAGES + " INTEGER " +
                 ");";
 
         final String SQL_CREATE_LENDING_TABLE = "CREATE TABLE " + LendingEntry.TABLE_NAME + " (" +
-                LendingEntry._ID + " INTEGER PRIMARY KEY, " +
-                LendingEntry.COLUMN_BOOK_KEY + " INTEGER NOT NULL, " +
+                LendingEntry.COLUMN_LENDING_ID + " INTEGER PRIMARY KEY, " +
                 LendingEntry.COLUMN_CONTACT_URI + " TEXT NOT NULL, " +
                 LendingEntry.COLUMN_LENDING_DATE + " TEXT NOT NULL, " +
                 LendingEntry.COLUMN_LAST_NOTIFICATION_DATE + " TEXT NOT NULL, " +
-
-                // Set up the book foreign key
-                " FOREIGN KEY (" + LendingEntry.COLUMN_BOOK_KEY + ") REFERENCES " +
-                BookEntry.TABLE_NAME + "(" + BookEntry._ID + ")" +
+                LendingEntry.COLUMN_BOOK_ID + " INTEGER NOT NULL, " +
+                "FOREIGN KEY(" + LendingEntry.COLUMN_BOOK_ID +
+                ") REFERENCES " + BookEntry.TABLE_NAME + " ( " +
+                    BookEntry.COLUMN_BOOK_ID + ")" +
                 ");";
 
         db.execSQL(SQL_CREATE_BOOK_TABLE);

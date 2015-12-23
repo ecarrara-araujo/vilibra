@@ -70,7 +70,7 @@ public class LoanedBookDetailFragment extends Fragment
     private String mShareMessage;
 
     private static final String[] BOOKS_DETAIL_COLUMNS = {
-            BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry._ID,
+            BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID,
             BookEntry.COLUMN_TITLE,
             BookEntry.COLUMN_SUBTITLE,
             BookEntry.COLUMN_AUTHORS,
@@ -92,7 +92,7 @@ public class LoanedBookDetailFragment extends Fragment
     public static final int COL_BOOK_PUBLISHED_DATE = 8;
 
     private static final String[] LENDING_DETAIL_COLUMNS = {
-            LendingEntry.TABLE_NAME + "." + VilibraContract.LendingEntry._ID,
+            LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_LENDING_ID,
             LendingEntry.COLUMN_CONTACT_URI,
             LendingEntry.COLUMN_LENDING_DATE
     };
@@ -322,7 +322,7 @@ public class LoanedBookDetailFragment extends Fragment
         Log.d(LOG_TAG, contactUri.toString());
 
         ContentValues contactInfoValues = new ContentValues();
-        contactInfoValues.put(LendingEntry.COLUMN_BOOK_KEY,
+        contactInfoValues.put(LendingEntry.COLUMN_BOOK_ID,
                 BookEntry.getBookIdFromUri(mBookUri));
         contactInfoValues.put(LendingEntry.COLUMN_CONTACT_URI, contactUri.toString());
         contactInfoValues.put(LendingEntry.COLUMN_LENDING_DATE,

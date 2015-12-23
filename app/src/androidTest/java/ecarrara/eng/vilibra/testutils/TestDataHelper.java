@@ -44,9 +44,10 @@ public class TestDataHelper {
     public static ContentValues createLendingEntry(long bookId) {
         ContentValues testValues = new ContentValues();
 
-        testValues.put(LendingEntry.COLUMN_BOOK_KEY, bookId);
+        testValues.put(LendingEntry.COLUMN_BOOK_ID, bookId);
         testValues.put(LendingEntry.COLUMN_CONTACT_URI, "fake contact for test");
         testValues.put(LendingEntry.COLUMN_LENDING_DATE, "20141213");
+        testValues.put(LendingEntry.COLUMN_LAST_NOTIFICATION_DATE, "20141213");
 
         return testValues;
     }

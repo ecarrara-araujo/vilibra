@@ -135,7 +135,7 @@ public class LendedBookRegistrationFragment extends Fragment
                     new String[]{isbn, isbn}, null);
             if(cursor.moveToFirst()) {
                 bookUri =
-                        BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry._ID)));
+                        BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID)));
             } else {
                 GoogleBooksService googleBooksService = new GoogleBooksService();
                 BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);

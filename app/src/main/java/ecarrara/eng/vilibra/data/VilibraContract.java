@@ -6,7 +6,10 @@ import android.provider.BaseColumns;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Created by ecarrara on 11/12/2014.
@@ -27,10 +30,13 @@ public class VilibraContract {
     // Character used to separate each author in the authors field
     public static final String AUTHORS_SEPARATOR = ";";
 
+    // Id used to specify that the entry was not persisted yet.
+    public static final long ENTRY_NOT_SAVED_ID = -1L;
+
     /**
      * Class that defines the content table for Books information.
      */
-    public static final class BookEntry implements BaseColumns {
+    public static final class BookEntry {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_BOOK).build();
@@ -41,6 +47,9 @@ public class VilibraContract {
                 "vnd.android.cursor.item/" + CONTENT_AUTHORITY + "/" + PATH_BOOK;
 
         public static final String TABLE_NAME = "book";
+
+        // Local book id
+        public static final String COLUMN_BOOK_ID = "id";
 
         // The ISBN identifier format 10
         public static final String COLUMN_ISBN_10 = "isbn_10";
@@ -78,7 +87,7 @@ public class VilibraContract {
     /**
      * Class that defines the table contents for Book lending
      */
-    public static final class LendingEntry implements BaseColumns {
+    public static final class LendingEntry {
 
         public static final Uri CONTENT_URI =
                 BASE_CONTENT_URI.buildUpon().appendPath(PATH_LENDING).build();
@@ -90,8 +99,11 @@ public class VilibraContract {
 
         public static final String TABLE_NAME = "lending";
 
-        // Foreign key for the book table
-        public static final String COLUMN_BOOK_KEY = "book_id";
+        // Local lending id
+        public static final String COLUMN_LENDING_ID = "id";
+
+        // The id of the book this lending refers to
+        public static final String COLUMN_BOOK_ID = "book_id";
 
         // Date that the book was borrowed by this person
         public static final String COLUMN_LENDING_DATE = "lending_date";

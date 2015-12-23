@@ -1,7 +1,6 @@
 package ecarrara.eng.vilibra;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,15 +8,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
+import java.util.List;
+
 import ecarrara.eng.vilibra.android.presentation.LoanedBookListAdapter;
-import ecarrara.eng.vilibra.data.VilibraContract.LendingEntry;
+import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
 import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
 
@@ -86,7 +85,7 @@ public class LendedBookListFragment extends Fragment implements
         super.onSaveInstanceState(outState);
     }
 
-    @Override public void render(Cursor borrowedBooks) {
+    @Override public void render(List<BookBorrowing> borrowedBooks) {
         this.loanedBookListViewAdapter.setLoanedBooks(borrowedBooks);
 
         // TODO: improve this, maybe this should be done by the presenter

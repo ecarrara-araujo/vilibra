@@ -40,9 +40,9 @@ public class BookLendingNotificationService extends IntentService {
     private static final String LOG_TAG = BookLendingNotificationService.class.getSimpleName();
 
     private static final String[] LENDING_DETAIL_COLUMNS = {
-            BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry._ID,
+            BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID,
             BookEntry.COLUMN_TITLE,
-            LendingEntry.TABLE_NAME + "." + VilibraContract.LendingEntry._ID,
+            LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_LENDING_ID,
             LendingEntry.COLUMN_CONTACT_URI,
             LendingEntry.COLUMN_LENDING_DATE,
             LendingEntry.COLUMN_LAST_NOTIFICATION_DATE
