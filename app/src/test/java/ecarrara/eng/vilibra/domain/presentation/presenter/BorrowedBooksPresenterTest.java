@@ -10,7 +10,10 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.List;
+
 import ecarrara.eng.vilibra.BuildConfig;
+import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
 
 import static org.mockito.Matchers.any;
@@ -61,7 +64,7 @@ public class BorrowedBooksPresenterTest {
     private void verifyBorrowedBooksListRender() {
         verify(this.borrowedBooksListView).hideRetry();
         verify(this.borrowedBooksListView).showLoading();
-        verify(this.borrowedBooksListView).render(any(Cursor.class));
+        verify(this.borrowedBooksListView).render(any(List.class));
         verify(this.borrowedBooksListView).hideLoading();
     }
 }

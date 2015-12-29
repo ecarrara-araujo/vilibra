@@ -26,6 +26,7 @@ public class VilibraProvider extends ContentProvider {
     private static final int LENDING_WITH_BOOK = 202; // lending for a specific book
     private static final int LENDING_BOOKS = 203; // all lending data joined with respective book data
     private static final int LENDING_FOR_A_BOOK = 204; // search for lending only having the book id
+    private static final int ALL_BORROWINGS_WITH_BOOKS = 300; // get all borrowings with all book info
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
@@ -35,6 +36,7 @@ public class VilibraProvider extends ContentProvider {
 
         uriMatcher.addURI(authority, VilibraContract.PATH_BOOK, BOOK);
         uriMatcher.addURI(authority, VilibraContract.PATH_BOOK + "/#", BOOK_ID);
+
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING, LENDING);
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/#", LENDING_ID);
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/#/#", LENDING_WITH_BOOK);
@@ -43,8 +45,26 @@ public class VilibraProvider extends ContentProvider {
         uriMatcher.addURI(authority, VilibraContract.PATH_LENDING + "/"
                         + VilibraContract.PATH_BOOK + "/#", LENDING_FOR_A_BOOK);
 
+        uriMatcher.addURI(authority, VilibraContract.PATH_BORROWING, ALL_BORROWINGS_WITH_BOOKS);
+
         return uriMatcher;
     }
+
+    private static final String[] ALL_BORROWINGS_WITH_BOOKS_PROJECTION = {
+        LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_LENDING_ID,
+        LendingEntry.COLUMN_LENDING_DATE,
+        LendingEntry.COLUMN_CONTACT_URI,
+        LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
+        BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID,
+        BookEntry.COLUMN_TITLE,
+        BookEntry.COLUMN_SUBTITLE,
+        BookEntry.COLUMN_AUTHORS,
+        BookEntry.COLUMN_ISBN_10,
+        BookEntry.COLUMN_ISBN_13,
+        BookEntry.COLUMN_PUBLISHER,
+        BookEntry.COLUMN_PUBLISHED_DATE,
+        BookEntry.COLUMN_PAGES
+    };
 
     private static final SQLiteQueryBuilder sBookWithLendingInfoQueryBuilder;
     static {
@@ -133,6 +153,12 @@ public class VilibraProvider extends ContentProvider {
             case LENDING_FOR_A_BOOK:
                 retCursor = getLendingInfoByBook(uri, projection, sortOrder);
                 break;
+            case ALL_BORROWINGS_WITH_BOOKS:
+                retCursor = sBookWithLendingInfoQueryBuilder.query(
+                        mOpenHelper.getReadableDatabase(),
+                        ALL_BORROWINGS_WITH_BOOKS_PROJECTION,
+                        null, null, null, null, sortOrder);
+                break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -160,6 +186,8 @@ public class VilibraProvider extends ContentProvider {
             case LENDING_BOOKS:
                 return LendingEntry.CONTENT_TYPE;
             case LENDING_FOR_A_BOOK:
+                return LendingEntry.CONTENT_TYPE;
+            case ALL_BORROWINGS_WITH_BOOKS:
                 return LendingEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -255,4 +283,5 @@ public class VilibraProvider extends ContentProvider {
         }
         return rowsUpdated;
     }
+
 }

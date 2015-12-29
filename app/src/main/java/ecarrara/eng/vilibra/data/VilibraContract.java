@@ -22,6 +22,10 @@ public class VilibraContract {
     // Possible Paths
     public static final String PATH_BOOK = "book";
     public static final String PATH_LENDING = "lending";
+    public static final String PATH_BORROWING = "borrowing";
+
+    public static final Uri BORROWING_CONTENT_URI =
+            BASE_CONTENT_URI.buildUpon().appendPath(PATH_BORROWING).build();
 
     // Format used for storing dates in the database.  Also used for converting those strings
     // back into date objects for comparison/processing.

@@ -1,7 +1,6 @@
 package ecarrara.eng.vilibra.android.presentation;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ecarrara.eng.vilibra.R;
 import ecarrara.eng.vilibra.data.VilibraContract;
-import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
+import ecarrara.eng.vilibra.data.mapper.AuthorsListMapper;
+import ecarrara.eng.vilibra.domain.entity.Book;
+import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
 import ecarrara.eng.vilibra.utils.Utility;
 import ecarrara.eng.vilibra.widget.RoundedQuickContactBadge;
 
@@ -22,7 +26,7 @@ public class LoanedBookListAdapter
         extends RecyclerView.Adapter<LoanedBookListAdapter.LoanedBookViewHolder> {
 
     public interface OnItemClickListener {
-        void onUserItemClicked(Uri lendingUri);
+        void onUserItemClicked(Uri bookBorrowingUri);
     }
 
     public static class LoanedBookViewHolder extends RecyclerView.ViewHolder {
@@ -44,14 +48,13 @@ public class LoanedBookListAdapter
     private static final String LOG_TAG = LoanedBookListAdapter.class.getSimpleName();
 
     private Context context;
-    private Cursor loanedBooksCursor;
+    private List<BookBorrowing> bookBorrowingList;
     private int currentListPosition;
     private OnItemClickListener onItemClickListener;
 
-    public LoanedBookListAdapter(Context context /*, Cursor loanedBooksCursor*/) {
-//        this.validateLoanedBooksCollection(loanedBooksCursor);
+    public LoanedBookListAdapter(Context context) {
         this.context = context;
-//        this.loanedBooksCursor = loanedBooksCursor;
+        this.bookBorrowingList = new ArrayList<>();
     }
 
     @Override public LoanedBookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,19 +68,21 @@ public class LoanedBookListAdapter
     @Override public void onBindViewHolder(LoanedBookViewHolder loanedBookViewHolder,
                                            final int position) {
 
-        if(this.loanedBooksCursor == null || !this.loanedBooksCursor.moveToPosition(position)) {
+        if(this.bookBorrowingList.size() < position) {
             return;
         }
 
-        String bookName = this.loanedBooksCursor.getString(BorrowedBooksPresenter.COL_BOOK_TITLE);
-        loanedBookViewHolder.mBookNameTextView.setText(bookName);
+        final BookBorrowing bookBorrowing = this.bookBorrowingList.get(position);
+        final Book book = bookBorrowing.getBorrowedBook();
 
-        String bookAuthor = this.loanedBooksCursor.getString(BorrowedBooksPresenter.COL_BOOK_AUTHORS);
-        loanedBookViewHolder.mBookAuthorTextView.setText(bookAuthor);
+        loanedBookViewHolder.mBookNameTextView.setText(book.getTitle());
+        loanedBookViewHolder.mBookAuthorTextView.setText(
+                AuthorsListMapper.transformAuthorsListToViewFormat(book.getAuthors()));
 
+        // TODO: Take the whole contact things look up from here
         Uri contactLookupUri = ContactsContract.Contacts.getLookupUri(
                 context.getContentResolver(),
-                Uri.parse(this.loanedBooksCursor.getString(BorrowedBooksPresenter.COL_LENDING_CONTACT))
+                Uri.parse(bookBorrowing.getBorrower().getContactInformationUri())
         );
         loanedBookViewHolder.mLoanedBookContactBadge.assignContactUri(contactLookupUri);
         loanedBookViewHolder.mLoanedBookContactBadge.setImageBitmap(
@@ -85,31 +90,28 @@ public class LoanedBookListAdapter
 
         loanedBookViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
-                Log.d(LOG_TAG, "Loaned book item clicked");
-                    long lendingId = LoanedBookListAdapter.this.loanedBooksCursor
-                            .getLong(BorrowedBooksPresenter.COL_LENDING_ID);
-                    long bookId = LoanedBookListAdapter.this.loanedBooksCursor
-                            .getLong(BorrowedBooksPresenter.COL_BOOK_ID);
+                Log.d(LOG_TAG, "Borrowed book item clicked");
+                long lendingId = bookBorrowing.getId();
+                long bookId = book.getId();
 
-                    Uri lendingUri = VilibraContract.LendingEntry.buildLendingWithBookUri(
-                            lendingId, bookId);
-
-                    LoanedBookListAdapter.this.currentListPosition = position;
-                    if(LoanedBookListAdapter.this.onItemClickListener != null) {
-                        LoanedBookListAdapter.this.onItemClickListener
-                                .onUserItemClicked(lendingUri);
-                    }
+                Uri lendingUri = VilibraContract.LendingEntry.buildLendingWithBookUri(
+                        lendingId, bookId);
+                LoanedBookListAdapter.this.currentListPosition = position;
+                if (LoanedBookListAdapter.this.onItemClickListener != null) {
+                    LoanedBookListAdapter.this.onItemClickListener
+                            .onUserItemClicked(lendingUri);
                 }
-            });
+            }
+        });
     }
 
     @Override public int getItemCount() {
-        return (this.loanedBooksCursor != null) ? this.loanedBooksCursor.getCount() : 0;
+        return (this.bookBorrowingList != null) ? this.bookBorrowingList.size() : 0;
     }
 
-    public void setLoanedBooks(Cursor newLoanedBooksCursor) {
-        this.validateLoanedBooksCollection(newLoanedBooksCursor);
-        this.loanedBooksCursor = newLoanedBooksCursor;
+    public void setLoanedBooks(List<BookBorrowing> newBookBorrowingList) {
+        this.validateLoanedBooksCollection(newBookBorrowingList);
+        this.bookBorrowingList = newBookBorrowingList;
         this.notifyDataSetChanged();
     }
 
@@ -124,8 +126,8 @@ public class LoanedBookListAdapter
         return this.currentListPosition;
     }
 
-    private void validateLoanedBooksCollection(Cursor loanedBooksCursor) {
-        if (loanedBooksCursor == null) {
+    private void validateLoanedBooksCollection(List<BookBorrowing> bookBorrowingList) {
+        if (bookBorrowingList == null) {
             throw new IllegalArgumentException("The loaned books collection cannot be null");
         }
     }

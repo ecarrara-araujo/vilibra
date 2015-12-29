@@ -154,7 +154,6 @@ public class LendedBookListFragment extends Fragment implements
 
     private void initialize() {
         this.borrowedBooksPresenter = new BorrowedBooksPresenter(this.getContext(), this);
-        this.borrowedBooksPresenter.initialize();
     }
 
 }
