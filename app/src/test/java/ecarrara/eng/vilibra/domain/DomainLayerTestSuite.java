@@ -3,6 +3,8 @@ package ecarrara.eng.vilibra.domain;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import ecarrara.eng.vilibra.domain.executor.ThreadExecutor;
+import ecarrara.eng.vilibra.domain.executor.ThreadExecutorTest;
 import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenterTest;
 import ecarrara.eng.vilibra.domain.repository.BookCachedRepositoryTest;
 import ecarrara.eng.vilibra.domain.usecase.ListBookBorrowingsTest;
@@ -13,7 +15,10 @@ import ecarrara.eng.vilibra.domain.usecase.ListBookBorrowingsTest;
         BookCachedRepositoryTest.class,
 
         /* Presenters */
-        BorrowedBooksPresenterTest.class
+        BorrowedBooksPresenterTest.class,
+
+        /* Executor */
+        ThreadExecutorTest.class
 })
 public class DomainLayerTestSuite {
 }
