@@ -6,9 +6,15 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import ecarrara.eng.vilibra.ServiceLocator;
+import ecarrara.eng.vilibra.android.executor.AndroidCallbackThread;
 import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
+import ecarrara.eng.vilibra.domain.error.Error;
+import ecarrara.eng.vilibra.domain.executor.Callback;
+import ecarrara.eng.vilibra.domain.executor.CallbackThread;
+import ecarrara.eng.vilibra.domain.executor.Executor;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
 import ecarrara.eng.vilibra.domain.repository.BookBorrowingRepository;
+import ecarrara.eng.vilibra.domain.usecase.ListBookBorrowings;
 
 /**
  * Presenter that controls the presentation of {@link BookBorrowing} on a
@@ -19,14 +25,20 @@ public class BorrowedBooksPresenter implements Presenter {
     private BorrowedBooksListView borrowedBooksListView;
 
     private Context context;
-    private BorrowedBooksLoadAsyncTask borrowedBooksLoadAsyncTask;
-    private BookBorrowingRepository bookBorrowingRepository;
+    private ListBookBorrowings listBookBorrowings;
+    private Callback<List<BookBorrowing>> listBookBorrowingsCallback;
 
-    public BorrowedBooksPresenter(Context context, BorrowedBooksListView borrowedBooksListView) {
+    public BorrowedBooksPresenter(
+            Context context,
+            BorrowedBooksListView borrowedBooksListView,
+            BookBorrowingRepository bookBorrowingRepository,
+            Executor executor) {
         this.context = context;
         this.borrowedBooksListView = borrowedBooksListView;
-        this.bookBorrowingRepository = ServiceLocator.bookBorrowingRepository();
-        this.borrowedBooksLoadAsyncTask = new BorrowedBooksLoadAsyncTask();
+        this.listBookBorrowingsCallback = new ListBookBorrowingsCallback();
+        this.listBookBorrowings = new ListBookBorrowings(
+                executor,
+                bookBorrowingRepository);
     }
 
     public void initialize() {
@@ -35,7 +47,7 @@ public class BorrowedBooksPresenter implements Presenter {
 
     @Override public void resume() { initialize(); }
 
-    @Override public void pause() { cancelGetBorrowedBooksListTask(); }
+    @Override public void pause() { }
 
     @Override public void destroy() { }
 
@@ -46,16 +58,7 @@ public class BorrowedBooksPresenter implements Presenter {
     }
 
     private void getBorrowedBooksList() {
-        if (this.borrowedBooksLoadAsyncTask.getStatus() != AsyncTask.Status.RUNNING) {
-            this.borrowedBooksLoadAsyncTask = new BorrowedBooksLoadAsyncTask();
-            this.borrowedBooksLoadAsyncTask.execute();
-        }
-    }
-
-    private void cancelGetBorrowedBooksListTask() {
-        if (this.borrowedBooksLoadAsyncTask.getStatus() == AsyncTask.Status.RUNNING) {
-            this.borrowedBooksLoadAsyncTask.cancel(true);
-        }
+        this.listBookBorrowings.execute(this.listBookBorrowingsCallback);
     }
 
     private void showViewLoading() {
@@ -75,14 +78,24 @@ public class BorrowedBooksPresenter implements Presenter {
         this.hideViewLoading();
     }
 
-    class BorrowedBooksLoadAsyncTask extends AsyncTask<Void, Void, List<BookBorrowing>> {
-        @Override protected List<BookBorrowing> doInBackground(Void... voids) {
-            return BorrowedBooksPresenter.this.bookBorrowingRepository.borrowedBooks();
+    class ListBookBorrowingsCallback implements Callback<List<BookBorrowing>> {
+
+        private AndroidCallbackThread androidCallbackThread;
+
+        public ListBookBorrowingsCallback() {
+            this.androidCallbackThread = new AndroidCallbackThread();
         }
 
-        @Override protected void onPostExecute(List<BookBorrowing> bookBorrowingsList) {
-            BorrowedBooksPresenter.this.displayBorrowedBooksList(bookBorrowingsList);
+        @Override public CallbackThread getCallbackThread() {
+            return this.androidCallbackThread;
+        }
+
+        @Override public void onFinished(List<BookBorrowing> processed) {
+            BorrowedBooksPresenter.this.displayBorrowedBooksList(processed);
+        }
+
+        @Override public void onError(Error error) {
+            /* no-op */
         }
     }
-
 }

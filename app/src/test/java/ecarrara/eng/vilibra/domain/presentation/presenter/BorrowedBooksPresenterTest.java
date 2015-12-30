@@ -10,16 +10,21 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ecarrara.eng.vilibra.BuildConfig;
 import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
+import ecarrara.eng.vilibra.domain.executor.Executor;
+import ecarrara.eng.vilibra.domain.executor.MockExecutor;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
+import ecarrara.eng.vilibra.domain.repository.BookBorrowingRepository;
 
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 @RunWith(RobolectricGradleTestRunner.class)
 @Config(constants = BuildConfig.class)
@@ -34,7 +39,13 @@ public class BorrowedBooksPresenterTest {
     public void setUp() {
         this.context = RuntimeEnvironment.application;
         this.borrowedBooksListView = mock(BorrowedBooksListView.class);
-        this.borrowedBooksPresenter = new BorrowedBooksPresenter(context, borrowedBooksListView);
+
+        Executor executor = new MockExecutor();
+        BookBorrowingRepository bookBorrowingRepository = mock(BookBorrowingRepository.class);
+        when(bookBorrowingRepository.borrowedBooks()).thenReturn(new ArrayList<BookBorrowing>());
+
+        this.borrowedBooksPresenter = new BorrowedBooksPresenter(
+                context, borrowedBooksListView, bookBorrowingRepository, executor);
     }
 
     @Test

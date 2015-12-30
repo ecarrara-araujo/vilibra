@@ -1,5 +1,6 @@
 package ecarrara.eng.vilibra;
 
+import ecarrara.eng.vilibra.domain.executor.Executor;
 import ecarrara.eng.vilibra.domain.repository.BookBorrowingRepository;
 import ecarrara.eng.vilibra.domain.repository.BookRepository;
 
@@ -16,6 +17,7 @@ public class ServiceLocator {
 
     private BookBorrowingRepository bookBorrowingRepository;
     private BookRepository bookRepository;
+    private Executor executor;
 
     public static void load(ServiceLocator serviceLocator) {
         serviceLocatorInstance = serviceLocator;
@@ -29,8 +31,12 @@ public class ServiceLocator {
         return serviceLocatorInstance.bookRepository;
     }
 
-    public ServiceLocator(BookBorrowingRepository bookBorrowingRepository,
+    public static Executor executor() { return serviceLocatorInstance.executor; }
+
+    public ServiceLocator(Executor executor,
+                          BookBorrowingRepository bookBorrowingRepository,
                           BookRepository bookRepository) {
+        this.executor = executor;
         this.bookBorrowingRepository = bookBorrowingRepository;
         this.bookRepository = bookRepository;
     }

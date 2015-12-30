@@ -18,7 +18,10 @@ import ecarrara.eng.vilibra.domain.usecase.ListBookBorrowingsTest;
         BorrowedBooksPresenterTest.class,
 
         /* Executor */
-        ThreadExecutorTest.class
+        ThreadExecutorTest.class,
+
+        /* Use Cases */
+        ListBookBorrowingsTest.class
 })
 public class DomainLayerTestSuite {
 }

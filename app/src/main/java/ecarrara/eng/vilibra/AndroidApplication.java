@@ -7,6 +7,8 @@ import ecarrara.eng.vilibra.domain.cache.Cache;
 import ecarrara.eng.vilibra.data.repository.BookBorrowingContentProviderRepository;
 import ecarrara.eng.vilibra.data.repository.BookRestApiRepository;
 import ecarrara.eng.vilibra.domain.entity.Book;
+import ecarrara.eng.vilibra.domain.executor.Executor;
+import ecarrara.eng.vilibra.domain.executor.ThreadExecutor;
 import ecarrara.eng.vilibra.domain.repository.BookBorrowingRepository;
 import ecarrara.eng.vilibra.domain.repository.BookCachedRepository;
 import ecarrara.eng.vilibra.domain.repository.BookRepository;
@@ -24,9 +26,10 @@ public class AndroidApplication extends Application {
     private void initializeServiceLocator() {
         BookRepository bookRepository = initializeBookRepository();
         BookBorrowingRepository bookBorrowingRepository = initializeBookBorrowingRepository();
+        Executor executor = new ThreadExecutor();
 
         ServiceLocator serviceLocator = new ServiceLocator(
-                bookBorrowingRepository, bookRepository);
+                executor, bookBorrowingRepository, bookRepository);
         ServiceLocator.load(serviceLocator);
     }
 
