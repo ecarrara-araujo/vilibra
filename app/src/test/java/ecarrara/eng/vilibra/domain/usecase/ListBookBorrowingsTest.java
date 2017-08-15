@@ -20,6 +20,7 @@ import ecarrara.eng.vilibra.domain.executor.MockExecutor;
 import ecarrara.eng.vilibra.domain.repository.BookBorrowingRepository;
 import ecarrara.eng.vilibra.test.fixture.BookBorrowingFixture;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -63,7 +64,7 @@ public class ListBookBorrowingsTest {
         when(callback.getCallbackThread()).thenReturn(new MockCallbackThread());
 
         this.listBookBorrowings.execute(callback);
-        verify(callback).onError(anyError());
+        verify(callback).onError(any(Error.class));
     }
 
     private List<BookBorrowing> prepareBorrowedBooksList() {
@@ -72,13 +73,4 @@ public class ListBookBorrowingsTest {
         return borrowedBooks;
     }
 
-    static Error anyError() {
-        return argThat(new AnyError());
-    }
-
-    static class AnyError implements ArgumentMatcher<Error> {
-        @Override public boolean matches(Object argument) {
-            return (argument instanceof Error);
-        }
-    }
 }
