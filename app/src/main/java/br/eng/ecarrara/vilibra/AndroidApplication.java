@@ -12,6 +12,7 @@ import br.eng.ecarrara.vilibra.domain.executor.ThreadExecutor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
 import br.eng.ecarrara.vilibra.domain.repository.BookCachedRepository;
 import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
+import timber.log.Timber;
 
 /**
  * Application class to handle global state objects configuration.
@@ -20,7 +21,15 @@ public class AndroidApplication extends Application {
 
     @Override public void onCreate() {
         super.onCreate();
+
+        initializeLoggingInfrastructure();
         this.initializeServiceLocator();
+    }
+
+    private void initializeLoggingInfrastructure() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(new Timber.DebugTree());
+        }
     }
 
     private void initializeServiceLocator() {
