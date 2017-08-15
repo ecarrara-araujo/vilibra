@@ -53,7 +53,8 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     // Android Support Libraries
-    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
+    compile "com.android.support:support-core-utils:${ANDROID_SUPPORT_LIBS_VERSION}"
+    compile "com.android.support:support-fragment:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:design:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
 

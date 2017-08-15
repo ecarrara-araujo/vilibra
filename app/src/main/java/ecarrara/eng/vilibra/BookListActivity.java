@@ -3,6 +3,9 @@ package ecarrara.eng.vilibra;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -11,18 +14,64 @@ import android.view.MenuItem;
 import ecarrara.eng.vilibra.android.presentation.LoanedBookListAdapter;
 import ecarrara.eng.vilibra.notification.BookLendingNotificationService;
 
+import static android.Manifest.permission.READ_CONTACTS;
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+
 
 public class BookListActivity extends AppCompatActivity
         implements LoanedBookListAdapter.OnItemClickListener {
 
+    private static final String WAS_CHECKING_FOR_PERMISSION = "was_checking_for_permission";
+    private static final int CONTACTS_PERMISSION_REQUEST_ID = 2000;
+
     private boolean mTwoPane;
+    private boolean wasCheckingForPermission = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(savedInstanceState != null) {
+            wasCheckingForPermission = savedInstanceState
+                    .getBoolean(WAS_CHECKING_FOR_PERMISSION, false);
+        }
+
+        if(hasContactsReadPermission()) {
+           setUpUI();
+        } else {
+            wasCheckingForPermission = true;
+            ActivityCompat.requestPermissions(this,
+                    new String[]{READ_CONTACTS}, CONTACTS_PERMISSION_REQUEST_ID);
+        }
+
+    }
+
+    private boolean hasContactsReadPermission() {
+        return PermissionChecker.checkCallingOrSelfPermission(this, READ_CONTACTS)
+                == PERMISSION_GRANTED;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(WAS_CHECKING_FOR_PERMISSION, wasCheckingForPermission);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        wasCheckingForPermission = false;
+        if(requestCode == CONTACTS_PERMISSION_REQUEST_ID) {
+            if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                setUpUI();
+            }
+        }
+    }
+
+    private void setUpUI() {
         setContentView(R.layout.activity_book_list);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if(null != toolbar) {
             setSupportActionBar(toolbar);
         }
@@ -32,19 +81,16 @@ public class BookListActivity extends AppCompatActivity
             mTwoPane = true;
         } else {
             mTwoPane = false;
-            if(savedInstanceState == null) {
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.common_fragment_container, new LendedBookListFragment())
-                        .commit();
-            }
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.common_fragment_container, new LendedBookListFragment())
+                    .commitAllowingStateLoss();
         }
 
         // Start the service once the app is opened. It will execute once and re schedule itself
         // to execute later.
-        // TODO: Check for a more efetive way to do this
+        // TODO: Check for a more effective way to do this
         startService(new Intent(this, BookLendingNotificationService.class));
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
