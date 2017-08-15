@@ -22,9 +22,6 @@ import br.eng.ecarrara.vilibra.data.VilibraContract;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by ecarrara on 20/07/2015.
- */
 @RunWith(AndroidJUnit4.class)
 @SdkSuppress(minSdkVersion = 18)
 public class TestLendBookFlow {
@@ -41,7 +38,6 @@ public class TestLendBookFlow {
         clearTestData();
         mUiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
 
-        // Should start from the home screen
         mUiDevice.pressHome();
 
         UiObject allAppsButton = mUiDevice.findObject(new UiSelector()
@@ -49,21 +45,14 @@ public class TestLendBookFlow {
         assertTrue(allAppsButton.exists());
         allAppsButton.clickAndWaitForNewWindow();
 
-        UiObject appsTab = mUiDevice.findObject(new UiSelector()
-                .text("Apps"));
-        assertTrue(appsTab.exists());
-        appsTab.click();
-
-        // find the scrollable list of apps
         UiScrollable appsList = new UiScrollable(new UiSelector()
                 .scrollable(true));
-        appsList.setAsHorizontalList();
-
-        UiObject vilibraApp = appsList.getChildByText(new UiSelector()
-                .className("android.widget.TextView"), "ViLibra");
+        appsList.setAsVerticalList();
+        appsList.scrollIntoView(new UiSelector().text("ViLibra"));
+        UiObject vilibraApp = mUiDevice.findObject(new UiSelector().text("ViLibra"));
         vilibraApp.click();
 
-        mUiDevice.wait(Until.hasObject(By.pkg("ecarrara.eng.vilibra")), 5000L);
+        mUiDevice.wait(Until.hasObject(By.pkg("br.eng.ecarrara.vilibra")), 5000L);
     }
 
     @After
@@ -75,7 +64,7 @@ public class TestLendBookFlow {
     public void testLendBookFlow() throws UiObjectNotFoundException {
 
         UiObject lendBookButton = mUiDevice.findObject(new UiSelector()
-                .resourceId("ecarrara.eng.vilibra:id/add_lending_action_button"));
+                .resourceId("br.eng.ecarrara.vilibra:id/add_lending_action_button"));
         lendBookButton.clickAndWaitForNewWindow();
 
         UiObject isbnEditText = mUiDevice.findObject(new UiSelector()
@@ -90,7 +79,7 @@ public class TestLendBookFlow {
 
         UiObject isbnTextView = mUiDevice.findObject(new UiSelector()
                 .className("android.widget.TextView")
-                .resourceId("ecarrara.eng.vilibra:id/book_isbn10_text_view"));
+                .resourceId("br.eng.ecarrara.vilibra:id/book_isbn10_text_view"));
         Assert.assertTrue(isbnTextView.getText().contains(BOOK_ISBN));
 
         UiObject lendButton = mUiDevice.findObject(new UiSelector()
@@ -103,11 +92,11 @@ public class TestLendBookFlow {
                 .text("Meu Irmao"));
         contactView.click();
 
-        mUiDevice.wait(Until.hasObject(By.pkg("ecarrara.eng.vilibra")), 500L);
+        mUiDevice.wait(Until.hasObject(By.pkg("br.eng.ecarrara.vilibra")), 500L);
 
         UiObject bookTitleTextView = mUiDevice.findObject(new UiSelector()
                 .className("android.widget.TextView")
-                .resourceId("ecarrara.eng.vilibra:id/book_name_text_view")
+                .resourceId("br.eng.ecarrara.vilibra:id/book_name_text_view")
                 .text(BOOK_TITLE));
 
         assertTrue(bookTitleTextView.exists());
