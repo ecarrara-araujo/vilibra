@@ -7,9 +7,10 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
+import br.eng.ecarrara.vilibra.util.DefaultData;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,11 +30,11 @@ public class BookRestApiJsonMapperTest {
 
     @Test public void testTransformNullBookVolumeToBook() throws Exception {
         Book transformedBook = mapper.transform(null);
-        assertThat(transformedBook, equalTo(Book.NO_BOOK));
+        assertThat(transformedBook, equalTo(Book.Companion.getNO_BOOK()));
     }
 
     @Test public void testTransformBookVolumeToBook() {
-        Book expectedBook = BookFixture.getTestBookDevsTestBook();
+        Book expectedBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
 
         BookVolume bookVolume = mock(BookVolume.class);
         BookVolume.BookVolumeInfo bookVolumeInfo = mock(BookVolume.BookVolumeInfo.class);
@@ -64,7 +65,7 @@ public class BookRestApiJsonMapperTest {
 
         Book transformedBook = this.mapper.transform(bookVolume);
 
-        assertThat(transformedBook.getPublishedDate(), equalTo(Book.DATE_NOT_INFORMED));
+        assertThat(transformedBook.getPublishedDate(), equalTo(DefaultData.NOT_INITIALIZED.getDate()));
     }
     
 }

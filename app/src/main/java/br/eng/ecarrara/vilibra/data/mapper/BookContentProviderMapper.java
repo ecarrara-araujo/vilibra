@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
@@ -17,7 +17,7 @@ public class BookContentProviderMapper {
 
     public Book transform(Cursor cursor) {
         if(cursor == null || cursor.isAfterLast() || cursor.isBeforeFirst()) {
-            return Book.NO_BOOK;
+            return Book.Companion.getNO_BOOK();
         }
 
         long id = cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID));
@@ -31,15 +31,9 @@ public class BookContentProviderMapper {
         String isbn13 = cursor.getString(cursor.getColumnIndex(BookEntry.COLUMN_ISBN_13));
         int numberOfPages = cursor.getInt(cursor.getColumnIndex(BookEntry.COLUMN_PAGES));
 
-        Book book = new Book.Builder(id, title)
-                .setSubtitle(subtitle)
-                .setAuthors(AuthorsListMapper.transformAuthorsFromCommaSeparatedList(authors))
-                .setPublisher(publisher)
-                .setPublishedDate(getDateFromDb(publishedDate))
-                .setIsbn10(isbn10)
-                .setIsbn13(isbn13)
-                .setPageCount(numberOfPages)
-                .build();
+        Book book = new Book(id, title, subtitle,
+                AuthorsListMapper.transformAuthorsFromCommaSeparatedList(authors),
+                publisher, getDateFromDb(publishedDate), numberOfPages, isbn10, isbn13);
 
         return book;
     }

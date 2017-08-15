@@ -17,7 +17,7 @@ import java.security.InvalidParameterException;
 import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.data.VilibraContract;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 import br.eng.ecarrara.vilibra.fixture.VilibraProviderFixture;
 import br.eng.ecarrara.vilibra.utils.RobolectricUtils;
@@ -71,7 +71,7 @@ public class BookContentProviderCacheTest {
 
     @Test public void testPutWithIsbn10() throws Exception {
         this.vilibraProviderFixture.clearVilibraDatabase();
-        Book anotherBook = BookFixture.getTestBookDevsTestBook();
+        Book anotherBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         this.bookContentProviderCache.put(anotherBook.getIsbn10(), anotherBook);
         Book retrievedBook = this.bookContentProviderCache.get(anotherBook.getIsbn10());
         assertThat(retrievedBook, equalTo(anotherBook));
@@ -79,7 +79,7 @@ public class BookContentProviderCacheTest {
 
     @Test public void testPutWithIsbn13() throws Exception {
         this.vilibraProviderFixture.clearVilibraDatabase();
-        Book anotherBook = BookFixture.getTestBookDevsTestBook();
+        Book anotherBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         this.bookContentProviderCache.put(anotherBook.getIsbn13(), anotherBook);
         Book retrievedBook = this.bookContentProviderCache.get(anotherBook.getIsbn13());
         assertThat(retrievedBook, equalTo(anotherBook));
@@ -87,7 +87,7 @@ public class BookContentProviderCacheTest {
 
     @Test public void testPutWithIsbn10AdGetWithIsbn13() throws Exception {
         this.vilibraProviderFixture.clearVilibraDatabase();
-        Book anotherBook = BookFixture.getTestBookDevsTestBook();
+        Book anotherBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         this.bookContentProviderCache.put(anotherBook.getIsbn10(), anotherBook);
         Book retrievedBook = this.bookContentProviderCache.get(anotherBook.getIsbn13());
         assertThat(retrievedBook, equalTo(anotherBook));
@@ -95,7 +95,7 @@ public class BookContentProviderCacheTest {
 
     @Test public void testPutWithIsbn13AdGetWithIsbn10() throws Exception {
         this.vilibraProviderFixture.clearVilibraDatabase();
-        Book anotherBook = BookFixture.getTestBookDevsTestBook();
+        Book anotherBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         this.bookContentProviderCache.put(anotherBook.getIsbn13(), anotherBook);
         Book retrievedBook = this.bookContentProviderCache.get(anotherBook.getIsbn10());
         assertThat(retrievedBook, equalTo(anotherBook));
@@ -104,13 +104,13 @@ public class BookContentProviderCacheTest {
     @Test public void testRemoveWithIsbn10() throws Exception {
         this.bookContentProviderCache.remove(this.testBook.getIsbn10());
         Book retrievedBook = this.bookContentProviderCache.get(this.testBook.getIsbn10());
-        assertThat(retrievedBook, equalTo(Book.NO_BOOK));
+        assertThat(retrievedBook, equalTo(Book.Companion.getNO_BOOK()));
     }
 
     @Test public void testRemoveWithIsbn13() throws Exception {
         this.bookContentProviderCache.remove(this.testBook.getIsbn13());
         Book retrievedBook = this.bookContentProviderCache.get(this.testBook.getIsbn10());
-        assertThat(retrievedBook, equalTo(Book.NO_BOOK));
+        assertThat(retrievedBook, equalTo(Book.Companion.getNO_BOOK()));
     }
 
     @Test public void testIsCachedWithIsbn10() throws Exception {

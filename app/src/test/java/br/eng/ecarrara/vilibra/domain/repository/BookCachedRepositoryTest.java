@@ -12,7 +12,8 @@ import java.util.Date;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+import br.eng.ecarrara.vilibra.fixture.BookFixture;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
@@ -36,7 +37,7 @@ public class BookCachedRepositoryTest {
 
     @Before
     public void prepareMocks() {
-        this.testBook = getTestBookDevsTestBook();
+        this.testBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         this.bookRepository = mock(BookRepository.class);
         this.cache = mock(Cache.class);
     }
@@ -81,7 +82,7 @@ public class BookCachedRepositoryTest {
         when(invalidCacheKeyBook.getIsbn10()).thenReturn(INVALID_ISBN);
         when(invalidCacheKeyBook.getIsbn13()).thenReturn(INVALID_ISBN);
 
-        when(this.cache.get(INVALID_ISBN)).thenReturn(Book.NO_BOOK);
+        when(this.cache.get(INVALID_ISBN)).thenReturn(Book.Companion.getNO_BOOK());
         when(this.bookRepository.byIsbn(INVALID_ISBN))
                 .thenReturn(invalidCacheKeyBook);
 
@@ -89,10 +90,10 @@ public class BookCachedRepositoryTest {
                 BookCachedRepository(this.bookRepository, this.cache);
 
         Book retrievedBook = bookCachedRepository.byIsbn(INVALID_ISBN);
-        assertThat(retrievedBook, equalTo(Book.NO_BOOK));
+        assertThat(retrievedBook, equalTo(Book.Companion.getNO_BOOK()));
 
         retrievedBook = bookCachedRepository.byIsbn(INVALID_ISBN);
-        assertThat(retrievedBook, equalTo(Book.NO_BOOK));
+        assertThat(retrievedBook, equalTo(Book.Companion.getNO_BOOK()));
 
     }
 
@@ -109,7 +110,7 @@ public class BookCachedRepositoryTest {
 
     public void testBookByIsbnWithCacheMiss(Book book) {
 
-        when(this.cache.get(this.testBook.getIsbn10())).thenReturn(Book.NO_BOOK);
+        when(this.cache.get(this.testBook.getIsbn10())).thenReturn(Book.Companion.getNO_BOOK());
         when(this.bookRepository.byIsbn(this.testBook.getIsbn10())).thenReturn(book);
 
         BookCachedRepository bookCachedRepository = new
@@ -120,22 +121,4 @@ public class BookCachedRepositoryTest {
 
     }
 
-    /**
-     * Create a test domain Book with some fake data.
-     * "Devs Test Book"
-     */
-    private Book getTestBookDevsTestBook() {
-        // This is done to make sure that we have a compatible format with the one Vilibra uses.
-        Date publishingDate = getDateFromDb(getDbDateString(Calendar.getInstance().getTime()));
-
-        return new Book.Builder(1L, "Devs Test Book")
-                .setSubtitle("A for devs to use tests to test the code with too much tests.")
-                .setIsbn13("1234567890123")
-                .setIsbn10("1234567890")
-                .setPageCount(434)
-                .setAuthors(Arrays.asList("Crazy Dev Yo", "Man of Code"))
-                .setPublishedDate(publishingDate)
-                .setPublisher("Herbert Richards")
-                .build();
-    }
 }

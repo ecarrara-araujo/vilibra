@@ -1,7 +1,8 @@
 package br.eng.ecarrara.vilibra.domain.entity;
 
-import java.util.Calendar;
 import java.util.Date;
+
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 
 /**
  * Representation of a book borrowing to someone.

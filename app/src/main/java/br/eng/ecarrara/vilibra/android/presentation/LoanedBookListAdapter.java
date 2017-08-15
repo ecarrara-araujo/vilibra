@@ -17,7 +17,7 @@ import java.util.List;
 import br.eng.ecarrara.vilibra.R;
 import br.eng.ecarrara.vilibra.data.VilibraContract;
 import br.eng.ecarrara.vilibra.data.mapper.AuthorsListMapper;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.utils.Utility;
 import br.eng.ecarrara.vilibra.widget.RoundedQuickContactBadge;

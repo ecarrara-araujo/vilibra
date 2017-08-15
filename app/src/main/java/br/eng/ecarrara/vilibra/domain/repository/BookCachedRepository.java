@@ -3,7 +3,7 @@ package br.eng.ecarrara.vilibra.domain.repository;
 import android.text.TextUtils;
 
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 
 /**
  * Concrete implementation of {@link BookRepository} that combines an implementation of
@@ -23,12 +23,12 @@ public class BookCachedRepository implements BookRepository {
     @Override public Book byIsbn(String isbn) {
         Book book = this.bookCache.get(isbn);
 
-        if(book.equals(Book.NO_BOOK)) {
+        if(book.equals(Book.Companion.getNO_BOOK())) {
             book = this.bookRepository.byIsbn(isbn);
-            if(!book.equals(Book.NO_BOOK)) {
+            if(!book.equals(Book.Companion.getNO_BOOK())) {
                 String cacheKey = getCacheKeyForBook(book);
                 if(TextUtils.isEmpty(cacheKey)) { // not possible to generate a cache key
-                    book = Book.NO_BOOK;
+                    book = Book.Companion.getNO_BOOK();
                 } else {
                     this.bookCache.put(cacheKey, book);
                 }

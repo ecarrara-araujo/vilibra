@@ -15,7 +15,7 @@ import java.util.List;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
@@ -35,7 +35,7 @@ public class BookContentProviderMapperTest {
 
     @Before public void prepareTest() {
         this.mapper = new BookContentProviderMapper();
-        this.testBook = BookFixture.getTestBookDevsTestBook();
+        this.testBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
     }
 
     @Test public void testTransformEmptyCursorToBook() throws Exception {
@@ -44,18 +44,18 @@ public class BookContentProviderMapperTest {
         when(cursor.isBeforeFirst()).thenReturn(true);
         when(cursor.isAfterLast()).thenReturn(false);
         Book transformedBook = this.mapper.transform(cursor);
-        assertThat(transformedBook, equalTo(Book.NO_BOOK));
+        assertThat(transformedBook, equalTo(Book.Companion.getNO_BOOK()));
 
         when(cursor.isBeforeFirst()).thenReturn(false);
         when(cursor.isAfterLast()).thenReturn(true);
         transformedBook = this.mapper.transform(cursor);
-        assertThat(transformedBook, equalTo(Book.NO_BOOK));
+        assertThat(transformedBook, equalTo(Book.Companion.getNO_BOOK()));
     }
 
     @Test @SuppressWarnings({"ConstantConditions"}) public void testTransformNullCursorToBook() throws Exception {
         Cursor cursor = null;
         Book transformedBook = this.mapper.transform(cursor);
-        assertThat(transformedBook, equalTo(Book.NO_BOOK));
+        assertThat(transformedBook, equalTo(Book.Companion.getNO_BOOK()));
     }
 
     @Test public void testTransformCursorToBook() throws Exception {
