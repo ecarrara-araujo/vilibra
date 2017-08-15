@@ -10,7 +10,7 @@ import java.security.InvalidParameterException;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.data.mapper.BookContentProviderMapper;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 
 /**
  * Concrete implementation of {@link Cache} that connects to an Android Content Provider
@@ -78,7 +78,7 @@ public class BookContentProviderCache implements Cache<String, Book> {
 
     @Override public boolean isCached(String bookIsbn) {
         Book book = get(bookIsbn);
-        if(book == Book.NO_BOOK) {
+        if(book == Book.Companion.getNO_BOOK()) {
             return false;
         } else {
             return true;
@@ -91,7 +91,7 @@ public class BookContentProviderCache implements Cache<String, Book> {
 
     private Book transformBookFromCursor(Cursor cursor) {
         BookContentProviderMapper bookContentProviderMapper = new BookContentProviderMapper();
-        Book book = Book.NO_BOOK;
+        Book book = Book.Companion.getNO_BOOK();
         if(cursor != null && cursor.moveToFirst()) {
             book = bookContentProviderMapper.transform(cursor);
         }

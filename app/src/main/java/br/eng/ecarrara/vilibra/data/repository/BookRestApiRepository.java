@@ -1,7 +1,7 @@
 package br.eng.ecarrara.vilibra.data.repository;
 
 import br.eng.ecarrara.vilibra.data.mapper.BookRestApiJsonMapper;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
 import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.service.GoogleBooksService;

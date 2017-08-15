@@ -6,7 +6,7 @@ import br.eng.ecarrara.vilibra.data.cache.BookContentProviderCache;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.data.repository.BookBorrowingContentProviderRepository;
 import br.eng.ecarrara.vilibra.data.repository.BookRestApiRepository;
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.executor.ThreadExecutor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;

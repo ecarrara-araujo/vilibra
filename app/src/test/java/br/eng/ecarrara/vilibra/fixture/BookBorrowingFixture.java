@@ -2,7 +2,7 @@ package br.eng.ecarrara.vilibra.fixture;
 
 import java.util.Date;
 
-import br.eng.ecarrara.vilibra.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrower;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 
@@ -20,7 +20,7 @@ public class BookBorrowingFixture {
      * @return
      */
     public static BookBorrowing getTestBookBorrowing() {
-        Book borrowedBook = BookFixture.getTestBookDevsTestBook();
+        Book borrowedBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
         BookBorrower borrower = BookBorrowerFixture.getMasterBorrowerTestData();
         return getTestBookBorrowing(borrowedBook, borrower);
     }
