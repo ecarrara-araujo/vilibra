@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ecarrara.eng.vilibra.LendedBookRegistrationActivity">
+    tools:context="ecarrara.eng.vilibra.br.eng.ecarrara.vilibra.LendedBookRegistrationActivity">
 
     <FrameLayout android:id="@+id/progress_frame"
         android:layout_width="match_parent"

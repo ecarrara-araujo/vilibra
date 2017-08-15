@@ -16,7 +16,7 @@
         android:layout_below="@id/toolbar">
 
         <fragment android:id="@+id/lended_book_list_fragment"
-            android:name="ecarrara.eng.vilibra.LendedBookListFragment"
+            android:name="br.eng.ecarrara.vilibra.LendedBookListFragment"
             android:layout_width="400dp"
             android:layout_height="wrap_content"
             tools:layout="@android:layout/list_content" />

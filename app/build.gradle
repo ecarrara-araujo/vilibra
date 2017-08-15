@@ -21,7 +21,7 @@ android {
     buildToolsVersion "26.0.1"
 
     defaultConfig {
-        applicationId "ecarrara.eng.vilibra"
+        applicationId "br.eng.ecarrara.vilibra"
         minSdkVersion 21 // Lollipop
         targetSdkVersion 26 // Android O
         versionCode 1
