@@ -2,13 +2,12 @@ package ecarrara.eng.vilibra;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-
-public class LendedBookDetailActivity extends ActionBarActivity {
+public class LendedBookDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_KEY_BOOK_URI = "book_lending_uri";
 

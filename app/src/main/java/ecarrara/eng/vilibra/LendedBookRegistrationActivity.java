@@ -1,13 +1,13 @@
 package ecarrara.eng.vilibra;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import ecarrara.eng.vilibra.utils.Utility;
 
-public class LendedBookRegistrationActivity extends ActionBarActivity
+public class LendedBookRegistrationActivity extends AppCompatActivity
         implements LendedBookRegistrationFragment.Callback{
 
     private static final String LOG_TAG = LendedBookRegistrationActivity.class.getSimpleName();

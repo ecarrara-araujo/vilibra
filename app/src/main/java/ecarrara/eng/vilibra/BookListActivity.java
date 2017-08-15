@@ -3,7 +3,7 @@ package ecarrara.eng.vilibra;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,7 +12,7 @@ import ecarrara.eng.vilibra.android.presentation.LoanedBookListAdapter;
 import ecarrara.eng.vilibra.notification.BookLendingNotificationService;
 
 
-public class BookListActivity extends ActionBarActivity
+public class BookListActivity extends AppCompatActivity
         implements LoanedBookListAdapter.OnItemClickListener {
 
     private boolean mTwoPane;
