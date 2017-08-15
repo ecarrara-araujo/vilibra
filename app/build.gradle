@@ -10,6 +10,9 @@ apply plugin: 'com.android.application'
 def Properties projectProperties = new Properties()
 projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.properties')))
 
+ext {
+    ANDROID_SUPPORT_LIBS_VERSION = '26.0.1'
+}
 
 android {
     compileSdkVersion 26
@@ -46,9 +49,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
-    compile 'com.android.support:recyclerview-v7:23.1.1'
+    compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
+    compile "com.android.support:design:${ANDROID_SUPPORT_LIBS_VERSION}"
+    compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
 
     compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
 
