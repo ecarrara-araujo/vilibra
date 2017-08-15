@@ -22,11 +22,15 @@ public class VilibraContentValuesBuilder {
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHER,
                 bookVolume.getVolumeInfo().getPublisher());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
-                bookVolume.getVolumeInfo().getPublishedDate());
+                getDbDateString(bookVolume.getVolumeInfo().getPublishedDate()));
         contentValues.put(VilibraContract.BookEntry.COLUMN_PAGES,
                 bookVolume.getVolumeInfo().getPageCount());
 
         return contentValues;
+    }
+
+    private static String getDbDateString(String bookVolumeDate) {
+        return bookVolumeDate.replaceAll("-", "");
     }
 
 }
