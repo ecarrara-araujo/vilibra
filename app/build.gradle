@@ -12,6 +12,7 @@ projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.proper
 
 ext {
     ANDROID_SUPPORT_LIBS_VERSION = '26.0.1'
+    ANDROID_TEST_SUPPORT_LIBS_VERSION = '1.0.0'
 }
 
 android {
@@ -48,7 +49,10 @@ android {
 }
 
 dependencies {
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    // Android Support Libraries
     compile "com.android.support:appcompat-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:design:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
@@ -59,18 +63,20 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     // unit test dependencies
+    testCompile "com.android.support.test:runner:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
+    testCompile "com.android.support.test:rules:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
+
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-integration:1.3'
-    testCompile 'com.android.support.test:runner:0.3'
-    testCompile 'com.android.support.test:rules:0.3'
     testCompile 'org.robolectric:robolectric:3.0'
-    testCompile 'org.mockito:mockito-core:2.+'
+    testCompile 'org.mockito:mockito-core:2.8.47'
 
     // dependencies for instrumentation tests
-    androidTestCompile 'com.android.support.test:runner:0.3'
-    androidTestCompile 'com.android.support.test:rules:0.3' // to use JUnit4 rules
+    androidTestCompile "com.android.support.test:runner:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
+    androidTestCompile "com.android.support.test:rules:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2'
-    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.1'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'org.hamcrest:hamcrest-integration:1.3'
+
 }
