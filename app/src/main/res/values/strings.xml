@@ -49,6 +49,9 @@
     <string name="add_book_message">Tap the book icon to start tracking your lended books.</string>
     <string name="book_returned_to_shelf">The book was returned to your shelf :)</string>
 
+    <!-- Lended Books Listing -->
+    <string name="lendedBookList_toast_camera_permission">You need to enable the camera to register book borrowings</string>
+
     <!-- Action Labels -->
     <string name="action_share">Share</string>
     <string name="action_notify_user">Notify User</string>

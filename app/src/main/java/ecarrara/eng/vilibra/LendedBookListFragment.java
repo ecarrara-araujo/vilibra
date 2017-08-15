@@ -3,6 +3,7 @@ package ecarrara.eng.vilibra;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -20,6 +22,10 @@ import ecarrara.eng.vilibra.domain.entity.BookBorrowing;
 import ecarrara.eng.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
 import ecarrara.eng.vilibra.domain.presentation.view.BorrowedBooksListView;
 
+import static android.Manifest.permission.CAMERA;
+import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
+import static android.support.v4.content.PermissionChecker.checkCallingOrSelfPermission;
+
 /**
  * Created by ecarrara on 20/12/2014.
  */
@@ -27,6 +33,8 @@ public class LendedBookListFragment extends Fragment implements
         BorrowedBooksListView {
 
     private static final String LOG_TAG = LendedBookListFragment.class.getSimpleName();
+
+    private static final int CAMERA_PERMISSION_REQUEST_ID = 1000;
 
     private BorrowedBooksPresenter borrowedBooksPresenter;
 
@@ -138,10 +146,37 @@ public class LendedBookListFragment extends Fragment implements
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), LendedBookRegistrationActivity.class);
-                startActivity(intent);
+                if(isCameraUsagePermitted()) {
+                    Intent intent = new Intent(getActivity(), LendedBookRegistrationActivity.class);
+                    startActivity(intent);
+                } else {
+                    requestPermissions(
+                            new String[]{CAMERA},
+                            CAMERA_PERMISSION_REQUEST_ID
+                    );
+                }
             }
         });
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION_REQUEST_ID: {
+                if (grantResults.length > 0 && grantResults[0] == PERMISSION_GRANTED) {
+                    Intent intent = new Intent(getActivity(), LendedBookRegistrationActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(LendedBookListFragment.this.getContext(), R.string.lendedBookList_toast_camera_permission, Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+        }
+    }
+
+    private boolean isCameraUsagePermitted() {
+        return checkCallingOrSelfPermission(LendedBookListFragment.this.getContext(), CAMERA)
+                == PERMISSION_GRANTED;
     }
 
     private void restoreState(Bundle savedInstanceState) {
