@@ -42,7 +42,7 @@
 
     </LinearLayout>
 
-    <ecarrara.eng.vilibra.widget.RoundedQuickContactBadge android:id="@+id/contact_badge"
+    <br.eng.ecarrara.vilibra.widget.RoundedQuickContactBadge android:id="@+id/contact_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
