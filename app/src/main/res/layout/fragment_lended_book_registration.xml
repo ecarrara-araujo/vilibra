@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ecarrara.eng.vilibra.LendedBookRegistrationActivity$PlaceholderFragment">
+    tools:context="ecarrara.eng.vilibra.LendedBookRegistrationActivity">
 
     <FrameLayout android:id="@+id/progress_frame"
         android:layout_width="match_parent"
@@ -58,11 +58,12 @@
                 android:text="@string/confirm" />
         </LinearLayout>
 
-        <me.dm7.barcodescanner.zbar.ZBarScannerView
+        <com.journeyapps.barcodescanner.DecoratedBarcodeView
             android:id="@+id/barcode_scanner_view"
             android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:layout_below="@id/isbn_input_msg_text_view"
-            android:layout_above="@id/isbn_input_viewgroup"
-            android:layout_height="0dp" />
+            android:layout_above="@id/isbn_input_viewgroup"/>
+
     </RelativeLayout>
 </FrameLayout>

@@ -15,101 +15,113 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.zxing.ResultPoint;
+import com.journeyapps.barcodescanner.BarcodeCallback;
+import com.journeyapps.barcodescanner.BarcodeResult;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import ecarrara.eng.vilibra.data.VilibraContentValuesBuilder;
 import ecarrara.eng.vilibra.data.VilibraContract;
 import ecarrara.eng.vilibra.data.VilibraContract.BookEntry;
 import ecarrara.eng.vilibra.model.BookVolume;
 import ecarrara.eng.vilibra.service.GoogleBooksService;
-import me.dm7.barcodescanner.zbar.Result;
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
 
-/**
- * Created by ecarrara on 20/12/2014.
- */
-public class LendedBookRegistrationFragment extends Fragment
-        implements ZBarScannerView.ResultHandler {
+public class LendedBookRegistrationFragment extends Fragment {
 
-    private static final String LOG_TAG = LendedBookRegistrationFragment.class.getSimpleName();
+    @BindView(R.id.main_content_frame)
+    View mainContentFrame;
+
+    @BindView(R.id.progress_frame)
+    View progressFrame;
+
+    @BindView(R.id.barcode_scanner_view)
+    DecoratedBarcodeView barcodeScannerView;
+
+    @BindView(R.id.isbn_edit_text)
+    EditText isbnEditText;
+
+    private String lastBarcodeContentRead;
+    private Uri borrowedBookUri;
 
     public interface Callback {
         public void onError(String message);
     }
 
-    private Uri mLendedBookUri;
+    private BarcodeCallback barcodeReadingCallback = new BarcodeCallback() {
 
-    private View mMainContentFrame;
-    private View mProgressFrame;
-    private ZBarScannerView mBarcodeScannerView;
-    private EditText mISBNEditText;
+        @Override
+        public void barcodeResult(BarcodeResult result) {
+            if (result.getText() == null || result.getText().equals(lastBarcodeContentRead)) {
+                return;
+            }
 
-    public LendedBookRegistrationFragment() { }
+            lastBarcodeContentRead = result.getText();
+            isbnEditText.setText(result.getText());
+        }
+
+        @Override
+        public void possibleResultPoints(List<ResultPoint> resultPoints) {
+        }
+
+    };
+
+    public LendedBookRegistrationFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.fragment_lended_book_registration, container, false);
+        ButterKnife.bind(this, rootView);
 
-        mMainContentFrame = rootView.findViewById(R.id.main_content_frame);
-        mProgressFrame = rootView.findViewById(R.id.progress_frame);
-        mISBNEditText = (EditText) mMainContentFrame.findViewById(R.id.isbn_edit_text);
-        mBarcodeScannerView =
-                (ZBarScannerView) mMainContentFrame.findViewById(R.id.barcode_scanner_view);
-
-
-        Button confirmButton = (Button) mMainContentFrame.findViewById(R.id.confirm_button);
-        confirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onRetrieveBookInfo();
-            }
-        });
+        barcodeScannerView.decodeContinuous(barcodeReadingCallback);
 
         return rootView;
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         clearLoadingState();
-
-        mBarcodeScannerView.setResultHandler(this);
-        mBarcodeScannerView.startCamera();
+        barcodeScannerView.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mBarcodeScannerView.stopCamera();
+        barcodeScannerView.pause();
     }
 
-    @Override
-    public void handleResult(Result result) {
-        if(mISBNEditText != null) {
-            mISBNEditText.setText(result.getContents());
-        }
+    @OnClick(R.id.confirm_button)
+    public void confirm(View view) {
+        onRetrieveBookInfo();
     }
 
     private void clearLoadingState() {
-        mMainContentFrame.setVisibility(View.VISIBLE);
-        mProgressFrame.setVisibility(View.GONE);
+        mainContentFrame.setVisibility(View.VISIBLE);
+        progressFrame.setVisibility(View.GONE);
     }
 
     private void setLoadingState() {
-        mMainContentFrame.setVisibility(View.GONE);
-        mProgressFrame.setVisibility(View.VISIBLE);
+        mainContentFrame.setVisibility(View.GONE);
+        progressFrame.setVisibility(View.VISIBLE);
     }
 
     private void onRetrieveBookInfo() {
         setLoadingState();
-        String isbn = ((EditText) mMainContentFrame
+        String isbn = ((EditText) mainContentFrame
                 .findViewById(R.id.isbn_edit_text)).getText().toString();
         FetchBookDataTask fetchBookDataTask = new FetchBookDataTask(getActivity());
         fetchBookDataTask.execute(isbn);
     }
 
-    /**
-     * Created by ecarrara on 18/12/2014.
-     */
     private class FetchBookDataTask extends AsyncTask<String, Void, Uri> {
 
         private final String LOG_TAG = FetchBookDataTask.class.getSimpleName();
@@ -122,7 +134,7 @@ public class LendedBookRegistrationFragment extends Fragment
         @Override
         protected Uri doInBackground(String... params) {
 
-            if(params.length == 0) {
+            if (params.length == 0) {
                 Log.d(LOG_TAG, "ISBN not informed...");
                 return null;
             }
@@ -133,14 +145,14 @@ public class LendedBookRegistrationFragment extends Fragment
             Cursor cursor = getActivity().getContentResolver().query(BookEntry.CONTENT_URI, null,
                     BookEntry.COLUMN_ISBN_10 + " = ? OR " + BookEntry.COLUMN_ISBN_13 + " = ?",
                     new String[]{isbn, isbn}, null);
-            if(cursor.moveToFirst()) {
+            if (cursor.moveToFirst()) {
                 bookUri =
                         BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID)));
             } else {
                 GoogleBooksService googleBooksService = new GoogleBooksService();
                 BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
 
-                if(null != returnedBookVolume) {
+                if (null != returnedBookVolume) {
                     ContentValues bookData = VilibraContentValuesBuilder
                             .buildFor(returnedBookVolume);
                     bookUri = mContext.getContentResolver()
@@ -152,9 +164,9 @@ public class LendedBookRegistrationFragment extends Fragment
 
         @Override
         protected void onPostExecute(Uri uri) {
-            mLendedBookUri = uri;
+            borrowedBookUri = uri;
             clearLoadingState();
-            if(null != mLendedBookUri) {
+            if (null != borrowedBookUri) {
                 Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
                 detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, uri);
                 getActivity().startActivity(detailIntent);

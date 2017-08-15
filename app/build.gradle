@@ -13,6 +13,7 @@ projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.proper
 ext {
     ANDROID_SUPPORT_LIBS_VERSION = '26.0.1'
     ANDROID_TEST_SUPPORT_LIBS_VERSION = '1.0.0'
+    BUTTERKNIFE_VERSION = '8.5.1'
 }
 
 android {
@@ -58,7 +59,11 @@ dependencies {
     compile "com.android.support:design:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
 
-    compile 'me.dm7.barcodescanner:zbar:1.5' // for barcode scanning
+    compile "com.journeyapps:zxing-android-embedded:3.5.0"
+
+    // Butterknife
+    compile "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
 
     // retrofit
     compile 'com.squareup.retrofit:retrofit:1.9.0'
