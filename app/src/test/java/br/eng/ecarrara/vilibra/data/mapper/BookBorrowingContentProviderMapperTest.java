@@ -13,13 +13,14 @@ import java.util.Date;
 import java.util.List;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.mapper.AuthorsListMapper;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.fixture.BookBorrowingFixture;
 
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
+import static br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDateFromDb;
+import static br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDbDateString;
 import static org.hamcrest.Matchers.empty;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
@@ -132,7 +133,7 @@ public class BookBorrowingContentProviderMapperTest {
         when(cursor.getString(INDEX_COLUMN_SUBTITLE))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getSubtitle());
         when(cursor.getString(INDEX_COLUMN_AUTHORS))
-                .thenReturn(AuthorsListMapper.transformAuthorsListToDatabaseFormat(
+                .thenReturn(AuthorsListMapper.INSTANCE.transformAuthorsListToDatabaseFormat(
                         this.testBookBorrowing.getBorrowedBook().getAuthors()));
         when(cursor.getString(INDEX_COLUMN_PUBLISHER))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getPublisher());

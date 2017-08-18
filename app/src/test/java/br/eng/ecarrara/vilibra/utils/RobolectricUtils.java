@@ -5,8 +5,8 @@ import android.content.ContentProvider;
 import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowLog;
 
-import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.VilibraProvider;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraProvider;
 
 public class RobolectricUtils {
 

@@ -3,9 +3,9 @@ package br.eng.ecarrara.vilibra.fixture
 import android.content.ContentUris
 import android.content.Context
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
-import br.eng.ecarrara.vilibra.data.VilibraContract
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract
 import br.eng.ecarrara.vilibra.data.mapper.BookBorrowingContentProviderMapper
-import br.eng.ecarrara.vilibra.data.mapper.BookContentProviderMapper
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.mapper.BookContentProviderMapper
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing
 import java.security.InvalidParameterException
 
@@ -61,14 +61,14 @@ class VilibraProviderFixture(private val context: Context?) {
     }
 
     fun insertDevsTestBookWithBorrowing() {
-        this.devsTestBook = BookFixture.testBookDevsTestBook
-        val testBookContentValues = bookContentProviderMapper.transform(this.devsTestBook)
+        var devsTestBook = BookFixture.testBookDevsTestBook
+        val testBookContentValues = bookContentProviderMapper.transform(devsTestBook)
         val insertedBook = context?.getContentResolver()?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
         val insertedBookId = ContentUris.parseId(insertedBook)
-        this.devsTestBook = this.devsTestBook?.copy(id = insertedBookId)
+        devsTestBook = devsTestBook.copy(id = insertedBookId)
 
-        this.devsTestBookBorrowing = BookBorrowingFixture.getTestBookBorrowing(this.devsTestBook)
+        this.devsTestBookBorrowing = BookBorrowingFixture.getTestBookBorrowing(devsTestBook)
         val testBorrowingContentValues = bookBorrowingContentProviderMapper.transform(this.devsTestBookBorrowing)
         val insertedBookBorrowing = context?.getContentResolver()?.
                 insert(VilibraContract.LendingEntry.CONTENT_URI, testBorrowingContentValues)
@@ -77,15 +77,15 @@ class VilibraProviderFixture(private val context: Context?) {
     }
 
     fun insertDominandoAndroidTestBook() {
-        this.dominandoAndroid = BookFixture.testBookDominandoAndroid
-        val testBookContentValues = bookContentProviderMapper.transform(this.dominandoAndroid)
+        val dominandoAndroid = BookFixture.testBookDominandoAndroid
+        val testBookContentValues = bookContentProviderMapper.transform(dominandoAndroid)
         val insertedBook = context?.getContentResolver()?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
     }
 
     fun insertProAndroid4TestBook() {
-        this.proAndroid4 = BookFixture.testBookProAndroid4
-        val testBookContentValues = bookContentProviderMapper.transform(this.proAndroid4)
+        val proAndroid4 = BookFixture.testBookProAndroid4
+        val testBookContentValues = bookContentProviderMapper.transform(proAndroid4)
         val insertedBook = context?.getContentResolver()?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
     }

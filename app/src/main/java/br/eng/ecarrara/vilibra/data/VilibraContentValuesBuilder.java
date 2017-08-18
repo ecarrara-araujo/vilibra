@@ -3,6 +3,7 @@ package br.eng.ecarrara.vilibra.data;
 import android.content.ContentValues;
 
 import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
 
 public class VilibraContentValuesBuilder {
 

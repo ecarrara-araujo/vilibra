@@ -13,7 +13,7 @@ import org.robolectric.annotation.Config;
 import java.util.List;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
 import br.eng.ecarrara.vilibra.fixture.VilibraProviderFixture;
@@ -44,8 +44,7 @@ public class BookBorrowingContentProviderRepositoryTest {
         this.vilibraProviderFixture.prepareTestProvider();
         this.testBookBorrowing = this.vilibraProviderFixture.getDevsTestBookBorrowing();
 
-        this.bookBorrowingRepository = new BookBorrowingContentProviderRepository(
-                context.getContentResolver());
+        this.bookBorrowingRepository = new BookBorrowingContentProviderRepository(context);
     }
 
     @Test public void testOneBorrowedBook() throws Exception {

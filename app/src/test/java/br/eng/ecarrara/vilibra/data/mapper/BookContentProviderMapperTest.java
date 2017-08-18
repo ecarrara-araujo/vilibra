@@ -14,12 +14,14 @@ import java.util.Date;
 import java.util.List;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.mapper.AuthorsListMapper;
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.mapper.BookContentProviderMapper;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
+import static br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDateFromDb;
+import static br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDbDateString;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.Mockito.mock;
@@ -87,7 +89,7 @@ public class BookContentProviderMapperTest {
         when(cursor.getString(INDEX_COLUMN_TITLE)).thenReturn(this.testBook.getTitle());
         when(cursor.getString(INDEX_COLUMN_SUBTITLE)).thenReturn(this.testBook.getSubtitle());
         when(cursor.getString(INDEX_COLUMN_AUTHORS))
-                .thenReturn(AuthorsListMapper.transformAuthorsListToDatabaseFormat(this.testBook.getAuthors()));
+                .thenReturn(AuthorsListMapper.INSTANCE.transformAuthorsListToDatabaseFormat(this.testBook.getAuthors()));
         when(cursor.getString(INDEX_COLUMN_PUBLISHER)).thenReturn(this.testBook.getPublisher());
         when(cursor.getString(INDEX_COLUMN_PUBLISHED_DATE))
                 .thenReturn(getDbDateString(this.testBook.getPublishedDate()));
@@ -106,7 +108,7 @@ public class BookContentProviderMapperTest {
         String title = generatedContentValues.getAsString(BookEntry.COLUMN_TITLE);
         String subtitle = generatedContentValues.getAsString(BookEntry.COLUMN_SUBTITLE);
         List<String> authors =
-                AuthorsListMapper.transformAuthorsFromCommaSeparatedList(
+                AuthorsListMapper.INSTANCE.transformAuthorsFromCommaSeparatedList(
                         generatedContentValues.getAsString(BookEntry.COLUMN_AUTHORS));
         String publisher = generatedContentValues.getAsString(BookEntry.COLUMN_PUBLISHER);
         Date publishedDate =

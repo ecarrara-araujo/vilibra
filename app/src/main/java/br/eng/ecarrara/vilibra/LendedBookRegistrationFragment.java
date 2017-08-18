@@ -25,8 +25,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import br.eng.ecarrara.vilibra.data.VilibraContentValuesBuilder;
-import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.GoogleBooksService;
 

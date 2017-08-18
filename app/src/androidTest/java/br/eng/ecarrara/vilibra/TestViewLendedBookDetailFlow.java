@@ -16,9 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import br.eng.ecarrara.vilibra.BookListActivity;
-import br.eng.ecarrara.vilibra.R;
-import br.eng.ecarrara.vilibra.data.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
 import br.eng.ecarrara.vilibra.testutils.TestDataHelper;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;

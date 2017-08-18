@@ -6,7 +6,7 @@ import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrower;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
+import static br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDateFromDb;
 
 public class BookBorrowingFixture {
 

@@ -1,8 +1,8 @@
 package br.eng.ecarrara.vilibra.fixture
 
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
-import br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb
-import br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDateFromDb
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.getDbDateString
 import java.util.*
 
 object BookFixture {

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.eng.ecarrara.vilibra.R;
-import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.mapper.AuthorsListMapper;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.mapper.AuthorsListMapper;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.utils.Utility;
@@ -77,7 +77,7 @@ public class LoanedBookListAdapter
 
         loanedBookViewHolder.mBookNameTextView.setText(book.getTitle());
         loanedBookViewHolder.mBookAuthorTextView.setText(
-                AuthorsListMapper.transformAuthorsListToViewFormat(book.getAuthors()));
+                AuthorsListMapper.INSTANCE.transformAuthorsListToViewFormat(book.getAuthors()));
 
         // TODO: Take the whole contact things look up from here
         Uri contactLookupUri = ContactsContract.Contacts.getLookupUri(

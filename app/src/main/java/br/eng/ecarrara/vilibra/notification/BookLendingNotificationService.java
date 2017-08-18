@@ -24,9 +24,9 @@ import java.util.Date;
 import br.eng.ecarrara.vilibra.BookListActivity;
 import br.eng.ecarrara.vilibra.LendedBookDetailActivity;
 import br.eng.ecarrara.vilibra.R;
-import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.utils.Utility;
 
 /**

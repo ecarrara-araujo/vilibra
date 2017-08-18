@@ -11,7 +11,7 @@ import android.util.Log;
 import java.util.Calendar;
 import java.util.Date;
 
-import br.eng.ecarrara.vilibra.data.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
 import br.eng.ecarrara.vilibra.notification.BookLendingNotificationService;
 import br.eng.ecarrara.vilibra.testutils.TestDataHelper;
 

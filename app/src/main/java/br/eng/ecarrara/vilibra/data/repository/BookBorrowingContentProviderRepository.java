@@ -2,13 +2,16 @@ package br.eng.ecarrara.vilibra.data.repository;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
 import java.util.List;
 
-import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
+import javax.inject.Inject;
+
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.data.mapper.BookBorrowingContentProviderMapper;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
@@ -23,8 +26,9 @@ public class BookBorrowingContentProviderRepository implements BookBorrowingRepo
     private ContentResolver contentResolver;
     private BookBorrowingContentProviderMapper bookBorrowingContentProviderMapper;
 
-    public BookBorrowingContentProviderRepository(ContentResolver contentResolver) {
-        this.contentResolver = contentResolver;
+    @Inject
+    public BookBorrowingContentProviderRepository(Context applicationContext) {
+        this.contentResolver = applicationContext.getContentResolver();
         this.bookBorrowingContentProviderMapper = new BookBorrowingContentProviderMapper();
     }
 

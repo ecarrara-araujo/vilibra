@@ -1,19 +1,12 @@
-package br.eng.ecarrara.vilibra.data;
+package br.eng.ecarrara.vilibra.core.data.datasource.contentprovider;
 
 import android.content.ContentUris;
 import android.net.Uri;
-import android.provider.BaseColumns;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
-/**
- * Created by ecarrara on 11/12/2014.
- */
 public class VilibraContract {
 
     public static final String CONTENT_AUTHORITY = "ecarrara.eng.vilibra";
@@ -79,7 +72,7 @@ public class VilibraContract {
         // Book page count
         public static final String COLUMN_PAGES = "page_count";
 
-        public static Uri buildBookUri(long id){
+        public static Uri buildBookUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
@@ -117,7 +110,7 @@ public class VilibraContract {
 
         public static final String COLUMN_LAST_NOTIFICATION_DATE = "last_notification_date";
 
-        public static Uri buildLendingUri(long id){
+        public static Uri buildLendingUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
 
@@ -146,10 +139,11 @@ public class VilibraContract {
 
     /**
      * Converts Date class to a string representation, used for easy comparison and database lookup.
+     *
      * @param date The input date
      * @return a DB-friendly representation of the date, using the format defined in DATE_FORMAT.
      */
-    public static String getDbDateString(Date date){
+    public static String getDbDateString(Date date) {
         // Because the API returns a unix timestamp (measured in seconds),
         // it must be converted to milliseconds in order to be converted to valid date.
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
@@ -158,6 +152,7 @@ public class VilibraContract {
 
     /**
      * Converts a dateText to a long Unix time representation
+     *
      * @param dateText the input date string
      * @return the Date object
      */
@@ -165,7 +160,7 @@ public class VilibraContract {
         SimpleDateFormat dbDateFormat = new SimpleDateFormat(DATE_FORMAT);
         try {
             return dbDateFormat.parse(dateText);
-        } catch ( ParseException e ) {
+        } catch (ParseException e) {
             e.printStackTrace();
             return null;
         }

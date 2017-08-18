@@ -1,4 +1,4 @@
-package br.eng.ecarrara.vilibra.data;
+package br.eng.ecarrara.vilibra.core.data.datasource.contentprovider;
 
 import android.content.ContentProvider;
 import android.content.ContentUris;
@@ -9,9 +9,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.util.Log;
-
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
 
 public class VilibraProvider extends ContentProvider {
     private static final String LOG_TAG = VilibraProvider.class.getSimpleName();
@@ -51,38 +48,38 @@ public class VilibraProvider extends ContentProvider {
     }
 
     private static final String[] ALL_BORROWINGS_WITH_BOOKS_PROJECTION = {
-        LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_LENDING_ID,
-        LendingEntry.COLUMN_LENDING_DATE,
-        LendingEntry.COLUMN_CONTACT_URI,
-        LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
-        BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID,
-        BookEntry.COLUMN_TITLE,
-        BookEntry.COLUMN_SUBTITLE,
-        BookEntry.COLUMN_AUTHORS,
-        BookEntry.COLUMN_ISBN_10,
-        BookEntry.COLUMN_ISBN_13,
-        BookEntry.COLUMN_PUBLISHER,
-        BookEntry.COLUMN_PUBLISHED_DATE,
-        BookEntry.COLUMN_PAGES
+        VilibraContract.LendingEntry.TABLE_NAME + "." + VilibraContract.LendingEntry.COLUMN_LENDING_ID,
+        VilibraContract.LendingEntry.COLUMN_LENDING_DATE,
+        VilibraContract.LendingEntry.COLUMN_CONTACT_URI,
+        VilibraContract.LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
+        VilibraContract.BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry.COLUMN_BOOK_ID,
+        VilibraContract.BookEntry.COLUMN_TITLE,
+        VilibraContract.BookEntry.COLUMN_SUBTITLE,
+        VilibraContract.BookEntry.COLUMN_AUTHORS,
+        VilibraContract.BookEntry.COLUMN_ISBN_10,
+        VilibraContract.BookEntry.COLUMN_ISBN_13,
+        VilibraContract.BookEntry.COLUMN_PUBLISHER,
+        VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
+        VilibraContract.BookEntry.COLUMN_PAGES
     };
 
     private static final SQLiteQueryBuilder sBookWithLendingInfoQueryBuilder;
     static {
         sBookWithLendingInfoQueryBuilder = new SQLiteQueryBuilder();
         sBookWithLendingInfoQueryBuilder.setTables(
-                LendingEntry.TABLE_NAME + " INNER JOIN " + BookEntry.TABLE_NAME +
-                        " ON " + LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_BOOK_ID +
-                        " = " + BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID
+                VilibraContract.LendingEntry.TABLE_NAME + " INNER JOIN " + VilibraContract.BookEntry.TABLE_NAME +
+                        " ON " + VilibraContract.LendingEntry.TABLE_NAME + "." + VilibraContract.LendingEntry.COLUMN_BOOK_ID +
+                        " = " + VilibraContract.BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry.COLUMN_BOOK_ID
         );
     }
 
     private static final String sBookIdAndLendingIdSelection =
-            BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID + " = ? AND " +
-            LendingEntry.TABLE_NAME + "." + LendingEntry.COLUMN_LENDING_ID + " = ? ";
+            VilibraContract.BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry.COLUMN_BOOK_ID + " = ? AND " +
+            VilibraContract.LendingEntry.TABLE_NAME + "." + VilibraContract.LendingEntry.COLUMN_LENDING_ID + " = ? ";
 
     private Cursor getLendingInfoByBookAndLending(Uri uri, String[] projection, String sortOrder) {
-        String lendingId = LendingEntry.getLendingIdFromUri(uri);
-        String bookId = LendingEntry.getBookIdFromUri(uri);
+        String lendingId = VilibraContract.LendingEntry.getLendingIdFromUri(uri);
+        String bookId = VilibraContract.LendingEntry.getBookIdFromUri(uri);
 
         String[] selectionArgs = new String[]{ bookId, lendingId };
         String selection = sBookIdAndLendingIdSelection;
@@ -92,10 +89,10 @@ public class VilibraProvider extends ContentProvider {
     }
 
     private static final String sBookIdSelection =
-            BookEntry.TABLE_NAME + "." + BookEntry.COLUMN_BOOK_ID + " = ? ";
+            VilibraContract.BookEntry.TABLE_NAME + "." + VilibraContract.BookEntry.COLUMN_BOOK_ID + " = ? ";
 
     private Cursor getLendingInfoByBook(Uri uri, String[] projection, String sortOrder) {
-        String bookId = LendingEntry.getBookIdFromUri(uri);
+        String bookId = VilibraContract.LendingEntry.getBookIdFromUri(uri);
 
         String[] selectionArgs = new String[]{ bookId };
         String selection = sBookIdSelection;
@@ -118,23 +115,23 @@ public class VilibraProvider extends ContentProvider {
 
         switch (sUriMatcher.match(uri)) {
             case BOOK:
-                retCursor = mOpenHelper.getReadableDatabase().query(BookEntry.TABLE_NAME,
+                retCursor = mOpenHelper.getReadableDatabase().query(VilibraContract.BookEntry.TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case BOOK_ID:
-                retCursor = mOpenHelper.getReadableDatabase().query(BookEntry.TABLE_NAME,
+                retCursor = mOpenHelper.getReadableDatabase().query(VilibraContract.BookEntry.TABLE_NAME,
                         projection,
-                        BookEntry.COLUMN_BOOK_ID + " = '" + ContentUris.parseId(uri) + "'",
+                        VilibraContract.BookEntry.COLUMN_BOOK_ID + " = '" + ContentUris.parseId(uri) + "'",
                         null, null, null, sortOrder);
                 break;
             case LENDING:
-                retCursor = mOpenHelper.getReadableDatabase().query(LendingEntry.TABLE_NAME,
+                retCursor = mOpenHelper.getReadableDatabase().query(VilibraContract.LendingEntry.TABLE_NAME,
                         projection, selection, selectionArgs, null, null, sortOrder);
                 break;
             case LENDING_ID:
-                retCursor = mOpenHelper.getReadableDatabase().query(LendingEntry.TABLE_NAME,
+                retCursor = mOpenHelper.getReadableDatabase().query(VilibraContract.LendingEntry.TABLE_NAME,
                         projection,
-                        LendingEntry.COLUMN_BOOK_ID + " = '" + ContentUris.parseId(uri) + "'",
+                        VilibraContract.LendingEntry.COLUMN_BOOK_ID + " = '" + ContentUris.parseId(uri) + "'",
                         null, null, null, sortOrder);
                 break;
             case LENDING_WITH_BOOK:
@@ -174,21 +171,21 @@ public class VilibraProvider extends ContentProvider {
 
         switch (match) {
             case BOOK:
-                return BookEntry.CONTENT_TYPE;
+                return VilibraContract.BookEntry.CONTENT_TYPE;
             case BOOK_ID:
-                return BookEntry.CONTENT_ITEM_TYPE;
+                return VilibraContract.BookEntry.CONTENT_ITEM_TYPE;
             case LENDING:
-                return LendingEntry.CONTENT_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_TYPE;
             case LENDING_ID:
-                return LendingEntry.CONTENT_ITEM_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_ITEM_TYPE;
             case LENDING_WITH_BOOK:
-                return LendingEntry.CONTENT_ITEM_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_ITEM_TYPE;
             case LENDING_BOOKS:
-                return LendingEntry.CONTENT_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_TYPE;
             case LENDING_FOR_A_BOOK:
-                return LendingEntry.CONTENT_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_TYPE;
             case ALL_BORROWINGS_WITH_BOOKS:
-                return LendingEntry.CONTENT_TYPE;
+                return VilibraContract.LendingEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
         }
@@ -202,20 +199,20 @@ public class VilibraProvider extends ContentProvider {
 
         switch (match) {
             case BOOK: {
-                long _id = db.insert(BookEntry.TABLE_NAME, null, values);
+                long _id = db.insert(VilibraContract.BookEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = BookEntry.buildBookUri(_id);
+                    returnUri = VilibraContract.BookEntry.buildBookUri(_id);
                 else
                     Log.e(LOG_TAG, "Failed to insert row into " + uri);
                 break;
             }
             case LENDING: {
                 // whe the lending is first inserted the last notification date is equal to the lending date
-                values.put(LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
-                        values.getAsString(LendingEntry.COLUMN_LENDING_DATE));
-                long _id = db.insert(LendingEntry.TABLE_NAME, null, values);
+                values.put(VilibraContract.LendingEntry.COLUMN_LAST_NOTIFICATION_DATE,
+                        values.getAsString(VilibraContract.LendingEntry.COLUMN_LENDING_DATE));
+                long _id = db.insert(VilibraContract.LendingEntry.TABLE_NAME, null, values);
                 if ( _id > 0 )
-                    returnUri = LendingEntry.buildLendingUri(_id);
+                    returnUri = VilibraContract.LendingEntry.buildLendingUri(_id);
                 else
                     Log.e(LOG_TAG, "Failed to insert row into " + uri);
                 break;
@@ -235,16 +232,16 @@ public class VilibraProvider extends ContentProvider {
         switch (match) {
             case BOOK:
                 rowsDeleted = db.delete(
-                        BookEntry.TABLE_NAME, selection, selectionArgs);
+                        VilibraContract.BookEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case LENDING:
                 rowsDeleted = db.delete(
-                        LendingEntry.TABLE_NAME, selection, selectionArgs);
+                        VilibraContract.LendingEntry.TABLE_NAME, selection, selectionArgs);
                 break;
             case LENDING_ID:
                 String lendingId = Long.toString(ContentUris.parseId(uri));
                 rowsDeleted = db.delete(
-                        LendingEntry.TABLE_NAME, LendingEntry.COLUMN_LENDING_ID + " = ?",
+                        VilibraContract.LendingEntry.TABLE_NAME, VilibraContract.LendingEntry.COLUMN_LENDING_ID + " = ?",
                         new String[] { lendingId });
                 break;
             default:
@@ -265,14 +262,14 @@ public class VilibraProvider extends ContentProvider {
 
         switch (match) {
             case BOOK:
-                rowsUpdated = db.update(BookEntry.TABLE_NAME, values, selection, selectionArgs);
+                rowsUpdated = db.update(VilibraContract.BookEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case LENDING:
-                rowsUpdated = db.update(LendingEntry.TABLE_NAME, values, selection, selectionArgs);
+                rowsUpdated = db.update(VilibraContract.LendingEntry.TABLE_NAME, values, selection, selectionArgs);
                 break;
             case LENDING_ID:
                 long _id = ContentUris.parseId(uri);
-                rowsUpdated = db.update(LendingEntry.TABLE_NAME, values,
+                rowsUpdated = db.update(VilibraContract.LendingEntry.TABLE_NAME, values,
                         "_ID = ?", new String[]{ Long.toString(_id) });
                 break;
             default:

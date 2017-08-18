@@ -13,9 +13,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
-import br.eng.ecarrara.vilibra.data.VilibraDbHelper;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraDbHelper;
 import br.eng.ecarrara.vilibra.testutils.TestDataHelper;
 import br.eng.ecarrara.vilibra.testutils.ValidationHelper;
 

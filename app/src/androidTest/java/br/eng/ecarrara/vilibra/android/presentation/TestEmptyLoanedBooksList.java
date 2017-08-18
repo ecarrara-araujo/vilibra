@@ -1,12 +1,10 @@
 package br.eng.ecarrara.vilibra.android.presentation;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,7 +12,7 @@ import org.junit.runner.RunWith;
 
 import br.eng.ecarrara.vilibra.BookListActivity;
 import br.eng.ecarrara.vilibra.R;
-import br.eng.ecarrara.vilibra.data.VilibraContract;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract;
 
 import static android.support.test.InstrumentationRegistry.getTargetContext;
 import static android.support.test.espresso.Espresso.onView;

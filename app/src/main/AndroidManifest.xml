@@ -12,7 +12,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:name="br.eng.ecarrara.vilibra.AndroidApplication" >
+        android:name="br.eng.ecarrara.vilibra.VilibraApplication" >
         <activity
             android:name=".BookListActivity"
             android:label="@string/app_name" >
@@ -40,7 +40,7 @@
         </activity>
 
         <provider
-            android:name=".data.VilibraProvider"
+            android:name=".core.data.datasource.contentprovider.VilibraProvider"
             android:authorities="ecarrara.eng.vilibra"
             android:enabled="true"
             android:exported="false" />

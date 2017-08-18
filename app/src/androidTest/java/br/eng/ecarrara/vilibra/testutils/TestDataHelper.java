@@ -2,8 +2,8 @@ package br.eng.ecarrara.vilibra.testutils;
 
 import android.content.ContentValues;
 
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.BookEntry;
+import br.eng.ecarrara.vilibra.core.data.datasource.contentprovider.VilibraContract.LendingEntry;
 /**
  * Created by ecarrara on 11/12/2014.
  */
