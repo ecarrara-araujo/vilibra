@@ -11,7 +11,7 @@ import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.executor.ThreadExecutor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
 import br.eng.ecarrara.vilibra.domain.repository.BookCachedRepository;
-import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
+import br.eng.ecarrara.vilibra.book.domain.BookRepository;
 import timber.log.Timber;
 
 /**

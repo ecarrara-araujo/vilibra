@@ -6,8 +6,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import br.eng.ecarrara.vilibra.data.BookVolumeTestDataFactory;
-import br.eng.ecarrara.vilibra.model.BookVolume;
-import br.eng.ecarrara.vilibra.service.GoogleBooksService;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.GoogleBooksService;
 
 import static org.junit.Assert.assertTrue;
 
@@ -17,12 +17,12 @@ public class TestGoogleBookService {
     @Test
     public void testSuccessfulRequest() {
 
-        BookVolume testBookVolume = BookVolumeTestDataFactory.getTestBookVolume();
-        String isbn10 = testBookVolume.getVolumeInfo().getIndustryIdentifiers().get(0).getIdentifier();
+        JsonBookVolume testJsonBookVolume = BookVolumeTestDataFactory.getTestBookVolume();
+        String isbn10 = testJsonBookVolume.getVolumeInfo().getIndustryIdentifiers().get(0).getIdentifier();
 
         GoogleBooksService gbs = new GoogleBooksService();
-        BookVolume returnedBookVolume = gbs.lookForVolumeByISBN(isbn10);
+        JsonBookVolume returnedJsonBookVolume = gbs.lookForVolumeByISBN(isbn10);
 
-        assertTrue(testBookVolume.hasSameIndustryIdentifiers(returnedBookVolume));
+        assertTrue(testJsonBookVolume.equals(returnedJsonBookVolume));
     }
 }

@@ -6,17 +6,11 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-
 import br.eng.ecarrara.vilibra.BuildConfig;
+import br.eng.ecarrara.vilibra.book.domain.BookRepository;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
-
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

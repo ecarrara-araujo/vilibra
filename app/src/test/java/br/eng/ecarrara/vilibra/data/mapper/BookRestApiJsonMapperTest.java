@@ -7,8 +7,9 @@ import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolumeInfo;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
-import br.eng.ecarrara.vilibra.model.BookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 import br.eng.ecarrara.vilibra.util.DefaultData;
 
@@ -36,34 +37,34 @@ public class BookRestApiJsonMapperTest {
     @Test public void testTransformBookVolumeToBook() {
         Book expectedBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
 
-        BookVolume bookVolume = mock(BookVolume.class);
-        BookVolume.BookVolumeInfo bookVolumeInfo = mock(BookVolume.BookVolumeInfo.class);
+        JsonBookVolume jsonBookVolume = mock(JsonBookVolume.class);
+        JsonBookVolumeInfo bookVolumeInfo = mock(JsonBookVolumeInfo.class);
 
-        when(bookVolume.getVolumeInfo()).thenReturn(bookVolumeInfo);
+        when(jsonBookVolume.getVolumeInfo()).thenReturn(bookVolumeInfo);
 
         when(bookVolumeInfo.getTitle()).thenReturn(expectedBook.getTitle());
         when(bookVolumeInfo.getSubtitle()).thenReturn(expectedBook.getSubtitle());
         when(bookVolumeInfo.getAuthors()).thenReturn(expectedBook.getAuthors());
         when(bookVolumeInfo.getPublisher()).thenReturn(expectedBook.getPublisher());
         when((bookVolumeInfo.getPublishedDate()))
-                .thenReturn(getDbDateString(expectedBook.getPublishedDate()));
-        when(bookVolumeInfo.getISBN10()).thenReturn(expectedBook.getIsbn10());
-        when(bookVolumeInfo.getISBN13()).thenReturn(expectedBook.getIsbn13());
+                .thenReturn(expectedBook.getPublishedDate());
+        when(bookVolumeInfo.getIsbn10()).thenReturn(expectedBook.getIsbn10());
+        when(bookVolumeInfo.getIsbn13()).thenReturn(expectedBook.getIsbn13());
         when(bookVolumeInfo.getPageCount()).thenReturn(expectedBook.getPageCount());
 
-        Book transformedBook = this.mapper.transform(bookVolume);
+        Book transformedBook = this.mapper.transform(jsonBookVolume);
 
         assertThat(transformedBook, equalTo(expectedBook));
     }
 
     @Test public void testTransformBookVolumeToBookWithInvalidDate() {
-        BookVolume bookVolume = mock(BookVolume.class);
-        BookVolume.BookVolumeInfo bookVolumeInfo = mock(BookVolume.BookVolumeInfo.class);
+        JsonBookVolume jsonBookVolume = mock(JsonBookVolume.class);
+        JsonBookVolumeInfo bookVolumeInfo = mock(JsonBookVolumeInfo.class);
 
-        when(bookVolume.getVolumeInfo()).thenReturn(bookVolumeInfo);
-        when((bookVolumeInfo.getPublishedDate())).thenReturn("INVALID"); //invalid date string
+        when(jsonBookVolume.getVolumeInfo()).thenReturn(bookVolumeInfo);
+        when((bookVolumeInfo.getPublishedDate())).thenReturn(DefaultData.NOT_INITIALIZED.getDate()); //invalid date string
 
-        Book transformedBook = this.mapper.transform(bookVolume);
+        Book transformedBook = this.mapper.transform(jsonBookVolume);
 
         assertThat(transformedBook.getPublishedDate(), equalTo(DefaultData.NOT_INITIALIZED.getDate()));
     }

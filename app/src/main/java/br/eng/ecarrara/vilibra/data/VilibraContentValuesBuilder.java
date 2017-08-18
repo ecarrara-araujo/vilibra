@@ -2,29 +2,29 @@ package br.eng.ecarrara.vilibra.data;
 
 import android.content.ContentValues;
 
-import br.eng.ecarrara.vilibra.model.BookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 
 public class VilibraContentValuesBuilder {
 
-    public static ContentValues buildFor(BookVolume bookVolume) {
+    public static ContentValues buildFor(JsonBookVolume jsonBookVolume) {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_10,
-                bookVolume.getVolumeInfo().getISBN10());
+                jsonBookVolume.getVolumeInfo().getIsbn10());
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_13,
-                bookVolume.getVolumeInfo().getISBN13());
+                jsonBookVolume.getVolumeInfo().getIsbn13());
         contentValues.put(VilibraContract.BookEntry.COLUMN_TITLE,
-                bookVolume.getVolumeInfo().getTitle());
+                jsonBookVolume.getVolumeInfo().getTitle());
         contentValues.put(VilibraContract.BookEntry.COLUMN_SUBTITLE,
-                bookVolume.getVolumeInfo().getSubtitle());
+                jsonBookVolume.getVolumeInfo().getSubtitle());
         contentValues.put(VilibraContract.BookEntry.COLUMN_AUTHORS,
-                bookVolume.getVolumeInfo().getAuthorsAsSemicolonsSeparatedList());
+                jsonBookVolume.getVolumeInfo().getAuthorsAsSemicolonsSeparatedList());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHER,
-                bookVolume.getVolumeInfo().getPublisher());
+                jsonBookVolume.getVolumeInfo().getPublisher());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
-                getDbDateString(bookVolume.getVolumeInfo().getPublishedDate()));
+                getDbDateString(jsonBookVolume.getVolumeInfo().getPublishedDateString()));
         contentValues.put(VilibraContract.BookEntry.COLUMN_PAGES,
-                bookVolume.getVolumeInfo().getPageCount());
+                jsonBookVolume.getVolumeInfo().getPageCount());
 
         return contentValues;
     }

@@ -2,7 +2,7 @@ package br.eng.ecarrara.vilibra;
 
 import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
-import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
+import br.eng.ecarrara.vilibra.book.domain.BookRepository;
 
 /**
  * Service Locator that holds instances for the main services of the application.

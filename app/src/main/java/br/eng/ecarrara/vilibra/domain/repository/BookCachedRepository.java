@@ -2,6 +2,7 @@ package br.eng.ecarrara.vilibra.domain.repository;
 
 import android.text.TextUtils;
 
+import br.eng.ecarrara.vilibra.book.domain.BookRepository;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 

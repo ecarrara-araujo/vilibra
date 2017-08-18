@@ -2,7 +2,7 @@ package br.eng.ecarrara.vilibra.data;
 
 import com.google.gson.Gson;
 
-import br.eng.ecarrara.vilibra.model.BookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 
 public class BookVolumeTestDataFactory {
 
@@ -17,7 +17,7 @@ public class BookVolumeTestDataFactory {
             "     \"Machado De Assis\"\n" +
             "    ],\n" +
             "    \"publisher\": \"e-artnow sro\",\n" +
-            "    \"publishedDate\": \"2013-02-08\",\n" +
+            "    \"publishedDateString\": \"2013-02-08\",\n" +
             "    \"description\": \"Sobre a obra: Memórias Póstumas de Brás Cubas faz parte da \\\"trilogia realista\\\" de Machado de Assis. O romance foi inicialmente escrito como folhetim, de março a dezembro de 1880, na Revista Brasileira e publicado como livro no ano seguinte pela editora Tipografia Nacional. O livro retrata a escravidão, as classes sociais, o cientificismo e o positivismo da época. É notado como uma das obras mais revolucionárias e inovadoras da literatura brasileira. Sobre Machado de Assis: Joaquim Maria Machado de Assis ( 1839 - 1908) foi um escritor brasileiro, considerado o maior nome da cultura nacional. Escreveu em praticamente todos os gêneros literários e é considerado o introdutor do Realismo no Brasil, com a publicação de Memórias Póstumas de Brás Cubas (1881). A crítica moderna chama de trilogia realista os três romances que marcaram um novo estilo na obra de Machado de Assis, Memórias Póstumas de Brás Cubas (1881), Quincas Borba (1891) e Dom Casmurro (1899), e que decisivamente também inovaram a literatura brasileira, introduzindo o Realismo no Brasil e precedendo outros elementos da literatura contemporânea. Hoje Machado de Assis é considerado um dos grandes gênios da história da literatura, ao lado de autores como Dante, Shakespeare e Camões.\",\n" +
             "    \"industryIdentifiers\": [\n" +
             "     {\n" +
@@ -102,14 +102,14 @@ public class BookVolumeTestDataFactory {
             "  }";
 
     /**
-     * Create a test BookVolume based in a local json String retrieved from Google Books
+     * Create a test JsonBookVolume based in a local json String retrieved from Google Books
      * using the following url: https://www.googleapis.com/books/v1/volumes?q=isbn:8074840204
      * @return
      */
-    public static final BookVolume getTestBookVolume() {
+    public static final JsonBookVolume getTestBookVolume() {
         Gson gson = new Gson();
-        BookVolume bookVolume = gson.fromJson(TEST_JSON_MEMORIAS_POSTUMAS_QUERY, BookVolume.class);
-        return bookVolume;
+        JsonBookVolume jsonBookVolume = gson.fromJson(TEST_JSON_MEMORIAS_POSTUMAS_QUERY, JsonBookVolume.class);
+        return jsonBookVolume;
     }
 
 }
