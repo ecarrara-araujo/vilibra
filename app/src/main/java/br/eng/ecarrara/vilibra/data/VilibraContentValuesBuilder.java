@@ -2,35 +2,34 @@ package br.eng.ecarrara.vilibra.data;
 
 import android.content.ContentValues;
 
-import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+
+import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
+import static br.eng.ecarrara.vilibra.data.mapper.AuthorsListMapper.transformAuthorsListToDatabaseFormat;
 
 public class VilibraContentValuesBuilder {
 
-    public static ContentValues buildFor(JsonBookVolume bookVolume) {
+    public static ContentValues buildFor(Book book) {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_10,
-                bookVolume.getVolumeInfo().getIsbn10());
+                book.getIsbn10());
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_13,
-                bookVolume.getVolumeInfo().getIsbn13());
+                book.getIsbn13());
         contentValues.put(VilibraContract.BookEntry.COLUMN_TITLE,
-                bookVolume.getVolumeInfo().getTitle());
+                book.getTitle());
         contentValues.put(VilibraContract.BookEntry.COLUMN_SUBTITLE,
-                bookVolume.getVolumeInfo().getSubtitle());
+                book.getSubtitle());
         contentValues.put(VilibraContract.BookEntry.COLUMN_AUTHORS,
-                bookVolume.getVolumeInfo().getAuthorsAsSemicolonsSeparatedList());
+                transformAuthorsListToDatabaseFormat(book.getAuthors()));
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHER,
-                bookVolume.getVolumeInfo().getPublisher());
+                book.getPublisher());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
-                getDbDateString(bookVolume.getVolumeInfo().getPublishedDateString()));
+                getDbDateString(book.getPublishedDate()));
         contentValues.put(VilibraContract.BookEntry.COLUMN_PAGES,
-                bookVolume.getVolumeInfo().getPageCount());
+                book.getPageCount());
 
         return contentValues;
-    }
-
-    private static String getDbDateString(String bookVolumeDate) {
-        return bookVolumeDate.replaceAll("-", "");
     }
 
 }

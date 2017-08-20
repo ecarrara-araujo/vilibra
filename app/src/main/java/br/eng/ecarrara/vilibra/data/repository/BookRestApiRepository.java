@@ -2,9 +2,9 @@ package br.eng.ecarrara.vilibra.data.repository;
 
 import javax.inject.Inject;
 
+import br.eng.ecarrara.vilibra.book.data.datasource.BookRemoteDataSource;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
-import br.eng.ecarrara.vilibra.service.GoogleBooksService;
 
 /**
  * Concrete implementation of {@link BookRepository} that connects to REST API
@@ -15,15 +15,15 @@ import br.eng.ecarrara.vilibra.service.GoogleBooksService;
  */
 public class BookRestApiRepository implements BookRepository {
 
-    private GoogleBooksService googleBooksService;
+    private BookRemoteDataSource bookRemoteDataSource;
 
     @Inject
-    public BookRestApiRepository(GoogleBooksService googleBooksService) {
-        this.googleBooksService = googleBooksService;
+    public BookRestApiRepository(BookRemoteDataSource googleBooksService) {
+        this.bookRemoteDataSource = googleBooksService;
     }
 
     @Override public Book byIsbn(String isbn) {
-        return googleBooksService.lookForVolumeByISBN(isbn).toBook();
+        return bookRemoteDataSource.searchForBookBy(isbn).blockingGet();
     }
 
     @Override public void add(Book book) {

@@ -1,0 +1,80 @@
+{
+  "kind": "books#volumes",
+  "totalItems": 1,
+  "items": [
+    {
+      "kind": "books#volume",
+      "id": "V72jBQAAQBAJ",
+      "etag": "3huxMpbq9Fc",
+      "selfLink": "https://www.googleapis.com/books/v1/volumes/V72jBQAAQBAJ",
+      "volumeInfo": {
+        "title": "Dominando o Android",
+        "subtitle": "Do básico ao avançado",
+        "authors": [
+          "Nelson Glauber"
+        ],
+        "publisher": "Novatec Editora",
+        "publishedDate": "2014-12-01",
+        "description": "Android é a plataforma para dispositivos móveis do Google que se tornou líder absoluta no mercado mundial de dispositivos móveis. Ele vem impressionando pela quantidade de recursos que proporcionam aos seus usuários uma envolvente e estimulante interação com seu smartphone ou tablet. Desenvolver aplicativos para esses aparelhos é muito divertido, mas, acima de tudo, desafiador. Dominando o Android aborda desde os conceitos mais básicos até as técnicas mais avançadas no desenvolvimento de aplicativos para plataforma mobile do Google. Por meio de exemplos práticos e didáticos você poderá: ■ Criar aplicativos para smartphones e tablets Android. ■ Conhecer os principais componentes para construir interfaces gráficas elegantes e compatíveis com diversos tamanhos e diversas densidades de tela. ■ Persistir dados locais com SQLite e no cartão de memória do aparelho. ■ Acessar web services para enviar e receber dados. ■ Utilizar serviços do Google, tais como: Maps, Cloud Messaging, YouTube, Google+ e AdMob. ■ Trabalhar com serviços, broadcast receivers, notificações e app widgets. ■ Deixar sua aplicação mais divertida usando animações e recursos multimídia. ■ Criar aplicativos para os relógios inteligentes (smartwatches) com Android Wear. ■ Saber as principais novidades do Android 5.0 Lollipop. Ao final, o leitor estará pronto para projetar e desenvolver seus próprios aplicativos e publicá-los no Google Play, a loja de aplicativos do Android.",
+        "industryIdentifiers": [
+          {
+            "type": "ISBN_13",
+            "identifier": "9788575224120"
+          },
+          {
+            "type": "ISBN_10",
+            "identifier": "8575224123"
+          }
+        ],
+        "readingModes": {
+          "text": false,
+          "image": true
+        },
+        "pageCount": 792,
+        "printType": "BOOK",
+        "categories": [
+          "Computers"
+        ],
+        "maturityRating": "NOT_MATURE",
+        "allowAnonLogging": false,
+        "contentVersion": "preview-1.0.0",
+        "panelizationSummary": {
+          "containsEpubBubbles": false,
+          "containsImageBubbles": false
+        },
+        "imageLinks": {
+          "smallThumbnail": "http://books.google.com/books/content?id=V72jBQAAQBAJ&printsec=frontcover&img=1&zoom=5&edge=curl&source=gbs_api",
+          "thumbnail": "http://books.google.com/books/content?id=V72jBQAAQBAJ&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api"
+        },
+        "language": "pt",
+        "previewLink": "http://books.google.com.br/books?id=V72jBQAAQBAJ&printsec=frontcover&dq=isbn:8575224123&hl=&cd=1&source=gbs_api",
+        "infoLink": "http://books.google.com.br/books?id=V72jBQAAQBAJ&dq=isbn:8575224123&hl=&source=gbs_api",
+        "canonicalVolumeLink": "https://books.google.com/books/about/Dominando_o_Android.html?hl=&id=V72jBQAAQBAJ"
+      },
+      "saleInfo": {
+        "country": "BR",
+        "saleability": "NOT_FOR_SALE",
+        "isEbook": false
+      },
+      "accessInfo": {
+        "country": "BR",
+        "viewability": "PARTIAL",
+        "embeddable": true,
+        "publicDomain": false,
+        "textToSpeechPermission": "ALLOWED",
+        "epub": {
+          "isAvailable": false
+        },
+        "pdf": {
+          "isAvailable": false
+        },
+        "webReaderLink": "http://play.google.com/books/reader?id=V72jBQAAQBAJ&hl=&printsec=frontcover&source=gbs_api",
+        "accessViewStatus": "SAMPLE",
+        "quoteSharingAllowed": false
+      },
+      "searchInfo": {
+        "textSnippet": "Dominando o Android aborda desde os conceitos mais básicos até as técnicas mais avançadas no desenvolvimento de aplicativos para plataforma mobile do Google."
+      }
+    }
+  ]
+}
