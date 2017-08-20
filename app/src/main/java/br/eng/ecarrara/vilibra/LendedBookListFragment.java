@@ -17,11 +17,16 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.eng.ecarrara.vilibra.R;
 import br.eng.ecarrara.vilibra.android.presentation.LoanedBookListAdapter;
+import br.eng.ecarrara.vilibra.core.di.VilibraInjector;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
+import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.presentation.presenter.BorrowedBooksPresenter;
 import br.eng.ecarrara.vilibra.domain.presentation.view.BorrowedBooksListView;
+import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
 
 import static android.Manifest.permission.CAMERA;
 import static android.support.v4.content.PermissionChecker.PERMISSION_GRANTED;
@@ -32,6 +37,12 @@ import static android.support.v4.content.PermissionChecker.checkCallingOrSelfPer
  */
 public class LendedBookListFragment extends Fragment implements
         BorrowedBooksListView {
+
+    @Inject
+    Executor executor;
+
+    @Inject
+    BookBorrowingRepository bookBorrowingRepository;
 
     private static final String LOG_TAG = LendedBookListFragment.class.getSimpleName();
 
@@ -62,6 +73,7 @@ public class LendedBookListFragment extends Fragment implements
     @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_lended_book_list, container, false);
+        VilibraInjector.INSTANCE.getVilibraComponent().inject(this);
         this.setupUI(rootView);
         this.restoreState(savedInstanceState);
         return rootView;
@@ -190,8 +202,7 @@ public class LendedBookListFragment extends Fragment implements
 
     private void initialize() {
         this.borrowedBooksPresenter = new BorrowedBooksPresenter(
-                this.getContext(), this,
-                ServiceLocator.bookBorrowingRepository(), ServiceLocator.executor());
+                this.getContext(), this, bookBorrowingRepository, executor);
     }
 
 }

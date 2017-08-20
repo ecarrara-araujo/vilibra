@@ -2,30 +2,23 @@ package br.eng.ecarrara.vilibra.service;
 
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+import br.eng.ecarrara.vilibra.core.networking.ApiConstantsKt;
 import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.model.BookVolumeCollection;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static br.eng.ecarrara.vilibra.utils.ApisConstants.GOOGLE_BOOKS_API_KEY;
-import static br.eng.ecarrara.vilibra.utils.ApisConstants.GOOGLE_BOOKS_BASE_URL;
-
 public class GoogleBooksService {
 
-    private RestAdapter mRestAdapter;
     private GoogleBooksServiceInterface mGoogleBooksServiceInterface;
     private GoogleBooksServiceCallback mGoogleBooksServiceCallback;
 
-    public GoogleBooksService() {
-
-        mRestAdapter = new RestAdapter.Builder()
-                .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint(GOOGLE_BOOKS_BASE_URL)
-                .build();
-
-        mGoogleBooksServiceInterface = mRestAdapter.create(GoogleBooksServiceInterface.class);
+    @Inject
+    public GoogleBooksService(GoogleBooksServiceInterface googleBooksServiceInterface) {
+        mGoogleBooksServiceInterface = googleBooksServiceInterface;
         mGoogleBooksServiceCallback = new GoogleBooksServiceCallback();
 
     }
@@ -57,7 +50,7 @@ public class GoogleBooksService {
     }
 
     public BookVolumeCollection lookForVolumesWithQuery(String query) {
-        return mGoogleBooksServiceInterface.searchVolumeData(query, GOOGLE_BOOKS_API_KEY);
+        return mGoogleBooksServiceInterface.searchVolumeData(query, ApiConstantsKt.getBOOKS_INFORMATION_SERVICE_API_KEY());
     }
 
     private String formatQueryForISBNSearch(String isbn) {

@@ -16,6 +16,7 @@ projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.proper
 ext {
     ANDROID_SUPPORT_LIBS_VERSION = '26.0.1'
     BUTTERKNIFE_VERSION = '8.5.1'
+    DAGGER_VERSION = '2.10'
 }
 
 android {
@@ -97,6 +98,10 @@ dependencies {
 
     // Retrofit
     compile 'com.squareup.retrofit:retrofit:1.9.0'
+
+    // Dagger
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    kapt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
 
     // Utils
     compile "com.google.code.gson:gson:${GSON_VERSION}"
