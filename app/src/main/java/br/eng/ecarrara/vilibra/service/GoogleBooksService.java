@@ -5,9 +5,9 @@ import java.io.IOException;
 import javax.inject.Inject;
 
 import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.GoogleBooksRestApi;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolumeCollection;
 import br.eng.ecarrara.vilibra.core.networking.ApiConstantsKt;
-import br.eng.ecarrara.vilibra.model.BookVolume;
-import br.eng.ecarrara.vilibra.model.BookVolumeCollection;
 import timber.log.Timber;
 
 public class GoogleBooksService {
@@ -19,10 +19,10 @@ public class GoogleBooksService {
         this.googleBooksRestApi = googleBooksRestApi;
     }
 
-    public BookVolume lookForVolumeByISBN(String isbn) {
+    public JsonBookVolume lookForVolumeByISBN(String isbn) {
         String query = formatQueryForISBNSearch(isbn);
-        BookVolumeCollection bookVolumeCollection = lookForVolumesWithQuery(query);
-        BookVolume bookVolume = null;
+        JsonBookVolumeCollection bookVolumeCollection = lookForVolumesWithQuery(query);
+        JsonBookVolume bookVolume = null;
         if(null != bookVolumeCollection) {
             if (bookVolumeCollection.getItems().size() > 0) {
                 bookVolume = bookVolumeCollection.getItems().get(0);
@@ -31,8 +31,8 @@ public class GoogleBooksService {
         return bookVolume;
     }
 
-    public BookVolumeCollection lookForVolumesWithQuery(String query) {
-        BookVolumeCollection bookVolumeCollection = null;
+    public JsonBookVolumeCollection lookForVolumesWithQuery(String query) {
+        JsonBookVolumeCollection bookVolumeCollection = null;
         try {
             bookVolumeCollection = googleBooksRestApi.searchVolumeData(
                     query,

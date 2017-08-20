@@ -2,10 +2,8 @@ package br.eng.ecarrara.vilibra.data.repository;
 
 import javax.inject.Inject;
 
-import br.eng.ecarrara.vilibra.data.mapper.BookRestApiJsonMapper;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.repository.BookRepository;
-import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.service.GoogleBooksService;
 
 /**
@@ -25,12 +23,7 @@ public class BookRestApiRepository implements BookRepository {
     }
 
     @Override public Book byIsbn(String isbn) {
-        BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
-
-        BookRestApiJsonMapper bookRestApiJsonMapper = new BookRestApiJsonMapper();
-        Book book = bookRestApiJsonMapper.transform(returnedBookVolume);
-
-        return book;
+        return googleBooksService.lookForVolumeByISBN(isbn).toBook();
     }
 
     @Override public void add(Book book) {

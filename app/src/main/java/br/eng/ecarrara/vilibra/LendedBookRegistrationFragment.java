@@ -23,16 +23,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 import br.eng.ecarrara.vilibra.core.di.VilibraInjector;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import br.eng.ecarrara.vilibra.R;
 import br.eng.ecarrara.vilibra.data.VilibraContentValuesBuilder;
 import br.eng.ecarrara.vilibra.data.VilibraContract;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.service.GoogleBooksService;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LendedBookRegistrationFragment extends Fragment {
 
@@ -156,7 +155,7 @@ public class LendedBookRegistrationFragment extends Fragment {
                 bookUri =
                         BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID)));
             } else {
-                BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
+                JsonBookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
 
                 if (null != returnedBookVolume) {
                     ContentValues bookData = VilibraContentValuesBuilder

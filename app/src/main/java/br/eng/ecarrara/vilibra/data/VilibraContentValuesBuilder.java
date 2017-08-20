@@ -2,17 +2,17 @@ package br.eng.ecarrara.vilibra.data;
 
 import android.content.ContentValues;
 
-import br.eng.ecarrara.vilibra.model.BookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 
 public class VilibraContentValuesBuilder {
 
-    public static ContentValues buildFor(BookVolume bookVolume) {
+    public static ContentValues buildFor(JsonBookVolume bookVolume) {
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_10,
-                bookVolume.getVolumeInfo().getISBN10());
+                bookVolume.getVolumeInfo().getIsbn10());
         contentValues.put(VilibraContract.BookEntry.COLUMN_ISBN_13,
-                bookVolume.getVolumeInfo().getISBN13());
+                bookVolume.getVolumeInfo().getIsbn13());
         contentValues.put(VilibraContract.BookEntry.COLUMN_TITLE,
                 bookVolume.getVolumeInfo().getTitle());
         contentValues.put(VilibraContract.BookEntry.COLUMN_SUBTITLE,
@@ -22,7 +22,7 @@ public class VilibraContentValuesBuilder {
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHER,
                 bookVolume.getVolumeInfo().getPublisher());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
-                getDbDateString(bookVolume.getVolumeInfo().getPublishedDate()));
+                getDbDateString(bookVolume.getVolumeInfo().getPublishedDateString()));
         contentValues.put(VilibraContract.BookEntry.COLUMN_PAGES,
                 bookVolume.getVolumeInfo().getPageCount());
 
