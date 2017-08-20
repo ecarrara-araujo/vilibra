@@ -15,8 +15,10 @@ projectProperties.load(new FileInputStream(new File(projectDir, '/secrets.proper
 
 ext {
     ANDROID_SUPPORT_LIBS_VERSION = '26.0.1'
-    ANDROID_TEST_SUPPORT_LIBS_VERSION = '1.0.0'
     BUTTERKNIFE_VERSION = '8.5.1'
+    DAGGER_VERSION = '2.10'
+    RETROFIT_VERSION = '2.3.0'
+    OKHTTP_VERSION = '3.8.0'
 }
 
 android {
@@ -46,16 +48,21 @@ android {
     }
 
     sourceSets {
+      
+        String testData = 'src/testdata'   
+     
         main {
             java.srcDirs += 'src/main/kotlin'
         }
 
         test {
             java.srcDirs += 'src/test/kotlin'
+            resources.srcDirs += [testData]
         }
 
         androidTest {
             java.srcDirs += 'src/androidTest/kotlin'
+            resources.srcDirs += [testData]
         }
     }
 
@@ -81,6 +88,7 @@ dependencies {
     compile "com.android.support:design:${ANDROID_SUPPORT_LIBS_VERSION}"
     compile "com.android.support:recyclerview-v7:${ANDROID_SUPPORT_LIBS_VERSION}"
 
+    // Barcode Reading
     compile "com.journeyapps:zxing-android-embedded:3.5.0"
 
     // Butterknife
@@ -90,10 +98,27 @@ dependencies {
     // Logging
     compile 'com.jakewharton.timber:timber:4.5.1'
 
-    // retrofit
-    compile 'com.squareup.retrofit:retrofit:1.9.0'
+    // Retrofit
+    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT_VERSION}"
+    compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
 
-    // unit test dependencies
+    // Dagger
+    compile "com.google.dagger:dagger:${DAGGER_VERSION}"
+    kapt "com.google.dagger:dagger-compiler:${DAGGER_VERSION}"
+
+    // RxJava
+    compile "io.reactivex.rxjava2:rxandroid:${RX_JAVA_VERSION}"
+    compile "io.reactivex.rxjava2:rxjava:${RX_JAVA_VERSION}"
+
+    // Utils
+    compile "com.google.code.gson:gson:${GSON_VERSION}"
+
+    // Unit Test Dependencies
+    testCompile project(':vilibra-test-utils')    
+
     testCompile "com.android.support.test:runner:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
     testCompile "com.android.support.test:rules:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
 

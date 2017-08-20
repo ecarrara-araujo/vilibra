@@ -7,6 +7,8 @@ import android.net.Uri;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.eng.ecarrara.vilibra.data.VilibraContract;
 import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.data.mapper.BookBorrowingContentProviderMapper;
@@ -23,6 +25,7 @@ public class BookBorrowingContentProviderRepository implements BookBorrowingRepo
     private ContentResolver contentResolver;
     private BookBorrowingContentProviderMapper bookBorrowingContentProviderMapper;
 
+    @Inject
     public BookBorrowingContentProviderRepository(ContentResolver contentResolver) {
         this.contentResolver = contentResolver;
         this.bookBorrowingContentProviderMapper = new BookBorrowingContentProviderMapper();

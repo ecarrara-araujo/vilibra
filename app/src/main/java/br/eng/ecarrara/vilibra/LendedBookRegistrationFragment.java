@@ -21,17 +21,23 @@ import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import br.eng.ecarrara.vilibra.R;
+import javax.inject.Inject;
+
+import br.eng.ecarrara.vilibra.book.data.datasource.BookRemoteDataSource;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
+import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+import br.eng.ecarrara.vilibra.core.di.VilibraInjector;
 import br.eng.ecarrara.vilibra.data.VilibraContentValuesBuilder;
 import br.eng.ecarrara.vilibra.data.VilibraContract;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.model.BookVolume;
-import br.eng.ecarrara.vilibra.service.GoogleBooksService;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class LendedBookRegistrationFragment extends Fragment {
+
+    @Inject
+    BookRemoteDataSource bookRemoteDataSource;
 
     @BindView(R.id.main_content_frame)
     View mainContentFrame;
@@ -78,6 +84,7 @@ public class LendedBookRegistrationFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_lended_book_registration, container, false);
+        VilibraInjector.INSTANCE.getVilibraComponent().inject(this);
         ButterKnife.bind(this, rootView);
 
         barcodeScannerView.decodeContinuous(barcodeReadingCallback);
@@ -149,15 +156,11 @@ public class LendedBookRegistrationFragment extends Fragment {
                 bookUri =
                         BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID)));
             } else {
-                GoogleBooksService googleBooksService = new GoogleBooksService();
-                BookVolume returnedBookVolume = googleBooksService.lookForVolumeByISBN(isbn);
-
-                if (null != returnedBookVolume) {
-                    ContentValues bookData = VilibraContentValuesBuilder
-                            .buildFor(returnedBookVolume);
-                    bookUri = mContext.getContentResolver()
-                            .insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
-                }
+                Book returnedBook = bookRemoteDataSource.searchForBookBy(isbn).blockingGet();
+                ContentValues bookData = VilibraContentValuesBuilder
+                        .buildFor(returnedBook);
+                bookUri = mContext.getContentResolver()
+                        .insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
             }
             return bookUri;
         }

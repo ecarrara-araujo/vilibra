@@ -2,6 +2,9 @@ package br.eng.ecarrara.vilibra.domain.repository;
 
 import android.text.TextUtils;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 
@@ -15,7 +18,11 @@ public class BookCachedRepository implements BookRepository {
     private BookRepository bookRepository;
     private Cache<String, Book> bookCache;
 
-    public BookCachedRepository(BookRepository bookRepository, Cache<String, Book> bookCache) {
+    @Inject
+    public BookCachedRepository(
+            @Named("repository.restapi") BookRepository bookRepository,
+            Cache<String, Book> bookCache
+    ) {
         this.bookRepository = bookRepository;
         this.bookCache = bookCache;
     }

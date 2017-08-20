@@ -6,14 +6,12 @@ import org.junit.runners.Suite;
 import br.eng.ecarrara.vilibra.data.cache.BookContentProviderCacheTest;
 import br.eng.ecarrara.vilibra.data.mapper.BookBorrowingContentProviderMapperTest;
 import br.eng.ecarrara.vilibra.data.mapper.BookContentProviderMapperTest;
-import br.eng.ecarrara.vilibra.data.mapper.BookRestApiJsonMapperTest;
 import br.eng.ecarrara.vilibra.data.repository.BookBorrowingContentProviderRepositoryTest;
 
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         /* Data Mappers */
         BookContentProviderMapperTest.class,
-        BookRestApiJsonMapperTest.class,
         BookBorrowingContentProviderMapperTest.class,
 
         /* Repositories */

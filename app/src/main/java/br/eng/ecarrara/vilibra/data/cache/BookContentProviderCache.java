@@ -7,6 +7,8 @@ import android.net.Uri;
 
 import java.security.InvalidParameterException;
 
+import javax.inject.Inject;
+
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.data.mapper.BookContentProviderMapper;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
@@ -41,6 +43,7 @@ public class BookContentProviderCache implements Cache<String, Book> {
             .append(" = ?")
             .toString();
 
+    @Inject
     public BookContentProviderCache(Context context) {
         if(context == null) {
             throw new InvalidParameterException();

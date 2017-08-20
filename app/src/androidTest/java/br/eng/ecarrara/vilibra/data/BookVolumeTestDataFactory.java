@@ -2,7 +2,7 @@ package br.eng.ecarrara.vilibra.data;
 
 import com.google.gson.Gson;
 
-import br.eng.ecarrara.vilibra.model.BookVolume;
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 
 public class BookVolumeTestDataFactory {
 
@@ -106,9 +106,9 @@ public class BookVolumeTestDataFactory {
      * using the following url: https://www.googleapis.com/books/v1/volumes?q=isbn:8074840204
      * @return
      */
-    public static final BookVolume getTestBookVolume() {
+    public static final JsonBookVolume getTestBookVolume() {
         Gson gson = new Gson();
-        BookVolume bookVolume = gson.fromJson(TEST_JSON_MEMORIAS_POSTUMAS_QUERY, BookVolume.class);
+        JsonBookVolume bookVolume = gson.fromJson(TEST_JSON_MEMORIAS_POSTUMAS_QUERY, JsonBookVolume.class);
         return bookVolume;
     }
 
