@@ -1,40 +1,22 @@
 package br.eng.ecarrara.vilibra.service;
 
-import android.widget.Toast;
+import java.io.IOException;
 
 import javax.inject.Inject;
 
+import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.GoogleBooksRestApi;
 import br.eng.ecarrara.vilibra.core.networking.ApiConstantsKt;
 import br.eng.ecarrara.vilibra.model.BookVolume;
 import br.eng.ecarrara.vilibra.model.BookVolumeCollection;
-import retrofit.Callback;
-import retrofit.RetrofitError;
-import retrofit.client.Response;
+import timber.log.Timber;
 
 public class GoogleBooksService {
 
-    private GoogleBooksServiceInterface mGoogleBooksServiceInterface;
-    private GoogleBooksServiceCallback mGoogleBooksServiceCallback;
+    private GoogleBooksRestApi googleBooksRestApi;
 
     @Inject
-    public GoogleBooksService(GoogleBooksServiceInterface googleBooksServiceInterface) {
-        mGoogleBooksServiceInterface = googleBooksServiceInterface;
-        mGoogleBooksServiceCallback = new GoogleBooksServiceCallback();
-
-    }
-
-    private class GoogleBooksServiceCallback implements Callback<BookVolumeCollection> {
-        BookVolumeCollection bookVolumeCollection;
-
-        @Override
-        public void success(BookVolumeCollection bookVolumeCollection, Response response) {
-            this.bookVolumeCollection = bookVolumeCollection;
-        }
-
-        @Override
-        public void failure(RetrofitError error) {
-            Toast.makeText(null, error.getMessage(), Toast.LENGTH_LONG).show();
-        }
+    public GoogleBooksService(GoogleBooksRestApi googleBooksRestApi) {
+        this.googleBooksRestApi = googleBooksRestApi;
     }
 
     public BookVolume lookForVolumeByISBN(String isbn) {
@@ -50,7 +32,17 @@ public class GoogleBooksService {
     }
 
     public BookVolumeCollection lookForVolumesWithQuery(String query) {
-        return mGoogleBooksServiceInterface.searchVolumeData(query, ApiConstantsKt.getBOOKS_INFORMATION_SERVICE_API_KEY());
+        BookVolumeCollection bookVolumeCollection = null;
+        try {
+            bookVolumeCollection = googleBooksRestApi.searchVolumeData(
+                    query,
+                    ApiConstantsKt.getBOOKS_INFORMATION_SERVICE_API_KEY())
+                    .execute()
+                    .body();
+        } catch (IOException exception) {
+            Timber.e(exception);
+        }
+        return bookVolumeCollection;
     }
 
     private String formatQueryForISBNSearch(String isbn) {

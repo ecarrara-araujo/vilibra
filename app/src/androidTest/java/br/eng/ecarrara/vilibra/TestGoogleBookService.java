@@ -8,11 +8,6 @@ import org.junit.runner.RunWith;
 
 import br.eng.ecarrara.vilibra.data.BookVolumeTestDataFactory;
 import br.eng.ecarrara.vilibra.model.BookVolume;
-import br.eng.ecarrara.vilibra.service.GoogleBooksService;
-import br.eng.ecarrara.vilibra.service.GoogleBooksServiceInterface;
-import retrofit.RestAdapter;
-
-import static org.junit.Assert.assertTrue;
 
 @Ignore("To be refactored with GoogleBookService class")
 @RunWith(AndroidJUnit4.class)
