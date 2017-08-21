@@ -7,15 +7,15 @@ import android.test.mock.MockCursor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Date;
 import java.util.List;
 
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class BookContentProviderMapperTest {
 

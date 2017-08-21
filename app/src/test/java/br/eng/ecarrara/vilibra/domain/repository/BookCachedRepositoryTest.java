@@ -3,29 +3,21 @@ package br.eng.ecarrara.vilibra.domain.repository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-
 import br.eng.ecarrara.vilibra.BuildConfig;
-import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+import br.eng.ecarrara.vilibra.domain.cache.Cache;
 import br.eng.ecarrara.vilibra.fixture.BookFixture;
 
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
-import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
-
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertThat;
-
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class BookCachedRepositoryTest {
 

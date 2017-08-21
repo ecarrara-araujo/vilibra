@@ -22,7 +22,7 @@ public class RobolectricUtils {
 
     public static void setupContentProvider(String contentAuthority,
                                             ContentProvider contentProvider) {
-        ShadowContentResolver.registerProvider(contentAuthority, contentProvider);
+//        ShadowContentResolver.registerProvider(contentAuthority, contentProvider);
     }
 
 }
