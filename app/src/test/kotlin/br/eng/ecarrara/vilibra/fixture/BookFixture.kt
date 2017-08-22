@@ -1,8 +1,11 @@
 package br.eng.ecarrara.vilibra.fixture
 
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
+import br.eng.ecarrara.vilibra.data.VilibraContract
 import br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb
 import br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString
+import br.eng.ecarrara.vilibra.util.DefaultData
+import br.eng.ecarrara.vilibra.util.fromFormattedString
 import java.util.*
 
 object BookFixture {
@@ -14,8 +17,6 @@ object BookFixture {
     // This is done to make sure that we have a compatible format with the one Vilibra uses.
     val testBookDevsTestBook: Book
         get() {
-            val publishingDate = getDateFromDb(getDbDateString(Calendar.getInstance().time))
-
             return Book(
                     id = 1L,
                     title = "Devs Test Book",
@@ -24,7 +25,7 @@ object BookFixture {
                     isbn10 = "1234567890",
                     pageCount = 434,
                     authors = Arrays.asList("Crazy Dev Yo", "Man of Code"),
-                    publishedDate = publishingDate,
+                    publishedDate = DefaultData.NOT_INITIALIZED.getDate(),
                     publisher = "Herbert Richards"
             )
         }
@@ -36,7 +37,7 @@ object BookFixture {
     // This is done to make sure that we have a compatible format with the one Vilibra uses.
     val testBookDominandoAndroid: Book
         get() {
-            val publishingDate = getDateFromDb("20140101")
+            val publishingDate = Date().fromFormattedString("20140101", VilibraContract.DATE_FORMAT)
 
             return Book(
                     id = 1L,
@@ -59,7 +60,7 @@ object BookFixture {
     // This is done to make sure that we have a compatible format with the one Vilibra uses.
     val testBookProAndroid4: Book
         get() {
-            val publishingDate = getDateFromDb("20120101")
+            val publishingDate = Date().fromFormattedString("20120101", VilibraContract.DATE_FORMAT)
 
             return Book(
                     id = 1L,
