@@ -6,8 +6,8 @@ import br.eng.ecarrara.vilibra.book.data.datasource.BookLocalCache
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
 import br.eng.ecarrara.vilibra.data.VilibraContract
 import br.eng.ecarrara.vilibra.data.VilibraProvider
-import br.eng.ecarrara.vilibra.fixture.BookFixture
-import br.eng.ecarrara.vilibra.fixture.VilibraProviderFixture
+import br.eng.ecarrara.vilibra.fakedata.BookFakeDataFactory
+import br.eng.ecarrara.vilibra.fakedata.VilibraProviderFakeDataInitializer
 import br.eng.ecarrara.vilibra.utils.RobolectricUtils
 import org.hamcrest.core.Is.`is`
 import org.junit.After
@@ -28,7 +28,7 @@ class BookContentProviderCacheTest {
 
     private lateinit var context: Context
 
-    private lateinit var vilibraProviderFixture: VilibraProviderFixture
+    private lateinit var vilibraProviderFixture: VilibraProviderFakeDataInitializer
     private lateinit var testBook: Book
 
     private lateinit var bookLocalCache: BookLocalCache
@@ -42,7 +42,7 @@ class BookContentProviderCacheTest {
                 Robolectric.setupContentProvider(VilibraProvider::class.java)
         )
 
-        this.vilibraProviderFixture = VilibraProviderFixture(this.context)
+        this.vilibraProviderFixture = VilibraProviderFakeDataInitializer(this.context)
         this.vilibraProviderFixture.prepareTestProvider()
         this.testBook = this.vilibraProviderFixture.getProAndroid4()!!
 
@@ -51,7 +51,7 @@ class BookContentProviderCacheTest {
 
     @After
     fun cleanUp() {
-        this.vilibraProviderFixture.clearVilibraDatabase()
+        this.vilibraProviderFixture.clearContentProviderData()
     }
 
     @Test
@@ -76,8 +76,8 @@ class BookContentProviderCacheTest {
     @Throws(Exception::class)
     fun testPutWithIsbn10() {
 
-        vilibraProviderFixture.clearVilibraDatabase()
-        val anotherBook = BookFixture.testBookDevsTestBook
+        vilibraProviderFixture.clearContentProviderData()
+        val anotherBook = BookFakeDataFactory.fakeBookDevsTest
         bookLocalCache.put(anotherBook.isbn10, anotherBook)
                 .test()
                 .assertComplete()
@@ -91,8 +91,8 @@ class BookContentProviderCacheTest {
     @Test
     @Throws(Exception::class)
     fun testPutWithIsbn13() {
-        vilibraProviderFixture.clearVilibraDatabase()
-        val anotherBook = BookFixture.testBookDevsTestBook
+        vilibraProviderFixture.clearContentProviderData()
+        val anotherBook = BookFakeDataFactory.fakeBookDevsTest
 
         bookLocalCache.put(anotherBook.isbn13, anotherBook)
                 .test()
@@ -107,8 +107,8 @@ class BookContentProviderCacheTest {
     @Test
     @Throws(Exception::class)
     fun testPutWithIsbn10AdGetWithIsbn13() {
-        vilibraProviderFixture.clearVilibraDatabase()
-        val anotherBook = BookFixture.testBookDevsTestBook
+        vilibraProviderFixture.clearContentProviderData()
+        val anotherBook = BookFakeDataFactory.fakeBookDevsTest
 
         bookLocalCache.put(anotherBook.isbn10, anotherBook)
                 .test()
@@ -123,8 +123,8 @@ class BookContentProviderCacheTest {
     @Test
     @Throws(Exception::class)
     fun testPutWithIsbn13AndGetWithIsbn10() {
-        vilibraProviderFixture.clearVilibraDatabase()
-        val anotherBook = BookFixture.testBookDevsTestBook
+        vilibraProviderFixture.clearContentProviderData()
+        val anotherBook = BookFakeDataFactory.fakeBookDevsTest
 
         bookLocalCache.put(anotherBook.isbn13, anotherBook)
                 .test()

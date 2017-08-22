@@ -9,7 +9,7 @@ import org.robolectric.annotation.Config;
 import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.domain.cache.Cache;
-import br.eng.ecarrara.vilibra.fixture.BookFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookFakeDataFactory;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -29,7 +29,7 @@ public class BookCachedRepositoryTest {
 
     @Before
     public void prepareMocks() {
-        this.testBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
+        this.testBook = BookFakeDataFactory.INSTANCE.getFakeBookDevsTest();
         this.bookRepository = mock(BookRepository.class);
         this.cache = mock(Cache.class);
     }

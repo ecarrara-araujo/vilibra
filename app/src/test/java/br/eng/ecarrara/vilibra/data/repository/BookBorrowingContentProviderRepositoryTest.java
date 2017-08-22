@@ -16,7 +16,7 @@ import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
-import br.eng.ecarrara.vilibra.fixture.VilibraProviderFixture;
+import br.eng.ecarrara.vilibra.fakedata.VilibraProviderFakeDataInitializer;
 import br.eng.ecarrara.vilibra.utils.RobolectricUtils;
 
 import static org.hamcrest.core.Is.is;
@@ -28,7 +28,7 @@ import static org.junit.Assert.assertThat;
 public class BookBorrowingContentProviderRepositoryTest {
 
     private Context context;
-    private VilibraProviderFixture vilibraProviderFixture;
+    private VilibraProviderFakeDataInitializer vilibraProviderFixture;
 
     private BookBorrowing testBookBorrowing;
     private BookBorrowingRepository bookBorrowingRepository;
@@ -40,7 +40,7 @@ public class BookBorrowingContentProviderRepositoryTest {
 
     @Before public void setup() {
         this.context = RuntimeEnvironment.application;
-        this.vilibraProviderFixture = new VilibraProviderFixture(this.context);
+        this.vilibraProviderFixture = new VilibraProviderFakeDataInitializer(this.context);
         this.vilibraProviderFixture.prepareTestProvider();
         this.testBookBorrowing = this.vilibraProviderFixture.getDevsTestBookBorrowing();
 

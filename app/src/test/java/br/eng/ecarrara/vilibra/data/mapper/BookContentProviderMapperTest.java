@@ -16,7 +16,7 @@ import java.util.List;
 import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
-import br.eng.ecarrara.vilibra.fixture.BookFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookFakeDataFactory;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
@@ -35,7 +35,7 @@ public class BookContentProviderMapperTest {
 
     @Before public void prepareTest() {
         this.mapper = new BookContentProviderMapper();
-        this.testBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
+        this.testBook = BookFakeDataFactory.INSTANCE.getFakeBookDevsTest();
     }
 
     @Test public void testTransformEmptyCursorToBook() throws Exception {

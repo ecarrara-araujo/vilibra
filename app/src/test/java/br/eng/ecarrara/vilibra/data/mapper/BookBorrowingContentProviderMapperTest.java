@@ -16,7 +16,7 @@ import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
-import br.eng.ecarrara.vilibra.fixture.BookBorrowingFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookBorrowingFixture;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;

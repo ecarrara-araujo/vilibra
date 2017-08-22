@@ -17,7 +17,7 @@ import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.executor.MockCallbackThread;
 import br.eng.ecarrara.vilibra.domain.executor.MockExecutor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
-import br.eng.ecarrara.vilibra.fixture.BookBorrowingFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookBorrowingFixture;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;

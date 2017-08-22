@@ -1,4 +1,4 @@
-package br.eng.ecarrara.vilibra.fixture;
+package br.eng.ecarrara.vilibra.fakedata;
 
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrower;
 
