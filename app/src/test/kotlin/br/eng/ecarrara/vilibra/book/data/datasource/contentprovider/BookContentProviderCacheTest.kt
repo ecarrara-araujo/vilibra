@@ -5,6 +5,7 @@ import br.eng.ecarrara.vilibra.BuildConfig
 import br.eng.ecarrara.vilibra.book.data.datasource.BookLocalCache
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
 import br.eng.ecarrara.vilibra.data.VilibraContract
+import br.eng.ecarrara.vilibra.data.VilibraProvider
 import br.eng.ecarrara.vilibra.fixture.BookFixture
 import br.eng.ecarrara.vilibra.fixture.VilibraProviderFixture
 import br.eng.ecarrara.vilibra.utils.RobolectricUtils
@@ -15,10 +16,11 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
-import java.security.InvalidParameterException
+import org.robolectric.shadows.ShadowContentResolver
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class)
@@ -33,7 +35,13 @@ class BookContentProviderCacheTest {
 
     @Before
     fun prepareTest() {
-        this.context = RuntimeEnvironment.application
+        this.context = RuntimeEnvironment.application!!
+
+        ShadowContentResolver.registerProviderInternal(
+                VilibraContract.CONTENT_AUTHORITY,
+                Robolectric.setupContentProvider(VilibraProvider::class.java)
+        )
+
         this.vilibraProviderFixture = VilibraProviderFixture(this.context)
         this.vilibraProviderFixture.prepareTestProvider()
         this.testBook = this.vilibraProviderFixture.getProAndroid4()!!
@@ -44,11 +52,6 @@ class BookContentProviderCacheTest {
     @After
     fun cleanUp() {
         this.vilibraProviderFixture.clearVilibraDatabase()
-    }
-
-    @Test(expected = InvalidParameterException::class)
-    fun testNullInitializationThrowsException() {
-        BookContentProviderCache(null!!)
     }
 
     @Test
@@ -198,11 +201,10 @@ class BookContentProviderCacheTest {
     }
 
     companion object {
-
+        @JvmStatic
         @BeforeClass
         fun setupRobolectric() {
             RobolectricUtils.redirectLogsToSystemOutput()
-            RobolectricUtils.setupVilibraContentProvider()
         }
     }
 }

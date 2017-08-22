@@ -9,22 +9,17 @@ import br.eng.ecarrara.vilibra.data.mapper.BookContentProviderMapper
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing
 import java.security.InvalidParameterException
 
-class VilibraProviderFixture(private val context: Context?) {
-    private val bookContentProviderMapper: BookContentProviderMapper
-    private val bookBorrowingContentProviderMapper: BookBorrowingContentProviderMapper
+class VilibraProviderFixture(private val context: Context) {
+    private val bookContentProviderMapper = BookContentProviderMapper()
+    private val bookBorrowingContentProviderMapper = BookBorrowingContentProviderMapper()
 
     private var devsTestBookBorrowing: BookBorrowing? = null
-    private var devsTestBook: Book? = null
-    private var dominandoAndroid: Book? = null
-    private var proAndroid4: Book? = null
 
-    init {
-        if (context == null) {
-            throw InvalidParameterException("Context cannot be null.")
-        }
-        this.bookContentProviderMapper = BookContentProviderMapper()
-        this.bookBorrowingContentProviderMapper = BookBorrowingContentProviderMapper()
-    }
+    private var devsTestBook: Book? = null
+
+    private var dominandoAndroid: Book? = null
+
+    private var proAndroid4: Book? = null
 
     fun getDevsTestBookBorrowing(): BookBorrowing? {
         if (this.devsTestBook == null) {
@@ -63,14 +58,14 @@ class VilibraProviderFixture(private val context: Context?) {
     fun insertDevsTestBookWithBorrowing() {
         this.devsTestBook = BookFixture.testBookDevsTestBook
         val testBookContentValues = bookContentProviderMapper.transform(this.devsTestBook)
-        val insertedBook = context?.getContentResolver()?.
+        val insertedBook = context.contentResolver?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
         val insertedBookId = ContentUris.parseId(insertedBook)
         this.devsTestBook = this.devsTestBook?.copy(id = insertedBookId)
 
         this.devsTestBookBorrowing = BookBorrowingFixture.getTestBookBorrowing(this.devsTestBook)
         val testBorrowingContentValues = bookBorrowingContentProviderMapper.transform(this.devsTestBookBorrowing)
-        val insertedBookBorrowing = context?.getContentResolver()?.
+        val insertedBookBorrowing = context.getContentResolver()?.
                 insert(VilibraContract.LendingEntry.CONTENT_URI, testBorrowingContentValues)
         val insertedBookBorrowingId = ContentUris.parseId(insertedBookBorrowing)
         this.devsTestBookBorrowing!!.id = insertedBookBorrowingId
@@ -79,20 +74,24 @@ class VilibraProviderFixture(private val context: Context?) {
     fun insertDominandoAndroidTestBook() {
         this.dominandoAndroid = BookFixture.testBookDominandoAndroid
         val testBookContentValues = bookContentProviderMapper.transform(this.dominandoAndroid)
-        val insertedBook = context?.getContentResolver()?.
+        val insertedBook = context.getContentResolver()?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
+        val insertedBookId = ContentUris.parseId(insertedBook)
+        this.dominandoAndroid = dominandoAndroid!!.copy(id = insertedBookId)
     }
 
     fun insertProAndroid4TestBook() {
         this.proAndroid4 = BookFixture.testBookProAndroid4
         val testBookContentValues = bookContentProviderMapper.transform(this.proAndroid4)
-        val insertedBook = context?.getContentResolver()?.
+        val insertedBook = context.getContentResolver()?.
                 insert(VilibraContract.BookEntry.CONTENT_URI, testBookContentValues)
+        val insertedBookId = ContentUris.parseId(insertedBook)
+        this.proAndroid4 = proAndroid4!!.copy(id = insertedBookId)
     }
 
     fun clearVilibraDatabase() {
-        context?.getContentResolver()?.delete(VilibraContract.LendingEntry.CONTENT_URI, null, null)
-        context?.getContentResolver()?.delete(VilibraContract.BookEntry.CONTENT_URI, null, null)
+        context.getContentResolver()?.delete(VilibraContract.LendingEntry.CONTENT_URI, null, null)
+        context.getContentResolver()?.delete(VilibraContract.BookEntry.CONTENT_URI, null, null)
 
         this.devsTestBookBorrowing = null
         this.devsTestBook = null

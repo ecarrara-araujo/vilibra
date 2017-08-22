@@ -1,12 +1,11 @@
 package br.eng.ecarrara.vilibra.core.di
 
+import br.eng.ecarrara.vilibra.book.data.datasource.BookLocalCache
 import br.eng.ecarrara.vilibra.book.data.datasource.BookRemoteDataSource
+import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.BookContentProviderCache
 import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.GoogleBooksRestDataSource
-import br.eng.ecarrara.vilibra.book.domain.entity.Book
-import br.eng.ecarrara.vilibra.data.cache.BookContentProviderCache
 import br.eng.ecarrara.vilibra.data.repository.BookBorrowingContentProviderRepository
 import br.eng.ecarrara.vilibra.data.repository.BookRestApiRepository
-import br.eng.ecarrara.vilibra.domain.cache.Cache
 import br.eng.ecarrara.vilibra.domain.executor.Executor
 import br.eng.ecarrara.vilibra.domain.executor.ThreadExecutor
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository
@@ -39,7 +38,7 @@ abstract class ServicesModule() {
     @Binds
     abstract fun providesBookLocalCache(
             bookContentProviderCache: BookContentProviderCache
-    ): Cache<String, Book>
+    ): BookLocalCache
 
     @Binds
     abstract fun providesBookBorrowingRepository(

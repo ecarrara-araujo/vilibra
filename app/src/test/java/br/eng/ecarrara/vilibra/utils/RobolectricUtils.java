@@ -2,6 +2,7 @@ package br.eng.ecarrara.vilibra.utils;
 
 import android.content.ContentProvider;
 
+import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowLog;
 
