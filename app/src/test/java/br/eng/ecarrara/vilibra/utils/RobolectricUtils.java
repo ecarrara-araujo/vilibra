@@ -2,6 +2,7 @@ package br.eng.ecarrara.vilibra.utils;
 
 import android.content.ContentProvider;
 
+import org.robolectric.Robolectric;
 import org.robolectric.shadows.ShadowContentResolver;
 import org.robolectric.shadows.ShadowLog;
 
@@ -22,7 +23,7 @@ public class RobolectricUtils {
 
     public static void setupContentProvider(String contentAuthority,
                                             ContentProvider contentProvider) {
-        ShadowContentResolver.registerProvider(contentAuthority, contentProvider);
+//        ShadowContentResolver.registerProvider(contentAuthority, contentProvider);
     }
 
 }

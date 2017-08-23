@@ -1,4 +1,4 @@
-package br.eng.ecarrara.vilibra.fixture;
+package br.eng.ecarrara.vilibra.fakedata;
 
 import java.util.Date;
 
@@ -20,7 +20,7 @@ public class BookBorrowingFixture {
      * @return
      */
     public static BookBorrowing getTestBookBorrowing() {
-        Book borrowedBook = BookFixture.INSTANCE.getTestBookDevsTestBook();
+        Book borrowedBook = BookFakeDataFactory.INSTANCE.getFakeBookDevsTest();
         BookBorrower borrower = BookBorrowerFixture.getMasterBorrowerTestData();
         return getTestBookBorrowing(borrowedBook, borrower);
     }

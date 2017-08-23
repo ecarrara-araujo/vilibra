@@ -3,7 +3,7 @@ package br.eng.ecarrara.vilibra.domain.usecase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
@@ -17,14 +17,14 @@ import br.eng.ecarrara.vilibra.domain.executor.Executor;
 import br.eng.ecarrara.vilibra.domain.executor.MockCallbackThread;
 import br.eng.ecarrara.vilibra.domain.executor.MockExecutor;
 import br.eng.ecarrara.vilibra.domain.repository.BookBorrowingRepository;
-import br.eng.ecarrara.vilibra.fixture.BookBorrowingFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookBorrowingFixture;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class ListBookBorrowingsTest {
 

@@ -6,7 +6,7 @@ import android.database.Cursor;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.Date;
@@ -16,7 +16,7 @@ import br.eng.ecarrara.vilibra.BuildConfig;
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import br.eng.ecarrara.vilibra.data.VilibraContract.LendingEntry;
 import br.eng.ecarrara.vilibra.domain.entity.BookBorrowing;
-import br.eng.ecarrara.vilibra.fixture.BookBorrowingFixture;
+import br.eng.ecarrara.vilibra.fakedata.BookBorrowingFixture;
 
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDateFromDb;
 import static br.eng.ecarrara.vilibra.data.VilibraContract.getDbDateString;
@@ -27,7 +27,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(RobolectricGradleTestRunner.class)
+@RunWith(RobolectricTestRunner.class)
 @Config(constants = BuildConfig.class)
 public class BookBorrowingContentProviderMapperTest {
 
@@ -137,7 +137,7 @@ public class BookBorrowingContentProviderMapperTest {
         when(cursor.getString(INDEX_COLUMN_PUBLISHER))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getPublisher());
         when(cursor.getString(INDEX_COLUMN_PUBLISHED_DATE))
-                .thenReturn(getDbDateString(this.testBookBorrowing.getBorrowedBook().getPublishedDate()));
+                .thenReturn(this.testBookBorrowing.getBorrowedBook().getPublishedDate());
         when(cursor.getString(INDEX_COLUMN_ISBN_10))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getIsbn10());
         when(cursor.getString(INDEX_COLUMN_ISBN_13))
