@@ -4,10 +4,11 @@ import br.eng.ecarrara.vilibra.BuildConfig
 import br.eng.ecarrara.vilibra.book.data.datasource.BookRemoteDataSource
 import br.eng.ecarrara.vilibra.book.data.datasource.contentprovider.BookContentProviderCache
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
+import br.eng.ecarrara.vilibra.fakedata.BookFakeDataFactory
 import br.eng.ecarrara.vilibra.rule.RobolectricVilibraProviderRule
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.whenever
-import io.reactivex.Single
+import io.reactivex.Maybe
 import org.hamcrest.core.Is.`is`
 import org.junit.Assert.assertThat
 import org.junit.Before
@@ -20,6 +21,7 @@ import org.mockito.quality.Strictness
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.util.NoSuchElementException
 
 @RunWith(RobolectricTestRunner::class)
 @Config(constants = BuildConfig::class)
@@ -62,7 +64,7 @@ class BookCachedRepositoryTest {
         // Arrange
         val cachedFakeBook = insertFakeBookIntoCache()
         var remoteDataSourceWasTriggered = false
-        onBookRemoteDataSourceSearchForBookBySubscribedTriggers { remoteDataSourceWasTriggered = true }
+        onBookRemoteDataSourceSearchForBookByCompletedTriggers { remoteDataSourceWasTriggered = true }
 
         // Act
         bookCachedRepository.getByIsbn(cachedFakeBook.isbn10).test().assertComplete()
@@ -76,7 +78,7 @@ class BookCachedRepositoryTest {
         // Arrange
         val fakeBook = getFakeBook()
         whenever(bookRemoteDataSource.searchForBookBy(fakeBook.isbn10))
-                .thenReturn(Single.just(fakeBook))
+                .thenReturn(Maybe.just(fakeBook))
 
         // Act
         bookCachedRepository.getByIsbn(fakeBook.isbn10).test().assertComplete()
@@ -85,7 +87,7 @@ class BookCachedRepositoryTest {
         bookContentProviderCache[fakeBook.isbn10]
                 .test()
                 .assertComplete()
-                .assertValue(fakeBook)
+                .assertValue{ returnedBook -> assertSame(expected = fakeBook, real = returnedBook) }
     }
 
     @Test
@@ -93,18 +95,40 @@ class BookCachedRepositoryTest {
         // Arrange
         val fakeBook = getFakeBook()
         whenever(bookRemoteDataSource.searchForBookBy(fakeBook.isbn10))
-                .thenReturn(Single.just(fakeBook))
+                .thenReturn(Maybe.just(fakeBook))
 
         // Act & Assert
         bookCachedRepository.getByIsbn(fakeBook.isbn10)
                 .test()
                 .assertComplete()
-                .assertValue(fakeBook)
+                .assertValue{ returnedBook -> assertSame(expected = fakeBook, real = returnedBook) }
     }
 
-    private fun getFakeBook(): Book = robolectricVilibraProviderRule
-            .vilibraProviderFakeDataInitializer
-            .getDevsTestBook()!!
+    @Test
+    fun getByIsbn_whenCalled_withEmptyCacheAndNoDataInRemote_throwsException() {
+        // Arrange
+        val fakeBook = getFakeBook()
+        whenever(bookRemoteDataSource.searchForBookBy(fakeBook.isbn10))
+                .thenReturn(Maybe.empty())
+
+        // Act & Assert
+        bookCachedRepository.getByIsbn(fakeBook.isbn10)
+                .test()
+                .assertError(NoSuchElementException::class.java)
+    }
+
+    private fun assertSame(expected: Book, real: Book)
+        = expected.isbn10 == real.isbn10 &&
+            expected.isbn13 == real.isbn13 &&
+            expected.authors == real.authors &&
+            expected.pageCount == real.pageCount &&
+            expected.publishedDate == real.publishedDate &&
+            expected.publisher == real.publisher &&
+            expected.subtitle == real.subtitle &&
+            expected.title == real.title
+
+
+    private fun getFakeBook(): Book = BookFakeDataFactory.fakeBookDevsTest
 
     private fun insertFakeBookIntoCache(): Book {
         robolectricVilibraProviderRule
@@ -116,12 +140,12 @@ class BookCachedRepositoryTest {
                 .getDevsTestBook()!!
     }
 
-    private fun onBookRemoteDataSourceSearchForBookBySubscribedTriggers(
-            searchForBookSubscribed: () -> Unit
+    private fun onBookRemoteDataSourceSearchForBookByCompletedTriggers(
+            searchForBookCompleted: () -> Unit
     ) {
         whenever(bookRemoteDataSource.searchForBookBy(any()))
-                .thenReturn(Single.just(Book.NO_BOOK)
-                        .doOnSubscribe { searchForBookSubscribed() })
+                .thenReturn(Maybe.just(Book.NO_BOOK)
+                        .doOnComplete { searchForBookCompleted() })
     }
 
 }

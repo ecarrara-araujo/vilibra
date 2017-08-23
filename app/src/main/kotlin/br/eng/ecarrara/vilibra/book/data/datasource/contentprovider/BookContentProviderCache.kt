@@ -8,6 +8,7 @@ import br.eng.ecarrara.vilibra.book.domain.entity.Book
 import br.eng.ecarrara.vilibra.core.data.RxCache
 import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -23,15 +24,19 @@ class BookContentProviderCache
         private val applicationContext: Context
 ) : BookLocalCache {
 
-    override fun get(elementKey: String): Single<Book> {
-        return Single.defer {
+    override fun get(elementKey: String): Maybe<Book> {
+        return Maybe.defer {
             val selectionArgs = arrayOf(elementKey, elementKey)
             val bookCursor = applicationContext.contentResolver.query(
                     BookEntry.CONTENT_URI,
                     BOOK_COLUMNS, BOOK_BY_ISBN_SELECTION,
                     selectionArgs, null)
-
-            Single.just(transformBookFromCursor(bookCursor))
+            val book = transformBookFromCursor(bookCursor)
+            if(book == Book.NO_BOOK) {
+                Maybe.empty<Book>()
+            } else {
+                Maybe.just(book)
+            }
         }
 
     }
@@ -56,7 +61,8 @@ class BookContentProviderCache
         }
 
     override fun isCached(elementKey: String): Single<Boolean> =
-            get(elementKey).map { book -> book !== Book.NO_BOOK }
+            get(elementKey).switchIfEmpty { Book.NO_BOOK }
+                    .flatMapSingle{ book -> Single.just(book !== Book.NO_BOOK) }
 
     override fun clear(): Completable =
             Completable.defer {
@@ -66,11 +72,11 @@ class BookContentProviderCache
 
     private fun transformBookFromCursor(cursor: Cursor?): Book {
         val bookContentProviderMapper = BookContentProviderMapper()
-        var book = Book.NO_BOOK
         if (cursor != null && cursor.moveToFirst()) {
-            book = bookContentProviderMapper.transform(cursor)
+            return bookContentProviderMapper.transform(cursor)
+        } else {
+            return Book.NO_BOOK
         }
-        return book
     }
 
     companion object {

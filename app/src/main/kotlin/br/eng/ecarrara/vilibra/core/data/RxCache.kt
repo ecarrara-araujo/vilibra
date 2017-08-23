@@ -1,6 +1,7 @@
 package br.eng.ecarrara.vilibra.core.data
 
 import io.reactivex.Completable
+import io.reactivex.Maybe
 import io.reactivex.Single
 
 /**
@@ -8,7 +9,7 @@ import io.reactivex.Single
  */
 interface RxCache<Key, Type> {
 
-    operator fun get(elementKey: Key): Single<Type>
+    operator fun get(elementKey: Key): Maybe<Type>
     fun put(elementKey: Key, elementToBeCached: Type): Completable
     fun remove(elementKeyToBeRemoved: Key): Completable
     fun isCached(elementKey: Key): Single<Boolean>
