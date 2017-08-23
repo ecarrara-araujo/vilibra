@@ -90,7 +90,7 @@ public class BookContentProviderMapperTest {
                 .thenReturn(AuthorsListMapper.transformAuthorsListToDatabaseFormat(this.testBook.getAuthors()));
         when(cursor.getString(INDEX_COLUMN_PUBLISHER)).thenReturn(this.testBook.getPublisher());
         when(cursor.getString(INDEX_COLUMN_PUBLISHED_DATE))
-                .thenReturn(getDbDateString(this.testBook.getPublishedDate()));
+                .thenReturn(this.testBook.getPublishedDate());
         when(cursor.getString(INDEX_COLUMN_ISBN_10)).thenReturn(this.testBook.getIsbn10());
         when(cursor.getString(INDEX_COLUMN_ISBN_13)).thenReturn(this.testBook.getIsbn13());
         when(cursor.getInt(INDEX_COLUMN_PAGES)).thenReturn(this.testBook.getPageCount());
@@ -109,8 +109,7 @@ public class BookContentProviderMapperTest {
                 AuthorsListMapper.transformAuthorsFromCommaSeparatedList(
                         generatedContentValues.getAsString(BookEntry.COLUMN_AUTHORS));
         String publisher = generatedContentValues.getAsString(BookEntry.COLUMN_PUBLISHER);
-        Date publishedDate =
-                getDateFromDb(generatedContentValues.getAsString(BookEntry.COLUMN_PUBLISHED_DATE));
+        String publishedDate = generatedContentValues.getAsString(BookEntry.COLUMN_PUBLISHED_DATE);
         String isbn10 = generatedContentValues.getAsString(BookEntry.COLUMN_ISBN_10);
         String isbn13 = generatedContentValues.getAsString(BookEntry.COLUMN_ISBN_13);
         int numberOfPages = generatedContentValues.getAsInteger(BookEntry.COLUMN_PAGES);

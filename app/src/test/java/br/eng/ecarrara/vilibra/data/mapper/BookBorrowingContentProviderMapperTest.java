@@ -137,7 +137,7 @@ public class BookBorrowingContentProviderMapperTest {
         when(cursor.getString(INDEX_COLUMN_PUBLISHER))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getPublisher());
         when(cursor.getString(INDEX_COLUMN_PUBLISHED_DATE))
-                .thenReturn(getDbDateString(this.testBookBorrowing.getBorrowedBook().getPublishedDate()));
+                .thenReturn(this.testBookBorrowing.getBorrowedBook().getPublishedDate());
         when(cursor.getString(INDEX_COLUMN_ISBN_10))
                 .thenReturn(this.testBookBorrowing.getBorrowedBook().getIsbn10());
         when(cursor.getString(INDEX_COLUMN_ISBN_13))

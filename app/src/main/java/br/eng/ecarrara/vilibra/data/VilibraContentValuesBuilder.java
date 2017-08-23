@@ -25,7 +25,7 @@ public class VilibraContentValuesBuilder {
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHER,
                 book.getPublisher());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PUBLISHED_DATE,
-                getDbDateString(book.getPublishedDate()));
+                book.getPublishedDate());
         contentValues.put(VilibraContract.BookEntry.COLUMN_PAGES,
                 book.getPageCount());
 

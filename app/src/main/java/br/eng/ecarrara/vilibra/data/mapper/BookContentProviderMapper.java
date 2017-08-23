@@ -33,7 +33,7 @@ public class BookContentProviderMapper {
 
         Book book = new Book(id, title, subtitle,
                 AuthorsListMapper.transformAuthorsFromCommaSeparatedList(authors),
-                publisher, getDateFromDb(publishedDate), numberOfPages, isbn10, isbn13);
+                publisher, publishedDate, numberOfPages, isbn10, isbn13);
 
         return book;
     }
@@ -48,7 +48,7 @@ public class BookContentProviderMapper {
                 AuthorsListMapper.transformAuthorsListToDatabaseFormat(book.getAuthors()));
 
         contentValues.put(BookEntry.COLUMN_PUBLISHER, book.getPublisher());
-        contentValues.put(BookEntry.COLUMN_PUBLISHED_DATE, getDbDateString(book.getPublishedDate()));
+        contentValues.put(BookEntry.COLUMN_PUBLISHED_DATE, book.getPublishedDate());
         contentValues.put(BookEntry.COLUMN_ISBN_10, book.getIsbn10());
         contentValues.put(BookEntry.COLUMN_ISBN_13, book.getIsbn13());
         contentValues.put(BookEntry.COLUMN_PAGES, book.getPageCount());

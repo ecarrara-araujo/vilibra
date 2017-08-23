@@ -28,7 +28,7 @@ class BookContentProviderMapper {
 
         return Book(id, title, subtitle,
                 AuthorsListMapper.transformAuthorsFromCommaSeparatedList(authors),
-                publisher, getDateFromDb(publishedDate)!!, numberOfPages, isbn10, isbn13)
+                publisher, publishedDate, numberOfPages, isbn10, isbn13)
     }
 
     fun transform(book: Book): ContentValues {
@@ -39,7 +39,7 @@ class BookContentProviderMapper {
             put(BookEntry.COLUMN_AUTHORS,
                     AuthorsListMapper.transformAuthorsListToDatabaseFormat(book.authors))
             put(BookEntry.COLUMN_PUBLISHER, book.publisher)
-            put(BookEntry.COLUMN_PUBLISHED_DATE, getDbDateString(book.publishedDate))
+            put(BookEntry.COLUMN_PUBLISHED_DATE, book.publishedDate)
             put(BookEntry.COLUMN_ISBN_10, book.isbn10)
             put(BookEntry.COLUMN_ISBN_13, book.isbn13)
             put(BookEntry.COLUMN_PAGES, book.pageCount)
