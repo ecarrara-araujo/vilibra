@@ -29,7 +29,7 @@ enum class DefaultData {
 
         init {
             val calendar = Calendar.getInstance()
-            calendar.set(1, 1, 1)
+            calendar.set(1, 1, 1, 0, 0, 0)
             DEFAULT_DATE = calendar.time
         }
     }
