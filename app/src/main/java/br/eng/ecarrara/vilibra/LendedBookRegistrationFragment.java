@@ -1,14 +1,9 @@
 package br.eng.ecarrara.vilibra;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,20 +19,25 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.eng.ecarrara.vilibra.book.data.datasource.BookRemoteDataSource;
-import br.eng.ecarrara.vilibra.book.data.datasource.googlebooksrestapi.model.JsonBookVolume;
 import br.eng.ecarrara.vilibra.book.domain.entity.Book;
+import br.eng.ecarrara.vilibra.book.domain.usecase.SearchForBook;
 import br.eng.ecarrara.vilibra.core.di.VilibraInjector;
-import br.eng.ecarrara.vilibra.data.VilibraContentValuesBuilder;
 import br.eng.ecarrara.vilibra.data.VilibraContract;
-import br.eng.ecarrara.vilibra.data.VilibraContract.BookEntry;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 public class LendedBookRegistrationFragment extends Fragment {
 
     @Inject
     BookRemoteDataSource bookRemoteDataSource;
+
+    @Inject
+    SearchForBook searchForBookUseCase;
 
     @BindView(R.id.main_content_frame)
     View mainContentFrame;
@@ -53,6 +53,8 @@ public class LendedBookRegistrationFragment extends Fragment {
 
     private String lastBarcodeContentRead;
     private Uri borrowedBookUri;
+
+    private CompositeDisposable disposables = new CompositeDisposable();
 
     public interface Callback {
         public void onError(String message);
@@ -125,60 +127,36 @@ public class LendedBookRegistrationFragment extends Fragment {
         setLoadingState();
         String isbn = ((EditText) mainContentFrame
                 .findViewById(R.id.isbn_edit_text)).getText().toString();
-        FetchBookDataTask fetchBookDataTask = new FetchBookDataTask(getActivity());
-        fetchBookDataTask.execute(isbn);
+
+        disposables.add(searchForBookUseCase.execute(isbn)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        new Consumer<Book>() {
+                            @Override
+                            public void accept(Book book) throws Exception {
+                                displayBookDetail(book);
+                            }
+                        },
+                        new Consumer<Throwable>() {
+                            @Override
+                            public void accept(Throwable throwable) throws Exception {
+                                ((Callback) getActivity()).onError(
+                                        getString(R.string.error_book_data_retrieve)
+                                );
+                            }
+                        }
+                )
+        );
     }
 
-    private class FetchBookDataTask extends AsyncTask<String, Void, Uri> {
-
-        private final String LOG_TAG = FetchBookDataTask.class.getSimpleName();
-        private Context mContext;
-
-        public FetchBookDataTask(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        protected Uri doInBackground(String... params) {
-
-            if (params.length == 0) {
-                Log.d(LOG_TAG, "ISBN not informed...");
-                return null;
-            }
-
-            String isbn = params[0];
-            Uri bookUri = null;
-
-            Cursor cursor = getActivity().getContentResolver().query(BookEntry.CONTENT_URI, null,
-                    BookEntry.COLUMN_ISBN_10 + " = ? OR " + BookEntry.COLUMN_ISBN_13 + " = ?",
-                    new String[]{isbn, isbn}, null);
-            if (cursor.moveToFirst()) {
-                bookUri =
-                        BookEntry.buildBookUri(cursor.getLong(cursor.getColumnIndex(BookEntry.COLUMN_BOOK_ID)));
-            } else {
-                Book returnedBook = bookRemoteDataSource.searchForBookBy(isbn).blockingGet();
-                ContentValues bookData = VilibraContentValuesBuilder
-                        .buildFor(returnedBook);
-                bookUri = mContext.getContentResolver()
-                        .insert(VilibraContract.BookEntry.CONTENT_URI, bookData);
-            }
-            return bookUri;
-        }
-
-        @Override
-        protected void onPostExecute(Uri uri) {
-            borrowedBookUri = uri;
-            clearLoadingState();
-            if (null != borrowedBookUri) {
-                Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
-                detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI, uri);
-                getActivity().startActivity(detailIntent);
-                getActivity().finish();
-            } else {
-                ((Callback) getActivity()).onError(getString(R.string.error_book_data_retrieve));
-            }
-            super.onPostExecute(uri);
-        }
+    private void displayBookDetail(Book book) {
+        clearLoadingState();
+        Intent detailIntent = new Intent(getActivity(), LendedBookDetailActivity.class);
+        detailIntent.putExtra(LendedBookDetailActivity.EXTRA_KEY_BOOK_URI,
+                VilibraContract.BookEntry.buildBookUri(book.getId()));
+        getActivity().startActivity(detailIntent);
+        getActivity().finish();
     }
 
 }
