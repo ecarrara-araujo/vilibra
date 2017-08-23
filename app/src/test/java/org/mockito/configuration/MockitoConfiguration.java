@@ -6,6 +6,7 @@ import org.mockito.internal.stubbing.defaultanswers.ReturnsEmptyValues;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
+import io.reactivex.Maybe;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 
@@ -20,6 +21,8 @@ public class MockitoConfiguration extends DefaultMockitoConfiguration {
                     return Observable.error(createException(inv));
                 } else if (type.isAssignableFrom(Single.class)) {
                     return Single.error(createException(inv));
+                } else if (type.isAssignableFrom(Maybe.class)) {
+                    return Maybe.error(createException(inv));
                 } else {
                     return super.answer(inv);
                 }

@@ -6,8 +6,8 @@ import br.eng.ecarrara.vilibra.book.domain.BookRepository
 import br.eng.ecarrara.vilibra.book.domain.entity.Book
 import br.eng.ecarrara.vilibra.book.domain.entity.BookWithNotValidIsbnException
 import br.eng.ecarrara.vilibra.core.data.RxCache
+import io.reactivex.Maybe
 import io.reactivex.Single
-import timber.log.Timber
 import javax.inject.Inject
 
 /**
@@ -22,9 +22,8 @@ class BookCachedRepository
 ) : BookRepository {
 
     override fun getByIsbn(isbn: String): Single<Book> {
-        return Single
+        return Maybe
                 .concat(bookLocalCache[isbn], getFromRemoteDataSourceAndStoreToCache(isbn))
-                .doOnComplete { Timber.d("Current Thread: " + Thread.currentThread().name) }
                 .firstOrError()
     }
 
