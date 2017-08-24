@@ -92,7 +92,7 @@ public class BookListActivity extends AppCompatActivity
         // Start the service once the app is opened. It will execute once and re schedule itself
         // to execute later.
         // TODO: Check for a more effective way to do this
-        startService(new Intent(this, BookLendingNotificationService.class));
+//        startService(new Intent(this, BookLendingNotificationService.class));
     }
 
     @Override
