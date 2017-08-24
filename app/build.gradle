@@ -132,7 +132,7 @@ dependencies {
     androidTestCompile "com.android.support.test:runner:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
     androidTestCompile "com.android.support.test:rules:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'org.hamcrest:hamcrest-integration:1.3'
 
