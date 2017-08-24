@@ -49,19 +49,20 @@ android {
 
     sourceSets {
       
-        String testData = 'src/testdata'   
+        String sharedTestCode = 'src/sharedTest/kotlin'
+        String testData = 'src/testdata'
      
         main {
             java.srcDirs += 'src/main/kotlin'
         }
 
         test {
-            java.srcDirs += 'src/test/kotlin'
+            java.srcDirs += ['src/test/kotlin', sharedTestCode]
             resources.srcDirs += [testData]
         }
 
         androidTest {
-            java.srcDirs += 'src/androidTest/kotlin'
+            java.srcDirs += ['src/androidTest/kotlin', sharedTestCode]
             resources.srcDirs += [testData]
         }
     }
