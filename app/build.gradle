@@ -49,19 +49,20 @@ android {
 
     sourceSets {
       
-        String testData = 'src/testdata'   
+        String sharedTestCode = 'src/sharedTest/kotlin'
+        String testData = 'src/testdata'
      
         main {
             java.srcDirs += 'src/main/kotlin'
         }
 
         test {
-            java.srcDirs += 'src/test/kotlin'
+            java.srcDirs += ['src/test/kotlin', sharedTestCode]
             resources.srcDirs += [testData]
         }
 
         androidTest {
-            java.srcDirs += 'src/androidTest/kotlin'
+            java.srcDirs += ['src/androidTest/kotlin', sharedTestCode]
             resources.srcDirs += [testData]
         }
     }
@@ -131,7 +132,7 @@ dependencies {
     androidTestCompile "com.android.support.test:runner:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
     androidTestCompile "com.android.support.test:rules:${ANDROID_TEST_SUPPORT_LIBS_VERSION}"
 
-    androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
+    androidTestCompile 'com.android.support.test.espresso:espresso-core:3.0.0'
     androidTestCompile 'com.android.support.test.uiautomator:uiautomator-v18:2.1.2'
     androidTestCompile 'org.hamcrest:hamcrest-integration:1.3'
 
