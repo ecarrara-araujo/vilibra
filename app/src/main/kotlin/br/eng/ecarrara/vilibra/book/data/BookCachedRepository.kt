@@ -34,12 +34,12 @@ class BookCachedRepository
     override fun add(book: Book) = bookLocalCache.put(getCacheKeyForBook(book), book)
 
     private fun getCacheKeyForBook(book: Book): String {
-        with(book, {
+        with(book) {
             return when {
                 isbn10.isNotEmpty() -> isbn10
                 isbn13.isNotEmpty() -> isbn13
                 else -> throw BookWithNotValidIsbnException()
             }
-        })
+        }
     }
 }
